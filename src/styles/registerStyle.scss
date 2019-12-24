@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.card {
+  margin: auto;
+  width: 55%;
+  max-width: 700px;
+  // min-width: 55%;
+  padding: 25px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  height: 500px;
+  border: 0.5px solid #d6d6d6;
+  right: 0%;
+  background: #db8484;
+}
+.card-content {
+  width: 55%;
+}
+.fundoo-title {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 550;
+  font-family: sans-serif;
+  padding-top: 10px;
+}
+
+.f-color {
+  color: rgb(63, 118, 255);
+}
+
+.u-color {
+  color: #ff1313;
+}
+
+.n-color {
+  color: #ffda0c;
+}
+
+.d-color {
+  color: rgb(63, 118, 255);
+}
+
+.o-color {
+  color: #00a500;
+}
+
+.o1-color {
+  color: #ff1313;
+}
+.flname-style {
+  width: 180px;
+  height: 35px;
+}
+
+.username-style {
+  width: 370px;
+  height: 35px;
+}
+
+.password-style {
+  width: 160px;
+  height: 35px;
+}
+
+.password-div {
+  display: flex;
+  justify-content: space-between;
+  width: 93%;
+}
+
+.username-helper-text {
+  width: 70%;
+}
+
+.eye-icon {
+  padding: 20px 0px 0px 0px;
+  align-self: center;
+}
+
+.bl-title {
+  font-size: 23px;
+  margin: 20px 0 0px 0px;
+}
+
+.fundoo-subtitle {
+  font-size: 18px;
+  margin: 12px 0 10px 0px;
+}
+
+.action-button {
+  width: 55%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-img-div {
+  display: flex;
+}
+
+.google-img {
+  width: 33%;
+  padding: 15% 0px 0 25px;
+  align-self: center;
+}
+
+.img-text {
+  text-align: center;
+  margin: 5px 0px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 100;
+}
+
+// Media query
+
+@media screen and (max-width: 1260px) and (min-width: 901px) {
+  .card {
+    width: 77%;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 601px) {
+  .card {
+    margin: auto;
+    width: 55%;
+    max-width: 500px;
+    // min-width: 55%;
+    padding: 25px;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    bottom: 0%;
+    height: 600px;
+    border: 0.5px solid #d6d6d6;
+    right: 0%;
+    background: #db8484;
+  }
+
+  .google-img {
+    display: none;
+  }
+}
+
+// @media only screen and (max-width: 600px) and (min-width: 320px){
+//   .card {
+//     // width: 71%;
+//     display: none;
+//     background: #dacc7e
+//   }
+
+//   .google-img {
+//     display: none;
+//   }
+// .google-img {
+//     display: none;
+// }
+// }
