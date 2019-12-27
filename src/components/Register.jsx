@@ -6,20 +6,16 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 // import {withStyles} from "@material-ui/core/withStyles"
 import IconButton from '@material-ui/core/IconButton';
-import clsx from 'clsx';
-import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import "../styles/registerStyle.scss";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ValidatorForm from 'react-material-ui-form-validator'
-import { createMuiTheme, MuiThemeProvider, Typography } from '@material-ui/core'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 
 const theme = createMuiTheme({
   overrides: {
@@ -48,11 +44,6 @@ const theme = createMuiTheme({
         padding: '0px 0'
       }
     },
-    MuiPaper: {
-      elevation1: {
-        'box-shadow': '0px'
-      }
-    },
     MuiFormHelperText: {
       contained: {
         margin: '8px 2px 0',
@@ -74,8 +65,8 @@ const theme = createMuiTheme({
       }
     },
     MuiPaper: {
-      rounded: {
-        'border-radius': '6px'
+      elevation1: {
+        'box-shadow': ' 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0)'
       }
     }
   }
@@ -121,10 +112,13 @@ export default function Register() {
     event.preventDefault();
   };
 
+  const handleRegister = () => {
+    props.props.history.push('/')
+  }
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className='card'>
+      <Card className='card' style={{borderRadius:'10px'}}>
         <form>
           <div className='content-img-div'>
             <CardContent className='card-content'>
@@ -139,45 +133,48 @@ export default function Register() {
 
               <p className='bl-title'>Create your Fundoo Account</p>
               <p className='fundoo-subtitle'>Continue to Fundoo</p>
-              <FormControl className={classes.margin} variant="outlined">
-                <InputLabel htmlFor="firstname">First name</InputLabel>
-                <OutlinedInput
-                  id="firstname"
-                  type={'text'}
-                  value={values.firstName}
-                  onChange={handleChange('firstName')}
-                  className='flname-style'
-                  labelWidth={70}
-                  // className='password-style'
-                  autoFocus={true}
-                />
-              </FormControl>
-              <FormControl className={classes.margin} variant="outlined">
-                <InputLabel htmlFor="lastname">Last name</InputLabel>
-                <OutlinedInput
-                  id="lastname"
-                  type={'text'}
-                  value={values.firstName}
-                  onChange={handleChange('firstName')}
-                  className='flname-style'
-                  // className='password-style'
+              <div className='first-last-div'>
+                <FormControl className={classes.margin} variant="outlined">
+                  <InputLabel htmlFor="firstname">First name</InputLabel>
+                  <OutlinedInput
+                    id="firstname"
+                    type={'text'}
+                    value={values.firstName}
+                    onChange={handleChange('firstName')}
+                    className='flname-style'
+                    labelWidth={70}
+                    // className='password-style'
+                    autoFocus={true}
+                  />
+                </FormControl>
+                <FormControl className={classes.margin} variant="outlined">
+                  <InputLabel htmlFor="lastname">Last name</InputLabel>
+                  <OutlinedInput
+                    id="lastname"
+                    type={'text'}
+                    value={values.firstName}
+                    onChange={handleChange('firstName')}
+                    className='flname-style'
+                    // className='password-style'
 
-                  labelWidth={70}
-                />
-              </FormControl>
+                    labelWidth={70}
+                  />
+                </FormControl>
+                <FormControl className={classes.margin} variant="outlined">
+                  <InputLabel htmlFor="username">Username</InputLabel>
+                  <OutlinedInput
+                    id="username"
+                    type={'text'}
+                    defaultValue='gmail.com'
+                    value={values.firstName}
+                    onChange={handleChange('username')}
+                    className='username-style'
+                    labelWidth={70}
+                  />
+                  <FormHelperText id="outlined-weight-helper-text">You can use letters, numbers and periods</FormHelperText>
+                </FormControl>
+              </div>
 
-              <FormControl className={classes.margin} variant="outlined">
-                <InputLabel htmlFor="username">Username</InputLabel>
-                <OutlinedInput
-                  id="username"
-                  type={'text'}
-                  value={values.firstName}
-                  onChange={handleChange('username')}
-                  className='username-style'
-                  labelWidth={70}
-                />
-                <FormHelperText id="outlined-weight-helper-text">You can use letters, numbers and periods</FormHelperText>
-              </FormControl>
               <div className='password-div'>
                 <FormControl className={classes.margin} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -192,6 +189,7 @@ export default function Register() {
                   />
 
                 </FormControl>
+
                 <FormControl className={classes.margin} variant="outlined">
                   <InputLabel htmlFor="confirm-password">Confirm</InputLabel>
                   <OutlinedInput
@@ -224,12 +222,13 @@ export default function Register() {
           </div>
           <CardActions>
             <div className='action-button'>
-              <Button size="small">Sign in instead</Button>
-              <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="small">Next</Button>
+            <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleRegister}>Next</Button>
+              <Button size="medium" href='/'>Sign in instead</Button>
             </div>
           </CardActions>
         </form>
       </Card>
     </MuiThemeProvider>
+
   );
 }

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
-
+import ResetPasswordPage from './pages/ResetPage';
+// import ResetPassword from './components/ResetPassword.jsx';
 class App extends Component     {
     render() {
         return (
@@ -11,12 +12,13 @@ class App extends Component     {
                     <Switch>
                         <Route path="/" component={LoginPage} exact></Route>
                         <Route path="/register" component={RegisterPage}>
-                            {/* <Route path="/forgotpass" component={ForgotPage}></Route>
-                        <Route path="/resetpassword:token" component={ResetPasswordPage}></Route>
-                        <Route path="/dashboard" component={DashboardPage}> */}
+                            {/* <Route path="/forgotpass" component={ForgotPage}> */}
+                        {/* <Route path="/resetpassword:token" component={ResetPasswordPage}></Route> */}
+                        {/* <Route path="/dashboard" component={DashboardPage}> */}
                         </Route>
                     </Switch>
                 </BrowserRouter>
+                {/* <ResetPassword/> */}
             </div>
         )
     }

@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-
-class Login extends Component {
-
+import LoginCard from '../components/LoginCard'
+class LoginPage extends Component {
     render() {
         return (
-            <div>
-                Login page
-            </div>
+                <LoginCard props={this.props}/>
         )
     }
 }
 
-export default Login
+export default LoginPage;

@@ -1,0 +1,190 @@
+.card-login {
+  margin: auto;
+  width: 40%;
+  max-width: 400px;
+  padding: 25px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  height: 450px;
+  border: 0.5px solid #d6d6d6;
+  border-radius: 15px;
+  right: 0;
+}
+
+.card-content-login {
+  display: flex;
+  text-align: center;
+  flex-flow: column wrap;
+}
+
+.fundoo-title-login {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 550;
+  font-family: sans-serif;
+  padding-top: 10px;
+}
+
+.action-button-login {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  flex-direction: row-reverse;
+}
+
+.bl-title {
+  font-size: 23px;
+  margin: 5px 0 0px 0px;
+}
+
+.fundoo-subtitle {
+  font-size: 18px;
+  margin: 10px 0 10px 0px;
+}
+
+.learn-more-p {
+  font-size: 0.9em;
+  color: #565656;
+  text-align: start;
+  margin: 45px 0 25px;
+  width: 80%;
+}
+
+.forgot-button {
+  left: 7.5%;
+  top: 46%;
+}
+
+.link-tag {
+  cursor: pointer;
+  text-decoration: none;
+  color: rgb(24, 97, 230);
+  font-size: 0.9em;
+  margin: 0px;
+  position: absolute;
+  left: 21%;
+  bottom: 168px;
+}
+
+.link-div {
+  text-decoration: none;
+}
+
+.eye-icon-login {
+  padding: 0px 20px 0px 0px;
+  align-self: flex-end;
+  position: absolute;
+  top: 50%;
+}
+
+.fundoo-subtitle {
+  font-size: 15px;
+  margin: 12px 0 10px 0px;
+}
+
+.recovery-title {
+  font-size: 23px;
+  margin: 5px 0 10px 0px;
+}
+
+.fundoo-subtitle-reset {
+  font-size: 15px;
+  text-align: start;
+  margin: 30px 0 0px 0px;
+}
+
+@media screen and (max-width: 980px) and (min-width: 901px) {
+  .card-login {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 600px) {
+  .card-login {
+    width: 65%;
+  }
+}
+
+@media only screen and (max-width: 600px) and (min-width: 450px) {
+  .card-login {
+    margin: auto;
+    width: 100%;
+    max-width: none;
+    padding: 25px 0;
+    position: fixed;
+    top: unset;
+    left: 0%;
+    bottom: unset;
+    height: unset;
+    border: 0;
+    border-radius: unset;
+    right: 0%;
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .content-action-div {
+    padding: 0 35px 0 20px;
+  }
+
+  .card-content-login {
+    width: 100%;
+  }
+
+  .forgot-button {
+    left: 5%;
+    top: 51%;
+  }
+
+  .learn-more-p {
+    font-size: 0.9em;
+    color: #565656;
+    text-align: start;
+    margin: 45px 0 25px;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .card-login {
+    margin: auto;
+    width: 100%;
+    max-width: none;
+    padding: 25px 0;
+    position: fixed;
+    top: unset;
+    left: 0%;
+    bottom: unset;
+    height: unset;
+    border: 0;
+    border-radius: unset;
+    right: 0%;
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .content-action-div {
+    padding: 0 35px 0 20px;
+  }
+
+  .card-content-login {
+    width: 100%;
+  }
+
+  .forgot-button {
+    left: 6%;
+    top: 50%;
+  }
+
+  .learn-more-p {
+    font-size: 0.9em;
+    color: #565656;
+    text-align: start;
+    margin: 45px 0 25px;
+    width: 80%;
+  }
+}
