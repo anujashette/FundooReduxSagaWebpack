@@ -96,7 +96,6 @@ function PasswordComponent(props) {
 
     const handleDelete = () => {
         console.log('handle delete');
-
     }
 
     return (
@@ -134,7 +133,7 @@ function PasswordComponent(props) {
                 <CardActions>
                     <div className='action-button-login'>
                         <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={props.handleReset}>Next</Button>
-                        <Button size="medium" href='/register'>Forgot password?</Button>
+                        <Button size="medium" >Forgot password?</Button>
                     </div>
                 </CardActions>
             </MuiThemeProvider>

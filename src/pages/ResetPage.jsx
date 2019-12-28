@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import LoginCard from '../components/LoginCard';
+import ResetPassword from '../components/ResetPassword';
+
 class ResetPage extends Component {
 
     render() {
         return (
-            <LoginCard props={this.props}/>
+            <ResetPassword props={this.props}/>
         )
     }
 }

@@ -30,6 +30,12 @@ const theme = createMuiTheme({
 })
 
 function Login(props) {
+
+    const handleRegister = () => {
+        console.log('props=>',props);
+        
+       props.props.props.history.push('/register');
+    }
     return (
         <div className='content-action-div'>
             <MuiThemeProvider theme={theme}>
@@ -43,14 +49,14 @@ function Login(props) {
                         variant="outlined"
                         style={{ margin: '25px 0' }}
                     />
-                    <p className='learn-more-p'>Not your computer? Use guest mode to sign in privately.<Link className='link-div' href='https://support.google.com/chrome/answer/6130773?hl=en-GB'>Learn more </Link></p>
+                    <p className='learn-more-p'>Not your computer? Use guest mode to sign in privately.<Link style={{textDecoration :'none'}} href='https://support.google.com/chrome/answer/6130773?hl=en-GB'>Learn more </Link></p>
 
                 </CardContent>
                 <CardActions>
                     <div className='action-button-login'>
                         <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={props.handleNext}>Next</Button>
                         <Button size='medium' className='forgot-button' style={{ position: 'absolute' }}> Forgot email?</Button>
-                        <Button size="medium" href='/register'>Create account</Button>
+                        <Button size="medium" onClick={handleRegister}>Create account</Button>
                     </div>
                 </CardActions>
             </MuiThemeProvider>

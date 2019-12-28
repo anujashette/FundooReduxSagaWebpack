@@ -88,16 +88,16 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Register() {
+export default function Register(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
-    amount: '',
+    firstName: '',
+    lastName: '',
+    username: '',
     password: '',
-    weight: '',
-    weightRange: '',
+    confirmPassword: '',
     showPassword: false,
-    firstName: ''
   });
 
   const handleChange = prop => event => {
@@ -112,15 +112,18 @@ export default function Register() {
     event.preventDefault();
   };
 
-  const handleRegister = () => {
+  const handleLogin = () => {
     props.props.history.push('/')
+  }
+
+  const handleSubmit = () => {
+
   }
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className='card' style={{borderRadius:'10px'}}>
-        <form>
-          <div className='content-img-div'>
+      <Card className='card' style={{ borderRadius: '10px' }}>
+        <div className='content-img-div'>
             <CardContent className='card-content'>
               <h3 className='fundoo-title'>
                 <span className='f-color'>F</span>
@@ -143,7 +146,6 @@ export default function Register() {
                     onChange={handleChange('firstName')}
                     className='flname-style'
                     labelWidth={70}
-                    // className='password-style'
                     autoFocus={true}
                   />
                 </FormControl>
@@ -152,10 +154,9 @@ export default function Register() {
                   <OutlinedInput
                     id="lastname"
                     type={'text'}
-                    value={values.firstName}
-                    onChange={handleChange('firstName')}
+                    value={values.lastName}
+                    onChange={handleChange('lastName')}
                     className='flname-style'
-                    // className='password-style'
 
                     labelWidth={70}
                   />
@@ -165,8 +166,7 @@ export default function Register() {
                   <OutlinedInput
                     id="username"
                     type={'text'}
-                    defaultValue='gmail.com'
-                    value={values.firstName}
+                    value={values.username}
                     onChange={handleChange('username')}
                     className='username-style'
                     labelWidth={70}
@@ -187,7 +187,6 @@ export default function Register() {
 
                     labelWidth={70}
                   />
-
                 </FormControl>
 
                 <FormControl className={classes.margin} variant="outlined">
@@ -195,13 +194,14 @@ export default function Register() {
                   <OutlinedInput
                     id="confirm-password"
                     type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
+                    value={values.confirmPassword}
+                    onChange={handleChange('confirmPassword')}
                     className='password-style'
 
                     labelWidth={70}
                   />
                 </FormControl>
+                
                 <InputAdornment className='eye-icon' position="end">
                   <IconButton
                     aria-label="toggle password visibility"
@@ -222,13 +222,11 @@ export default function Register() {
           </div>
           <CardActions>
             <div className='action-button'>
-            <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleRegister}>Next</Button>
-              <Button size="medium" href='/'>Sign in instead</Button>
+              <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleSubmit}>Next</Button>
+              <Button size="medium" onClick={handleLogin}>Sign in instead</Button>
             </div>
           </CardActions>
-        </form>
       </Card>
     </MuiThemeProvider>
-
   );
 }

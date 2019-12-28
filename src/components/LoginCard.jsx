@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import "../styles/registerStyle.scss";
 import "../styles/loginStyle.scss";
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
 // Components
 import Login from './Login';
 import PasswordComponent from "./PasswordComponent";
@@ -48,7 +49,7 @@ const theme = createMuiTheme({
   }
 });
 
-export default function LoginCard() {
+export default function LoginCard(props) {
 
   const [values, setValues] = React.useState({
     amount: '',
@@ -79,7 +80,7 @@ export default function LoginCard() {
   }
 
   const handleReset = () => {
-    console.log('in reset password',values.isResetPassword);
+    console.log('in reset password', values.isResetPassword);
 
     setValues({ isNext: !values.isNext, isResetPassword: !values.isResetPassword })
   }
@@ -96,26 +97,13 @@ export default function LoginCard() {
           <span className='o-color'>o</span>
           <span className='o1-color'>o</span>
         </h3>
-        { values.isNext ?
-          <PasswordComponent handleReset={handleReset} />
-          // null
+
+        {values.isNext ?
+          <PasswordComponent handleReset={handleReset} props={props}/>
           :
-          // null
-          <Login handleNext={handleNext} />
+          <Login handleNext={handleNext} props={props}/>
         }
 
-        { values.isNext && values.isResetPassword=== true ?
-          // <PasswordComponent handleReset={handleReset} />
-          null
-          :
-          <Login handleNext={handleNext} />
-        }
-
-        { values.isResetPassword ?
-          <ResetPassword />
-          :
-          null
-        }
       </Card>
     </MuiThemeProvider>
   );
