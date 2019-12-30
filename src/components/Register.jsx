@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-// import {withStyles} from "@material-ui/core/withStyles"
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -75,11 +74,6 @@ const useStyles = makeStyles({
   card: {
     width: "60%"
   },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
   title: {
     fontSize: 14
   },
@@ -94,10 +88,14 @@ export default function Register(props) {
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
-    username: '',
+    email: '',
     password: '',
     confirmPassword: '',
     showPassword: false,
+    isFirstName: false,
+    isLastName: false,
+    isEmail: false,
+    isPassword: false,
   });
 
   const handleChange = prop => event => {
@@ -124,108 +122,128 @@ export default function Register(props) {
     <MuiThemeProvider theme={theme}>
       <Card className='card' style={{ borderRadius: '10px' }}>
         <div className='content-img-div'>
-            <CardContent className='card-content'>
-              <h3 className='fundoo-title'>
-                <span className='f-color'>F</span>
-                <span className='u-color'>u</span>
-                <span className='n-color'>n</span>
-                <span className='d-color'>d</span>
-                <span className='o-color'>o</span>
-                <span className='o1-color'>o</span>
-              </h3>
+          <CardContent className='card-content'>
+            <h3 className='fundoo-title'>
+              <span className='f-color'>F</span>
+              <span className='u-color'>u</span>
+              <span className='n-color'>n</span>
+              <span className='d-color'>d</span>
+              <span className='o-color'>o</span>
+              <span className='o1-color'>o</span>
+            </h3>
 
-              <p className='bl-title'>Create your Fundoo Account</p>
-              <p className='fundoo-subtitle'>Continue to Fundoo</p>
-              <div className='first-last-div'>
-                <FormControl className={classes.margin} variant="outlined">
-                  <InputLabel htmlFor="firstname">First name</InputLabel>
-                  <OutlinedInput
-                    id="firstname"
-                    type={'text'}
-                    value={values.firstName}
-                    onChange={handleChange('firstName')}
-                    className='flname-style'
-                    labelWidth={70}
-                    autoFocus={true}
-                  />
-                </FormControl>
-                <FormControl className={classes.margin} variant="outlined">
-                  <InputLabel htmlFor="lastname">Last name</InputLabel>
-                  <OutlinedInput
-                    id="lastname"
-                    type={'text'}
-                    value={values.lastName}
-                    onChange={handleChange('lastName')}
-                    className='flname-style'
+            <p className='bl-title'>Create your Fundoo Account</p>
+            <p className='fundoo-subtitle'>Continue to Fundoo</p>
+            <div className='first-last-div'>
+              <FormControl className={classes.margin} variant="outlined">
+                <InputLabel htmlFor="firstname">First name</InputLabel>
+                <OutlinedInput
+                  id="firstname"
+                  type={'text'}
+                  value={values.firstName}
+                  onChange={handleChange('firstName')}
+                  className='flname-style'
+                  labelWidth={70}
+                  autoFocus={true}
+                />
+                {values.isFirstName ?
+                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter first name</FormHelperText>
+                  :
+                  null
+                }
+              </FormControl>
+              <FormControl className={classes.margin} variant="outlined">
+                <InputLabel htmlFor="lastname">Last name</InputLabel>
+                <OutlinedInput
+                  id="lastname"
+                  type={'text'}
+                  value={values.lastName}
+                  onChange={handleChange('lastName')}
+                  className='flname-style'
 
-                    labelWidth={70}
-                  />
-                </FormControl>
-                <FormControl className={classes.margin} variant="outlined">
-                  <InputLabel htmlFor="username">Username</InputLabel>
-                  <OutlinedInput
-                    id="username"
-                    type={'text'}
-                    value={values.username}
-                    onChange={handleChange('username')}
-                    className='username-style'
-                    labelWidth={70}
-                  />
+                  labelWidth={70}
+                />
+                {values.isLastName ?
+                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter last name</FormHelperText>
+                  :
+                  null
+                }
+
+              </FormControl>
+              <FormControl className={classes.margin} variant="outlined">
+                <InputLabel htmlFor="username">Username</InputLabel>
+                <OutlinedInput
+                  id="username"
+                  type={'text'}
+                  value={values.email}
+                  onChange={handleChange('email')}
+                  className='username-style'
+                  labelWidth={70}
+                />
+                {values.isEmail ?
+                  <FormHelperText id="outlined-weight-helper-text" error={true} >Enter email address</FormHelperText>
+                  :
                   <FormHelperText id="outlined-weight-helper-text">You can use letters, numbers and periods</FormHelperText>
-                </FormControl>
-              </div>
+                }
+              </FormControl>
+            </div>
 
-              <div className='password-div'>
-                <FormControl className={classes.margin} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
-                    className='password-style'
+            <div className='password-div'>
+              <FormControl className={classes.margin} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.password}
+                  onChange={handleChange('password')}
+                  className='password-style'
 
-                    labelWidth={70}
-                  />
-                </FormControl>
+                  labelWidth={70}
+                />
 
-                <FormControl className={classes.margin} variant="outlined">
-                  <InputLabel htmlFor="confirm-password">Confirm</InputLabel>
-                  <OutlinedInput
-                    id="confirm-password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.confirmPassword}
-                    onChange={handleChange('confirmPassword')}
-                    className='password-style'
+              </FormControl>
 
-                    labelWidth={70}
-                  />
-                </FormControl>
-                
-                <InputAdornment className='eye-icon' position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              </div>
+              <FormControl className={classes.margin} variant="outlined">
+                <InputLabel htmlFor="confirm-password">Confirm</InputLabel>
+                <OutlinedInput
+                  id="confirm-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.confirmPassword}
+                  onChange={handleChange('confirmPassword')}
+                  className='password-style'
+
+                  labelWidth={70}
+                />
+              </FormControl>
+
+              <InputAdornment className='eye-icon' position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            </div>
+            {values.isPassword ?
+              <FormHelperText error={true} id="outlined-weight-helper-text">Enter a password</FormHelperText>
+              :
               <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>Use 8 or more charachters with a mix of letters, numbers and symbols</FormHelperText>
-            </CardContent>
-            <div className='google-img'>
-              <img src='https://ssl.gstatic.com/accounts/signup/glif/account.svg'></img>
-              <p variant="subtitle1" className='img-text' >One account.All of BridgeLabz working for you</p>
-            </div>
+            }
+          </CardContent>
+          <div className='google-img'>
+            <img src='https://ssl.gstatic.com/accounts/signup/glif/account.svg'></img>
+            <p variant="subtitle1" className='img-text' >One account.All of BridgeLabz working for you</p>
           </div>
-          <CardActions>
-            <div className='action-button'>
-              <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleSubmit}>Next</Button>
-              <Button size="medium" onClick={handleLogin}>Sign in instead</Button>
-            </div>
-          </CardActions>
+        </div>
+        <CardActions>
+          <div className='action-button'>
+            <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleSubmit}>Next</Button>
+            <Button size="medium" onClick={handleLogin}>Sign in instead</Button>
+          </div>
+        </CardActions>
       </Card>
     </MuiThemeProvider>
   );
