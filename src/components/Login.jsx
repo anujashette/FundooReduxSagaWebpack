@@ -2,9 +2,9 @@ import React from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, MuiThemeProvider, Link } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Link, FormHelperText } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import { fontSize } from '@material-ui/system';
+import { validateEmail } from '../validation/validator';
 import "../styles/loginStyle.scss";
 
 const theme = createMuiTheme({
@@ -31,10 +31,16 @@ const theme = createMuiTheme({
 
 function Login(props) {
 
+    const [values, setValues] = React.useState({
+        email: '',
+        isEmail: true,
+        errorMessage: ''
+      });
+
     const handleRegister = () => {
-        console.log('props=>',props);
-        
-       props.props.props.history.push('/register');
+        console.log('props=>', props);
+
+        props.props.props.history.push('/register');
     }
     return (
         <div className='content-action-div'>
@@ -47,15 +53,20 @@ function Login(props) {
                         label="Email or phone"
                         id="outlined-size-normal"
                         variant="outlined"
-                        style={{ margin: '25px 0' }}
+                        style={{ margin: '25px 0 2px' }}
                     />
-                    <p className='learn-more-p'>Not your computer? Use guest mode to sign in privately.<Link style={{textDecoration :'none'}} href='https://support.google.com/chrome/answer/6130773?hl=en-GB'>Learn more </Link></p>
+                    { values.isEmail ?
+                        null
+                        :
+                        <FormHelperText error={true} id="outlined-weight-helper-text">Enter an email or phone number</FormHelperText>
+                    }
+                    <p className='learn-more-p'>Not your computer? Use guest mode to sign in privately.<Link style={{ textDecoration: 'none' }} href='https://support.google.com/chrome/answer/6130773?hl=en-GB'>Learn more </Link></p>
 
                 </CardContent>
                 <CardActions>
                     <div className='action-button-login'>
                         <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={props.handleNext}>Next</Button>
-                        <Button size='medium' className='forgot-button' style={{ position: 'absolute' }}> Forgot email?</Button>
+                        {/* <Button size='medium' className='forgot-button' style={{ position: 'absolute' }}> Forgot email?</Button> */}
                         <Button size="medium" onClick={handleRegister}>Create account</Button>
                     </div>
                 </CardActions>
