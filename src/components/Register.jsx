@@ -290,7 +290,6 @@ export default function Register(props) {
 
                   labelWidth={70}
                 />
-
               </FormControl>
 
               <InputAdornment className='eye-icon' position="end">
