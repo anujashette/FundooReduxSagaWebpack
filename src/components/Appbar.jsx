@@ -20,7 +20,7 @@ import grid from '../Assets/grid.svg';
 import Refresh from '@material-ui/icons/Refresh';
 import Avatar from '@material-ui/core/Avatar';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-
+import '../styles/dashboard.scss';
 const theme = createMuiTheme({
     overrides: {
         MuiPaper: {
@@ -48,11 +48,11 @@ const useStyles = makeStyles(theme => ({
         borderRadius: '10px',
         backgroundColor: '#edeff1',
         '&:hover': {
-            boxShadow:'0px 0px 5px 0px #888888'
+            boxShadow: '0px 0px 5px 0px #888888'
         },
         marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
+        marginLeft: theme.spacing(10),
+        width: '57%',
         height: '48px',
         // [theme.breakpoints.up('sm')]: {
         //     marginLeft: theme.spacing(9.5),
@@ -96,6 +96,10 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    avatar:{
+        width:theme.spacing(4),
+        height:theme.spacing(4)
+    }
 }));
 
 export default function PrimarySearchAppBar() {
@@ -152,19 +156,15 @@ export default function PrimarySearchAppBar() {
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="default">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
-                    </Badge>
+                    <Refresh />
                 </IconButton>
-                <p>Messages</p>
+                <p>Refresh</p>
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
+                    <img src={grid} style={{ width: '1em' }} />
                 </IconButton>
-                <p>Notifications</p>
+                <p>Grid</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -172,9 +172,12 @@ export default function PrimarySearchAppBar() {
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     color="inherit"
+                    style={{ padding:'8px'}}
                 >
-                    <AccountCircle />
-                </IconButton>
+                    <Avatar className={classes.avatar}>
+                        <img src={Keep} alt='keep icon' />
+                    </Avatar>                
+                    </IconButton>
                 <p>Profile</p>
             </MenuItem>
         </Menu>
@@ -193,8 +196,8 @@ export default function PrimarySearchAppBar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <img style={{ width: '3%' }} src={Keep} alt='keep icon' />
-                        <Typography className={classes.title} variant="h6" noWrap>
+                        <img src={Keep} alt='keep icon' />
+                        <Typography className={classes.title} variant="h6">
                             Fundoo
                         </Typography>
                         <div className={classes.search} >
@@ -213,10 +216,10 @@ export default function PrimarySearchAppBar() {
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             <IconButton aria-label="show 4 new mails" color="inherit">
-                                <Refresh style={{  padding:'0px 7px' }} />
+                                <Refresh style={{ padding: '0px 7px' }} />
                             </IconButton>
                             <IconButton aria-label="show 17 new notifications" color="inherit">
-                                <img src={grid} style={{ width: '1em', padding:'0px 7px' }} />
+                                <img src={grid} style={{ width: '1em', padding: '0px 7px' }} />
                             </IconButton>
                             <IconButton
                                 edge="end"
@@ -227,10 +230,9 @@ export default function PrimarySearchAppBar() {
                                 color="inherit"
                             >
 
-                                <Avatar className={classes.avatar}>
+                                <Avatar>
                                     <img src={Keep} alt='keep icon' />
                                 </Avatar>
-                                {/* <AccountCircle /> */}
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>
