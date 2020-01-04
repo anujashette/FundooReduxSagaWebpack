@@ -7,26 +7,37 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'] ,
-       
+        use: ['babel-loader'],
+
       },
       {
         test: /\.(scss|css)$/,
         exclude: /node_modules/,
-        use: ['style-loader','css-loader','sass-loader']
-    },
-    {
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
         test: /\.(png|jpg)$/,
         exclude: /node_modules/,
         use: ['url-loader']
-    }
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ]
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: path.join( __dirname + '/dist'),
+    path: path.join(__dirname + '/dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -35,8 +46,9 @@ module.exports = {
   ],
   devServer: {
     contentBase: './dist',
+    inline: true,
     hot: true,
-    port: '3040',
+    port: '4200',
     historyApiFallback: true
   }
 };

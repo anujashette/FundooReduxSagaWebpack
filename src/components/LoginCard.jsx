@@ -11,8 +11,9 @@ import Login from './Login';
 import PasswordComponent from "./PasswordComponent";
 import ResetPassword from '../components/ResetPassword'
 
+
 const theme = createMuiTheme({
-  overrides: {
+  overrides: {    
     MuiFormLabel: {
       root: {
         'line-height': '0'
@@ -59,30 +60,19 @@ export default function LoginCard(props) {
     showPassword: false,
     firstName: '',
     isNext: false,
-    isResetPassword: false
+    isResetPassword: false,
+    email:''
   });
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-  const handleNext = () => {
-    console.log('in handle next');
-    setValues({ isNext: !values.isNext })
+  const handleNext = (username) => {
+    console.log('in handle next',username);
+    setValues({ isNext: !values.isNext, email:username })
   }
 
   const handleReset = () => {
     console.log('in reset password', values.isResetPassword);
 
-    setValues({ isNext: !values.isNext, isResetPassword: !values.isResetPassword })
+    // setValues({ isNext: !values.isNext, isResetPassword: !values.isResetPassword })
   }
 
   return (
@@ -99,9 +89,9 @@ export default function LoginCard(props) {
         </h3>
 
         {values.isNext ?
-          <PasswordComponent handleReset={handleReset} props={props}/>
+          <PasswordComponent email={values.email} props={props} />
           :
-          <Login handleNext={handleNext} props={props}/>
+          <Login handleNext={handleNext} props={props} />
         }
 
       </Card>

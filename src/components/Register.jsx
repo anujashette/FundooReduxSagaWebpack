@@ -14,10 +14,11 @@ import FormControl from '@material-ui/core/FormControl';
 import "../styles/registerStyle.scss";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Warning from '../Assets/warning-16.png';
 import { createMuiTheme, MuiThemeProvider, Snackbar } from '@material-ui/core';
 import { validateName, validateEmail, validatePassword } from '../validation/validator';
 import { registerUser } from "../services/userService";
-import { create } from "../services/httpService";
+
 const theme = createMuiTheme({
   overrides: {
     MuiFormLabel: {
@@ -163,18 +164,15 @@ export default function Register(props) {
       if (values.password.length > 7 && values.confirmPassword.length > 7) {
         if (values.password === values.confirmPassword) {
 
-          let userParam = {
-            route: '/user/userSignUp',
-            jsonObject: {
+            let userObj = {
               "firstName": values.firstName,
               "lastName": values.lastName,
               "email": values.email,
               "password": values.password,
               "service": "advance"
             }
-          }
-
-          create(userParam)
+          
+          registerUser(userObj)
             .then((response) => {
               clearFields('User registered successfully');
               props.props.history.push('/')
@@ -224,9 +222,11 @@ export default function Register(props) {
                 {!values.isFirstName ?
                   null
                   :
-                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter first name</FormHelperText>
+                  <FormHelperText style={{ padding: '3px', margin: '0px' }} error={true} id="outlined-weight-helper-text">
+                    <img style={{ width: '13px', position: 'relative', top: '3px' }} src={Warning} />  &nbsp;
+                    Enter first name</FormHelperText>
                 }
-
+                {/* <img src='src/Assets/exclamation-mark.svg' alt=''/> */}
               </FormControl>
               <FormControl className={classes.margin} variant="outlined">
                 <InputLabel htmlFor="lastname">Last name</InputLabel>
@@ -239,10 +239,13 @@ export default function Register(props) {
 
                   labelWidth={70}
                 />
+
                 {!values.isLastName ?
                   null
                   :
-                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter last name</FormHelperText>
+                  <FormHelperText style={{ padding: '3px', margin: '0px' }} error={true} id="outlined-weight-helper-text">
+                    <img style={{ width: '13px', position: 'relative', top: '3px' }} src={Warning} />  &nbsp;
+                   Enter last name</FormHelperText>
                 }
 
               </FormControl>
@@ -257,10 +260,13 @@ export default function Register(props) {
                   labelWidth={70}
                 />
                 {values.isEmail ?
-                  <FormHelperText id="outlined-weight-helper-text">You can use letters, numbers and periods</FormHelperText>
+                  <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>
+                    You can use letters, numbers and periods</FormHelperText>
 
                   :
-                  <FormHelperText id="outlined-weight-helper-text" error={true} >Enter email address</FormHelperText>
+                  <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                    Enter email address</FormHelperText>
                 }
               </FormControl>
             </div>
@@ -274,7 +280,6 @@ export default function Register(props) {
                   value={values.password}
                   onChange={handleChange('password')}
                   className='password-style'
-
                   labelWidth={70}
                 />
               </FormControl>
@@ -304,11 +309,17 @@ export default function Register(props) {
               </InputAdornment>
             </div>
             {values.isPassword || values.isConfirm ?
-              <FormHelperText error={true} id="outlined-weight-helper-text">Enter a password</FormHelperText>
+              <span>
+                                <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                  Enter a password</FormHelperText>
+              </span>
               :
               <span>
                 {values.isMatch ?
-                  <FormHelperText error={true} id="outlined-weight-helper-text">{values.errorMessage}</FormHelperText>
+                                  <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                  {values.errorMessage}</FormHelperText>
                   :
                   <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>Use 8 or more charachters with a mix of letters, numbers and symbols</FormHelperText>
                 }

@@ -1,23 +1,49 @@
 import { create } from '../services/httpService';
 
 export function registerUser(userObj) {
-    console.log(userObj);
-    
+
     let userParam = {
         route: '/user/userSignUp',
-        jsonObject: userObj
+        jsonObject: userObj,
+        headers: ''
     }
+    return create(userParam);
+}
 
-    create(userParam)
-    .then((response)=> {
-        console.log('response===>',response);
-        message = 'User registered successfully';
-        //  return 'User registration successfully';
-    })
-    .catch((error)=> {
-        console.log('user signup error========>',error);
-        message = 'User already registered';
-        // return 'User already registered';
+export function loginUser(userObj) {
 
-    })
+    let userParam = {
+        route: '/user/login',
+        jsonObject: userObj,
+        headers: ''
+    }
+    console.log('user service=======>', userParam);
+
+    return create(userParam);
+}
+
+export function forgotPassword(userObj) {
+
+    let userParam = {
+        route: '/user/reset',
+        jsonObject: userObj,
+        headers: ''
+    }
+    console.log('user service=======>', userParam);
+
+    return create(userParam);
+}
+
+
+export function resetPassword(userObj) {
+    console.log('user service=======>', userObj);
+
+    let userParam = {
+        route: `/user/reset-password?access_token=${userObj.token}`,
+        jsonObject: userObj.passwordField,
+        headers:''
+}
+console.log(userParam);
+
+return create(userParam);
 }
