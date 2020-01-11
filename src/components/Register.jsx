@@ -15,7 +15,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ValidatorForm from 'react-material-ui-form-validator'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-
+import { validateName, validateEmail, validatePassword } from '../validator/validator'
 const theme = createMuiTheme({
   overrides: {
     MuiFormLabel: {
@@ -96,6 +96,7 @@ export default function Register(props) {
     isLastName: false,
     isEmail: false,
     isPassword: false,
+    isConfirm: false,
   });
 
   const handleChange = prop => event => {
@@ -115,7 +116,18 @@ export default function Register(props) {
   }
 
   const handleSubmit = () => {
+    setValues({
+      isFirstName: validateName(values.firstName),
+      isLastName: validateName(values.lastName),
+      isEmail: validateEmail(values.email),
+      // isPassword: validatePassword(values.password),
+      // isConfirm: validatePassword(values.confirmPassword)
+    });
 
+    if (values.isFirstName && values.isLastName && values.isEmail && values.isPassword && values.isConfirm) {
+      console.log('check all validations are true====>');
+
+    }
   }
 
   return (
