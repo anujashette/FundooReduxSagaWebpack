@@ -39,24 +39,24 @@ function Login(props) {
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
-      };
-    
+    };
+
     const handleRegister = () => {
         props.props.props.history.push('/register');
     }
 
-    const handlePassword = () =>{
+    const handlePassword = () => {
         event.preventDefault();
         let validateUsername = validateEmail(values.email);
-        console.log('validate email',validateUsername);
-        
-        setValues({
-           ...values,
-           isEmail: validateUsername,
-        });
-        console.log('isEmail',values.isEmail);
+        console.log('validate email', validateUsername);
 
-        if( validateUsername ) {
+        setValues({
+            ...values,
+            isEmail: validateUsername,
+        });
+        console.log('isEmail', values.isEmail);
+
+        if (validateUsername) {
             props.handleNext(values.email);
         }
     }

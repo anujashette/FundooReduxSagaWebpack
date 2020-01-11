@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Router } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import ResetPasswordPage from './pages/ResetPage';
 import Dashboard from './components/Dashboard.jsx';
-import Appbar from './components/Appbar.jsx';
+import ProtectedRoute from './components/Protected.route.jsx';
+import DrawerLeft from './components/DrawerLeft.jsx';
+import DisplayArea from './components/DisplayArea.jsx';
+import DisplayNotes from './components/DisplayNotes.jsx';
 
 class App extends Component {
     render() {
@@ -14,8 +17,11 @@ class App extends Component {
                     <Route path="/" component={LoginPage} exact></Route>
                     <Route path="/register" component={RegisterPage}></Route>
                     <Route path="/resetpassword/:token" component={ResetPasswordPage}></Route>
-                    <Route path="/dashboard" component={Dashboard}></Route>
-                    {/* <Route path="/dashboard/app" component={Appbar}></Route> */}
+                    {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/dashboard/takenotes" component={DisplayArea} />
+                    <Route exact path="/dashboard/takenotes/notes" component={DisplayNotes} />
+
                 </BrowserRouter>
             </div>
         )

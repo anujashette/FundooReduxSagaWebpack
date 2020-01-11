@@ -161,7 +161,7 @@ function ResetPassword(props) {
 
                         <p className='recovery-title'>Account Recovery</p>
 
-                        <MyChip label='shette.anuja@gmail.com'
+                        <MyChip label={localStorage.getItem('email')}
                             style={{ backgroundColor: '#ffffff', border: '0.5px solid rgb(138, 138, 138)', alignSelf: 'center' }} />
                         <p className='fundoo-subtitle-reset'>Enter the password that you want using with this Fundoo Account</p>
 

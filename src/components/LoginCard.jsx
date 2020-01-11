@@ -10,10 +10,10 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Login from './Login';
 import PasswordComponent from "./PasswordComponent";
 import ResetPassword from '../components/ResetPassword'
-
+import Snackbar from "./Snackbar";
 
 const theme = createMuiTheme({
-  overrides: {    
+  overrides: {
     MuiFormLabel: {
       root: {
         'line-height': '0'
@@ -53,32 +53,37 @@ const theme = createMuiTheme({
 export default function LoginCard(props) {
 
   const [values, setValues] = React.useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
-    firstName: '',
     isNext: false,
-    isResetPassword: false,
-    email:''
+    email: '',
+    snackbaropen: false,
+    snackBarMsg: ''
   });
 
   const handleNext = (username) => {
-    console.log('in handle next',username);
-    setValues({ isNext: !values.isNext, email:username })
+    console.log('in handle next', username);
+    localStorage.setItem('email', username)
+    setValues({ ...values, isNext: !values.isNext, email: username })
   }
 
-  const handleReset = () => {
-    console.log('in reset password', values.isResetPassword);
+  // const handleNext = () => {
+  //   console.log('in handle next');
+  //   localStorage.setItem('email')
+  //   setValues({...values, isNext: !values.isNext })
+  // }
 
-    // setValues({ isNext: !values.isNext, isResetPassword: !values.isResetPassword })
+  const snackBarClose = (errorMessage) => {
+    console.log('after error');
+    setValues({ ...values, snackbaropen: !values.snackbaropen, snackBarMsg: errorMessage });
   }
 
   return (
     <MuiThemeProvider theme={theme}>
+      <Snackbar
+        snackBarClose={snackBarClose}
+        snackbaropen={values.snackbaropen}
+        snackBarMsg={values.snackBarMsg}
+      ></Snackbar>
       <Card className='card-login' style={{ borderRadius: '10px' }}>
-        {/* <div className='content-img-div'> */}
         <h3 className='fundoo-title-login'>
           <span className='f-color'>F</span>
           <span className='u-color'>u</span>
@@ -89,11 +94,17 @@ export default function LoginCard(props) {
         </h3>
 
         {values.isNext ?
-          <PasswordComponent email={values.email} props={props} />
+          <PasswordComponent
+            email={values.email}
+            props={props}
+            snackBarClose={snackBarClose}
+          />
           :
-          <Login handleNext={handleNext} props={props} />
+          <Login
+            handleNext={handleNext}
+            props={props}
+          />
         }
-
       </Card>
     </MuiThemeProvider>
   );

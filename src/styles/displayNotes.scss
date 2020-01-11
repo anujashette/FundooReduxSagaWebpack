@@ -1,0 +1,32 @@
+
+.display-notes {
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 0 18% 0 20%;
+}
+
+// Single note
+
+  .create-note-card {
+    display: flex;
+  }
+
+  
+  .display-icons-div {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  
+  .icons-padding {
+      padding: 5px;
+      color: #656565;
+      cursor: pointer;
+  }
+  
+  .pin-icon {
+    padding: 10px 5px 0px 0;
+  }
+  

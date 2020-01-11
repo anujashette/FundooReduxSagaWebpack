@@ -9,9 +9,13 @@ export function create (createParam) {
 }
 
 
+export function read(getParam) {    
+    console.log('http axios',getParam);
+    return axios.get(backendUrl + getParam.route , getParam.headers);
+}
+
 // export function create (createParam) {    
 //     console.log('http axios',createParam.jsonObject);
-    
 //     return axios.post(`http://fundoonotes.i , createParam.jsonObject);
 // }
 

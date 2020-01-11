@@ -12,7 +12,7 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <Appbar />
+                <Appbar props={this.props}/>
             </div>
         )
     }

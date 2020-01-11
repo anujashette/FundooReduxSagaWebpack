@@ -19,6 +19,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Warning from '../Assets/warning-16.png';
 import { validatePassword } from '../validation/validator';
 import { loginUser, forgotPassword } from '../services/userService';
+import { Redirect } from 'react-router-dom';
+import auth from './auth';
 
 const theme = createMuiTheme({
     overrides: {
@@ -85,9 +87,8 @@ function PasswordComponent(props) {
         showPassword: false,
         isPassword: false,
         errorMessage: '',
-        snackbaropen: false,
-        snackBarMsg: ''
     });
+
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -102,30 +103,27 @@ function PasswordComponent(props) {
     };
 
     const handleForgot = () => {
-
         let userObj = {
             "email": props.email
         }
+
         forgotPassword(userObj)
             .then((response) => {
                 console.log(response);
-                clearFields('Set password link sent to you registered email, please check.');
+                setValues({ isLoggedIn: true });
+
+                clearFields();
+                props.snackBarClose('Set password link sent to you registered email, please check.');
             })
             .catch((error) => {
                 console.log(error);
-                clearFields('Invalid user credetials');
+                props.snackBarClose('Invalid user credetials')
             })
     }
 
-    const snackBarClose = () => {
-        setValues({ ...values, snackbaropen: !values.snackbaropen });
-    }
-
-    const clearFields = (message) => {
+    const clearFields = () => {
         setValues({
-            password: '',
-            snackbaropen: !values.snackbaropen,
-            snackBarMsg: message,
+            password: ''
         });
     }
 
@@ -142,12 +140,25 @@ function PasswordComponent(props) {
                 }
                 loginUser(userObj)
                     .then((response) => {
-                        console.log(response);
-                        clearFields('User logged in successfully');
+                        console.log('response', response.data);
+                        localStorage.setItem('firstName', response.data.firstName);
+                        localStorage.setItem('lastName', response.data.lastName)
+                        localStorage.setItem('email', response.data.email)
+                        localStorage.setItem('userId', response.data.userId)
+                        localStorage.setItem('token', response.data.id)
+                        localStorage.setItem('imageUrl', response.data.imageUrl)
+                        auth.login(() => {
+                            props.props.props.history.push('/dashboard/takenotes/notes');
+                            console.log('logged in', props);
+                        });
+
+                        props.snackBarClose('User logged in successfully');
+                        clearFields();
                     })
                     .catch((error) => {
                         console.log(error);
-                        clearFields('Invalid user credetials');
+                        // props.snackBarClose('Invalid user credetials');
+                        clearFields();
                     })
             }
             else {
@@ -163,7 +174,6 @@ function PasswordComponent(props) {
         <div className='content-action-div'>
             <MuiThemeProvider theme={theme}>
                 <CardContent className='card-content-login'>
-
                     <p className='fundoo-subtitle'>Continue to Fundoo</p>
 
                     <MyChip label={props.email}
@@ -205,15 +215,9 @@ function PasswordComponent(props) {
                         <Button size="medium" onClick={handleForgot}>Forgot password?</Button>
                     </div>
                 </CardActions>
-                <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    open={values.snackbaropen}
-                    autoHideDuration={4000}
-                    onClose={snackBarClose}
-                    message={<span id="message-id">{values.snackBarMsg}</span>}
-                ></Snackbar>
             </MuiThemeProvider>
         </div>
+        // )
     )
 }
 
