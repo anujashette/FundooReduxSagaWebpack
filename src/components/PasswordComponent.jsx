@@ -2,7 +2,7 @@ import React from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, MuiThemeProvider, Chip } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Chip, Snackbar } from '@material-ui/core';
 import ExpandMoreOutlined from '@material-ui/icons/ExpandMoreOutlined'
 import Avatar from '@material-ui/core/Avatar'
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +16,11 @@ import FormControl from '@material-ui/core/FormControl';
 import "../styles/loginStyle.scss";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Warning from '../Assets/warning-16.png';
+import { validatePassword } from '../validation/validator';
+import { loginUser, forgotPassword } from '../services/userService';
+import { Redirect } from 'react-router-dom';
+import auth from './auth';
 
 const theme = createMuiTheme({
     overrides: {
@@ -34,6 +39,11 @@ const theme = createMuiTheme({
         MuiCardActions: {
             root: {
                 padding: '8px 0'
+            }
+        },
+        MuiPaper: {
+            elevation1: {
+                'box-shadow': ' 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0)'
             }
         }
     }
@@ -73,13 +83,12 @@ function PasswordComponent(props) {
 
 
     const [values, setValues] = React.useState({
-        amount: '',
         password: '',
-        weight: '',
-        weightRange: '',
         showPassword: false,
-        firstName: ''
+        isPassword: false,
+        errorMessage: '',
     });
+
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -93,19 +102,83 @@ function PasswordComponent(props) {
         event.preventDefault();
     };
 
+    const handleForgot = () => {        
+        let userObj = {
+            "email": props.email
+        }
 
-    const handleDelete = () => {
-        console.log('handle delete');
+        forgotPassword(userObj)
+            .then((response) => {
+                console.log(response);
+                setValues({ isLoggedIn: true });
+
+                clearFields();
+                props.snackBarClose('Set password link sent to you registered email, please check.');
+            })
+            .catch((error) => {
+                console.log(error);
+                props.snackBarClose('Invalid user credetials')
+            })
+    }
+
+    const clearFields = () => {
+        setValues({
+            password: ''
+        });
+    }
+
+    const handleSubmit = () => {
+        console.log('handle submit---->',props);
+
+        let validatePasswordField = validatePassword(values.password);
+
+        if (!validatePasswordField) {
+            if (values.password.length > 7) {
+                setValues({ ...values, isPassword: false, errorMessage: '' })
+
+                let userObj = {
+                    "username": props.email,
+                    "password": values.password
+                }
+                loginUser(userObj)
+                    .then((response) => {
+                        console.log('response', response.data);
+                        localStorage.setItem('firstName', response.data.firstName);
+                        localStorage.setItem('lastName', response.data.lastName)
+                        localStorage.setItem('email', response.data.email)
+                        localStorage.setItem('userId', response.data.userId)
+                        localStorage.setItem('token', response.data.id)
+                        localStorage.setItem('imageUrl', response.data.imageUrl)
+                        auth.login(() => {
+                            props.props.props.history.push('/dashboard/takenotes/notes');
+                            console.log('logged in', props);
+                        });
+
+                        props.snackBarClose('User logged in successfully');
+                        clearFields();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // props.snackBarClose('Invalid user credetials');
+                        clearFields();
+                    })
+            }
+            else {
+                setValues({ ...values, isPassword: true, errorMessage: 'Password length is too short' })
+            }
+        }
+        else {
+            setValues({ ...values, isPassword: true, errorMessage: 'Enter a password' })
+        }
     }
 
     return (
         <div className='content-action-div'>
             <MuiThemeProvider theme={theme}>
                 <CardContent className='card-content-login'>
-
                     <p className='fundoo-subtitle'>Continue to Fundoo</p>
 
-                    <MyChip label='shette.anuja@gmail.com'
+                    <MyChip label={props.email}
                         style={{ backgroundColor: '#ffffff', border: '0.5px solid rgb(138, 138, 138)', alignSelf: 'center' }} />
                     <FormControl >
                         <TextField
@@ -117,6 +190,14 @@ function PasswordComponent(props) {
                             onChange={handleChange('password')}
                             style={{ margin: '45px 0' }}
                         />
+                        {!values.isPassword ?
+                            null
+                            :
+                            <FormHelperText style={{ padding: '3px', margin: '0px', position: 'relative', top: '-40px' }} error={true} id="outlined-weight-helper-text">
+                                <img style={{ width: '13px', position: 'relative', top: '3px' }} src={Warning} />  &nbsp;
+                            {values.errorMessage}</FormHelperText>
+                        }
+
                         <InputAdornment className='eye-icon-login' position="end">
                             <IconButton
                                 aria-label="toggle password visibility"
@@ -132,12 +213,13 @@ function PasswordComponent(props) {
                 </CardContent>
                 <CardActions>
                     <div className='action-button-login'>
-                        <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={props.handleReset}>Next</Button>
-                        <Button size="medium" >Forgot password?</Button>
+                        <Button style={{ color: 'white', background: 'rgb(63, 118, 255)' }} size="medium" onClick={handleSubmit}>Next</Button>
+                        <Button size="medium" onClick={handleForgot}>Forgot password?</Button>
                     </div>
                 </CardActions>
             </MuiThemeProvider>
         </div>
+        // )
     )
 }
 

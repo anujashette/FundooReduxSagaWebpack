@@ -1,3 +1,4 @@
+
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -13,9 +14,11 @@ import FormControl from '@material-ui/core/FormControl';
 import "../styles/registerStyle.scss";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import ValidatorForm from 'react-material-ui-form-validator'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-import { validateName, validateEmail, validatePassword } from '../validator/validator'
+import Warning from '../Assets/warning-16.png';
+import { createMuiTheme, MuiThemeProvider, Snackbar } from '@material-ui/core';
+import { validateName, validateEmail, validatePassword } from '../validation/validator';
+import { registerUser } from "../services/userService";
+
 const theme = createMuiTheme({
   overrides: {
     MuiFormLabel: {
@@ -94,11 +97,18 @@ export default function Register(props) {
     showPassword: false,
     isFirstName: false,
     isLastName: false,
-    isEmail: false,
+    isEmail: true,
     isPassword: false,
     isConfirm: false,
+    isMatch: false,
+    errorMessage: '',
+    snackbaropen: false,
+    snackBarMsg: ''
   });
 
+  const snackBarClose = () => {
+    setValues({ ...values, snackbaropen: !values.snackbaropen });
+  }
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -115,18 +125,69 @@ export default function Register(props) {
     props.props.history.push('/')
   }
 
-  const handleSubmit = () => {
+  const clearFields = (message) => {
     setValues({
-      isFirstName: validateName(values.firstName),
-      isLastName: validateName(values.lastName),
-      isEmail: validateEmail(values.email),
-      // isPassword: validatePassword(values.password),
-      // isConfirm: validatePassword(values.confirmPassword)
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      isEmail: true,
+      isMatch: false,
+      isPassword: false,
+      isConfirm: false,
+      snackbaropen: !values.snackbaropen,
+      snackBarMsg: message
+    });
+  }
+
+  const handleSubmit = async () => {
+    let validateFirstName = validateName(values.firstName);
+    let validateLastName = validateName(values.lastName);
+    let validateUsername = validateEmail(values.email);
+    let validatePasswordField = validatePassword(values.password);
+    let validateConfirm = validatePassword(values.confirmPassword);
+    console.log(validateFirstName, validateLastName, validateUsername, validatePasswordField, validateConfirm);
+
+    setValues({
+      ...values,
+      isFirstName: validateFirstName,
+      isLastName: validateLastName,
+      isEmail: validateUsername,
+      isPassword: validatePasswordField,
+      isConfirm: validateConfirm
     });
 
-    if (values.isFirstName && values.isLastName && values.isEmail && values.isPassword && values.isConfirm) {
-      console.log('check all validations are true====>');
+    console.log(validateFirstName, validateLastName, validateUsername, validatePasswordField, validateConfirm);
 
+    if (!validateFirstName && !validateLastName && validateUsername && !validatePasswordField && !validateConfirm) {
+      if (values.password.length > 7 && values.confirmPassword.length > 7) {
+        if (values.password === values.confirmPassword) {
+
+            let userObj = {
+              "firstName": values.firstName,
+              "lastName": values.lastName,
+              "email": values.email,
+              "password": values.password,
+              "service": "advance"
+            }
+          
+          registerUser(userObj)
+            .then((response) => {
+              clearFields('User registered successfully');
+              props.props.history.push('/')
+            })
+            .catch((error) => {
+              clearFields('User already registered');
+            })
+        }
+        else {
+          setValues({ ...values, isMatch: true, isPassword: false, isConfirm: false, errorMessage: `Those passwords didn't match. Try again.` })
+        }
+      }
+      else {
+        setValues({ ...values, isMatch: true, isPassword: false, isConfirm: false, errorMessage: `Use 8 characters or more for your password` })
+      }
     }
   }
 
@@ -158,11 +219,14 @@ export default function Register(props) {
                   labelWidth={70}
                   autoFocus={true}
                 />
-                {values.isFirstName ?
-                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter first name</FormHelperText>
-                  :
+                {!values.isFirstName ?
                   null
+                  :
+                  <FormHelperText style={{ padding: '3px', margin: '0px' }} error={true} id="outlined-weight-helper-text">
+                    <img style={{ width: '13px', position: 'relative', top: '3px' }} src={Warning} />  &nbsp;
+                    Enter first name</FormHelperText>
                 }
+                {/* <img src='src/Assets/exclamation-mark.svg' alt=''/> */}
               </FormControl>
               <FormControl className={classes.margin} variant="outlined">
                 <InputLabel htmlFor="lastname">Last name</InputLabel>
@@ -175,10 +239,13 @@ export default function Register(props) {
 
                   labelWidth={70}
                 />
-                {values.isLastName ?
-                  <FormHelperText error={true} id="outlined-weight-helper-text">Enter last name</FormHelperText>
-                  :
+
+                {!values.isLastName ?
                   null
+                  :
+                  <FormHelperText style={{ padding: '3px', margin: '0px' }} error={true} id="outlined-weight-helper-text">
+                    <img style={{ width: '13px', position: 'relative', top: '3px' }} src={Warning} />  &nbsp;
+                   Enter last name</FormHelperText>
                 }
 
               </FormControl>
@@ -193,9 +260,13 @@ export default function Register(props) {
                   labelWidth={70}
                 />
                 {values.isEmail ?
-                  <FormHelperText id="outlined-weight-helper-text" error={true} >Enter email address</FormHelperText>
+                  <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>
+                    You can use letters, numbers and periods</FormHelperText>
+
                   :
-                  <FormHelperText id="outlined-weight-helper-text">You can use letters, numbers and periods</FormHelperText>
+                  <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                    Enter email address</FormHelperText>
                 }
               </FormControl>
             </div>
@@ -209,10 +280,8 @@ export default function Register(props) {
                   value={values.password}
                   onChange={handleChange('password')}
                   className='password-style'
-
                   labelWidth={70}
                 />
-
               </FormControl>
 
               <FormControl className={classes.margin} variant="outlined">
@@ -239,11 +308,24 @@ export default function Register(props) {
                 </IconButton>
               </InputAdornment>
             </div>
-            {values.isPassword ?
-              <FormHelperText error={true} id="outlined-weight-helper-text">Enter a password</FormHelperText>
+            {values.isPassword || values.isConfirm ?
+              <span>
+                                <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                  Enter a password</FormHelperText>
+              </span>
               :
-              <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>Use 8 or more charachters with a mix of letters, numbers and symbols</FormHelperText>
+              <span>
+                {values.isMatch ?
+                                  <FormHelperText style={{padding: '3px', margin: '0px'}} error={true} id="outlined-weight-helper-text">  
+                                  <img style={{width:'13px',position:'relative', top:'3px'}} src={Warning}/>  &nbsp;
+                  {values.errorMessage}</FormHelperText>
+                  :
+                  <FormHelperText className='username-helper-text' style={{ color: 'rgb(35, 35, 35)' }}>Use 8 or more charachters with a mix of letters, numbers and symbols</FormHelperText>
+                }
+              </span>
             }
+
           </CardContent>
           <div className='google-img'>
             <img src='https://ssl.gstatic.com/accounts/signup/glif/account.svg'></img>
@@ -257,6 +339,13 @@ export default function Register(props) {
           </div>
         </CardActions>
       </Card>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={values.snackbaropen}
+        autoHideDuration={4000}
+        onClose={snackBarClose}
+        message={<span id="message-id">{values.snackBarMsg}</span>}
+      ></Snackbar>
     </MuiThemeProvider>
   );
 }
