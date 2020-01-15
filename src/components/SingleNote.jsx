@@ -1,17 +1,16 @@
 // import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-
 import React, { useState } from 'react';
 import { createMuiTheme, MuiThemeProvider, Typography } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import '../styles/displayNotes.scss';
-import Image from '@material-ui/icons/Image'
+import Image from '@material-ui/icons/Image';
 import Unpin from '../Assets/unpin.svg';
 import Pin from '../Assets/pin.svg';
 import Archive from '@material-ui/icons/ArchiveOutlined';
-import Reminder from '@material-ui/icons/NotificationsOutlined'
-import PersonAdd from '@material-ui/icons/PersonAddOutlined'
+import Reminder from '@material-ui/icons/NotificationsOutlined';
+import PersonAdd from '@material-ui/icons/PersonAddOutlined';
 import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
@@ -124,7 +123,6 @@ function SingleNote(props) {
             })
     }
 
-
     const handleSetPin = () => {
 
         const pinObj = {
@@ -180,7 +178,7 @@ function SingleNote(props) {
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
                         }
                     </div>
-                    {values.isCheckList ?
+                    { values.isCheckList ?
                         <NewCheckList />
                         :
                         <Typography

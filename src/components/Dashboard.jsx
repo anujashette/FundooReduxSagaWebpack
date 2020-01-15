@@ -26,8 +26,6 @@ class Dashboard extends Component {
             <MuiThemeProvider theme={theme}>
             <div>
                 <Appbar props={this.props}/>
-                <DisplayArea/>
-                {/* <DisplayNotes /> */}
             </div>
             </MuiThemeProvider>
         )

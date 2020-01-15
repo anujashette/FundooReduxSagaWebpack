@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import '../styles/displayNotes.scss';
+import '../styles/DisplayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
-import { getNotes, getlabels } from '../actions';
+import { getReminderNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
 
 const styles = theme => {
 return({
@@ -50,7 +48,7 @@ const theme = createMuiTheme({
     }
 });
 
-class DisplayNotes extends Component {
+class ReminderNotes extends Component {
 
     constructor(props) {
         super(props)
@@ -64,29 +62,18 @@ class DisplayNotes extends Component {
     }
 
     handleGet = () => {
-        this.props.dispatch(getNotes());
+        this.props.dispatch(getReminderNotes());
         this.props.dispatch(getlabels());
     }
 
     render() {
         const {classes} = this.props;
-        console.log('display notes===>', classes.content);
 
-        let pin = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === true;
-        });
+        // let others = this.props.notes.filter(val => {
+        //     return val.isArchived === false && val.isDeleted === false && val.isPined === false && ;
+        // });
 
-        let others = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === false;
-        });
-
-        const pinNotes = pin.map((note, index) => {
-            return (
-                <SingleNote key={index} note={note} />
-            )
-        });
-
-        const notes = others.map((note, index) => {
+        const notes = this.props.notes.map((note, index) => {
             return (
                 <SingleNote key={index} note={note} />
             )
@@ -106,19 +93,8 @@ class DisplayNotes extends Component {
                 >
                     <div className={classes.drawerHeader} />
                     <TakeNote props={this.props} />
-
                 </main>
                 <div className={this.props.transitionCss}>
-                    {pin.length !== 0 ?
-                        <p className='pin-title'>PINNED</p>
-                        :
-                        null
-                    }
-
-                    <div className='display-notes'>
-                        {pinNotes}
-                    </div>
-                    <p className='pin-title'>OTHERS</p>
                     <div className='display-notes'>
                         {notes}
                     </div>
@@ -132,4 +108,4 @@ const mapStateToMap = (reduxState) => {
     return reduxState;
 }
 
-export default connect(mapStateToMap)(withStyles(styles)(DisplayNotes));
+export default connect(mapStateToMap)(withStyles(styles)(ReminderNotes));

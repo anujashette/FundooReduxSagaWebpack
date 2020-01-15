@@ -1,12 +1,14 @@
 import { put, call, takeEvery, takeLatest } from 'redux-saga/effects';
 import { requestGetNotesSuccess, requestGetLabelsSuccess, requestGetError } from '../actions'
-import { requestGetNotes, requestGetLabels } from '../services/userService';
+import { requestGetNotes, requestGetLabels, requestGetReminderNotes } from '../services/userService';
 // import { getMovies } from '../services/service';
 
 export function* watchFetchDog() {
     console.log('saga');
     yield takeLatest('REQUEST_GET_NOTES', getNotesAsync);
     yield takeLatest('REQUEST_GET_LABELS', getLabelsAsync);
+    yield takeLatest('REQUEST_GET_REMINDER_NOTES', getReminderNotesAsync);
+
 }
 
 // export function* fetchDogAsync() {
@@ -37,6 +39,19 @@ export function* getNotesAsync() {
     }
 }
 
+export function* getReminderNotesAsync() {
+    try {
+        const data = yield call(() => {
+            return requestGetReminderNotes().then((res) => {
+                return res;
+            })
+        }
+        );
+        yield put(requestGetNotesSuccess(data));
+    } catch (error) {
+        yield put(requestGetError());
+    }
+}
 
 export function* getLabelsAsync() {
     try {

@@ -20,8 +20,11 @@ class App extends Component {
                     {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
                     <Route path="/dashboard" component={Dashboard} />
                     <Route path="/dashboard/notes" component={DisplayNotes} />
-                    {/* <Route exact path="/dashboard/takenotes/notes" component={DisplayNotes}/> */}
                     <Route path="/dashboard/reminder" component={DisplayNotes}/>
+                    <Route path="/dashboard/labels" component={DisplayNotes}/>
+                    <Route path="/dashboard/editlabel" component={DisplayNotes}/>
+                    <Route path="/dashboard/archive" component={DisplayNotes}/>
+                    <Route path="/dashboard/bin" component={DisplayNotes}/>
                 </BrowserRouter>
             </div>
         )

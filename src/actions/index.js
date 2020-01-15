@@ -19,10 +19,14 @@ export const getNotes = () => {
 };
 
 export const requestGetNotesSuccess = (data) => {
-    let notes = data.data.data.data.filter(val => {
-        return val.isArchived === false && val.isDeleted === false;
-      });
-    return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: notes.reverse() }
+    // let notes = data.data.data.data.filter(val => {
+    //     return val.isArchived === false && val.isDeleted === false;
+    //   });
+    return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: data.data.data.data.reverse() }
+};
+
+export const getReminderNotes = () => {
+    return { type: 'REQUEST_GET_REMINDER_NOTES' }
 };
 
 export const requestGetError = () => {

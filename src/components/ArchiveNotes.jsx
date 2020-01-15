@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import '../styles/displayNotes.scss';
+import '../styles/DisplayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
 import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
 
 const styles = theme => {
 return({
@@ -50,7 +48,7 @@ const theme = createMuiTheme({
     }
 });
 
-class DisplayNotes extends Component {
+class ArchiveNotes extends Component {
 
     constructor(props) {
         super(props)
@@ -132,4 +130,4 @@ const mapStateToMap = (reduxState) => {
     return reduxState;
 }
 
-export default connect(mapStateToMap)(withStyles(styles)(DisplayNotes));
+export default connect(mapStateToMap)(withStyles(styles)(ArchiveNotes));

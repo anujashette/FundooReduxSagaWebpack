@@ -27,7 +27,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import '../styles/drawer.scss';
 import DisplayArea from './DisplayArea';
 import { connect } from 'react-redux';
-import { setTransition, unsetTransition, setColor, unsetOtherTransition, setOtherTransition } from '../actions';
+import { setTransition, unsetTransition, setColor, unsetOtherTransition, setOtherTransition, getReminderNotes } from '../actions';
 import { withRouter } from 'react-router-dom';
 
 const { forwardRef, useImperativeHandle } = React;
@@ -88,18 +88,12 @@ const DrawerLeft = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     handleDrawerOpen() {
       setOpen(!open);
-      if (!open && history.location.pathname === '/dashboard/takenotes/notes') {
-        console.log('drawer open>.>>>>', open);
+      if (!open ) {
+        console.log('drawer open>>>>>', open);
         props.dispatch(setTransition());
       }
-      else if (!open && history.location.pathname !== '/dashboard/takenotes/notes') {
-        props.dispatch(setOtherTransition());
-      }
-      else if (open && history.location.pathname !== '/dashboard/takenotes/notes') {
-        props.dispatch(unsetOtherTransition());
-      }
       else {
-        console.log('drawer close>.>>>>', open);
+        console.log('drawer close>>>>>', open);
         props.dispatch(unsetTransition());
       }
     }
@@ -112,7 +106,7 @@ const DrawerLeft = forwardRef((props, ref) => {
 
   const handleReminder = () => {
     console.log('history',history);
-    
+    // props.dispatch(getReminderNotes());
     history.push('reminder');
 
   }

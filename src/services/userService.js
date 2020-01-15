@@ -103,18 +103,12 @@ export function addLabelToNote(noteObj) {
     return create(noteParam);
 }
 
-// export function pinUnpinedNote(noteObj) {
-//     let token = localStorage.getItem('token');
+export function requestGetReminderNotes() {
+    let token = localStorage.getItem('token');
 
-//     let noteParam = {
-//         route: `/notes/${noteObj.noteId}/addLabelToNotes/${noteObj.labelId}/add?access_token=${token}`,
-//         jsonObject: {},
-//         headers: {
-//             // 'Content-Type':'application/json',
-//             // 'Accept':'*',
-//             // Authorization : token
-//      }
-//     }
-
-//     return create(noteParam);
-// }
+    let noteParam = {
+        route: `/notes/getReminderNotesList?access_token=${token}`,
+        headers: ''
+    }
+    return read(noteParam);
+}
