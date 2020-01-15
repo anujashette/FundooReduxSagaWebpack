@@ -17,9 +17,9 @@ import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
-import { requestCreateNote } from '../services/userService';
+import { requestCreateNote, updateNoteItem } from '../services/userService';
 import ColorMenu from './ColorMenu';
-import { setColorToRedux, clearLabelCheck } from '../actions';
+import { setColorToRedux, clearLabelCheck, getNotes } from '../actions';
 import Label from './Label';
 const { useRef } = React;
 
@@ -35,15 +35,23 @@ const theme = createMuiTheme({
                 fontSize: '0.9rem',
                 fontWeight: '600'
             }
-        }
+        },
+        // MuiDialog: {
+        //     paperWidthSm: {
+        //         // maxWidth: '605px'
+        //     }
+        // }
     }
-})
+});
 
 const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
+    dialogCard: {
+        maxWidth: '605px',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+            maxWidth: 'unset'
+        }
+    }
 });
 
 function EditNote(props) {
@@ -51,125 +59,121 @@ function EditNote(props) {
     const { handleEditClose, open, note } = props;
     const [values, setValues] = useState({
         takeNote: true,
-        isPin: false,
+        isPined: note.isPined,
         isCheckList: false,
-        title: '',
-        description: '',
-        isArchived: false
+        title: note.title,
+        description: note.description,
+        isArchived: note.isArchived,
+        color: note.color
     });
-    const menuRef = useRef();
+    const colorMenuRef = useRef();
     const lebelMenuRef = useRef();
-    let labelID = [];
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
     };
-
-    const handleTakeNote = () => {
-        setValues({ ...values, takeNote: false });
-    }
-
-    const createNoteClose = () => {
-        if (values.title.length !== 0) {
-            // setState();
-        }
-        else {
-            clearState();
-            props.dispatch(setColorToRedux(''))
-        }
-    }
-
-    const handleSetPin = () => {
-        setValues({ ...values, isPin: !values.isPin });
-    }
 
     const handleCheckList = () => {
         setValues({ ...values, takeNote: false, isCheckList: !values.isCheckList });
     }
 
     const handleArchive = () => {
-        setValues({ ...values, isArchived: !values.isArchived })
-    }
-
-    const setState = () => {
-        // const formData = new FormData();
-        // formData.append('photos', this.state.imagePath);
-        // const config = {
-        //   headers: {
-        //     token: token,
-        //     'content-type': 'multipart/form-data'
-        //   }
-        // }
-        let noteObj = {
-            // file: '',
-            title: values.title,
-            description: values.description,
-            labelIdList: labelID,
-            // checklist: '',
-            // reminder:'',
-            isPined: values.isPin,
-            isArchived: values.isArchived,
-            color: note.currentColor,
-            // collaberators: ''
-        }
-        requestCreateNote(noteObj)
-            .then((response) => {
-                clearState();
-            })
-            .catch((error) => {
-                clearState();
-            })
+        setValues({ ...values, isArchived: !note.isArchived })
+        props.handleSetArchive();
     }
 
     const handleDelete = (key) => {
 
     }
 
-    const clearState = () => {
-        setValues({ ...values, takeNote: true, isCheckList: false, title: '', description: '', isArchived: false, isPin: false });
-        labelID = [];
-        props.dispatch(clearLabelCheck())
-    }
-    // var label = note.labels.map((key, index) => {
-
-    //     if (key.isDeleted && key !== null) {
-    //         labelID.push(key.id); ``
-    //         return (
-    //             <Chip
-    //                 key={index}
-    //                 label={key.label}
-    //                 onDelete={handleDelete(key)}
-    //                 deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
-    //                 style={{
-    //                     height: "20px", maxWidth: "100px"
-    //                 }}
-    //             />
-    //         )
-    //     }
-    // });
+    var label = note.noteLabels.map((key, index) => {
+        if (key !== null && !key.isDeleted) {
+            return (
+                <Chip
+                    key={index}
+                    label={key.label}
+                    onDelete={handleDelete(key)}
+                    deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
+                    style={{
+                        height: "20px", maxWidth: "100px"
+                    }}
+                />
+            )
+        }
+    });
 
     const handleClose = () => {
         handleEditClose();
+
+        const updateObj = {
+            "title": values.title,
+            "description": values.description,
+            "noteId": note.id
+        };
+        let path = 'updateNotes';
+
+        updateNoteItem(updateObj, path)
+            .then((response) => {
+                props.dispatch(getNotes());
+            })
+            .catch((error) => {
+                console.log('update note error', error);
+            })
     };
 
     const handleListItemClick = value => {
         handleEditClose(value);
     };
 
-    return (
-        <div>
-            <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+    const handleSetColor = (selectedColor) => {
+        setValues({ ...values, color: selectedColor });
 
-                <div className='create-note-div' style={{ background: note.currentColor }}>
+        const colorObj = {
+            "color": selectedColor,
+            "noteIdList": [note.id]
+        };
+        let path = 'changesColorNotes';
+
+        updateNoteItem(colorObj, path)
+            .then((response) => {
+            })
+            .catch((error) => {
+                console.log('update color error', error);
+            })
+        colorMenuRef.current.handleClose();
+    }
+
+    const handleSetPin = () => {
+        setValues({ ...values, isPined: !values.isPined });
+
+        const pinObj = {
+            isPined: !note.isPined,
+            noteIdList: [note.id]
+        }
+        let path = 'pinUnpinNotes';
+
+        updateNoteItem(pinObj, path)
+            .then((response) => {
+            })
+            .catch((error) => {
+                console.log('update pin error', error);
+            })
+    }
+
+    return (
+        <MuiThemeProvider theme={theme}>
+            <Dialog className='dialog-card' onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+
+                <div className='edit-note-div' style={{ background: values.color }}>
                     <div className='create-note-card'>
                         <InputBase
                             placeholder='Title'
                             className='input-base-create'
-                            value={note.title}
+                            value={values.title}
                             onChange={handleChange('title')}
                         ></InputBase>
 
-                        {values.isPin ?
+                        {values.isPined ?
                             <img src={Pin} className='pin-icon' onClick={handleSetPin} />
                             :
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
@@ -181,21 +185,20 @@ function EditNote(props) {
                         <InputBase
                             placeholder='Take a note...'
                             className='input-base-create'
-                            value={note.description}
+                            value={values.description}
                             onChange={handleChange('description')}
                             autoFocus={true}
                         ></InputBase>
                     }
                     <div style={{ padding: '10px' }}>
-                        {/* {label} */}
+                        {label}
                     </div>
                     <div className='create-note-icon-div'>
                         <div className='create-icons-div'>
                             <Reminder className='icons-padding' />
                             <PersonAdd className='icons-padding' />
                             <Color className='icons-padding'
-                                onClick={(event) => menuRef.current.handleClick(event)}
-                            // onMouseLeave={() => menuRef.current.handleClose()}
+                                onClick={(event) => colorMenuRef.current.handleClick(event)}
                             />
                             <Image className='icons-padding' />
                             <Archive className='icons-padding' onClick={handleArchive} />
@@ -203,13 +206,14 @@ function EditNote(props) {
                                 onClick={(event) => lebelMenuRef.current.handleOpenMenu(event)}
                             />
                         </div>
-                        <Button style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', textTransform: 'initial' }} onClick={createNoteClose}>Close</Button>
+                        <Button style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', textTransform: 'initial' }} onClick={handleClose}>Close</Button>
                     </div>
-                </div>    </Dialog>
-            <ColorMenu ref={menuRef} />
-            <Label ref={lebelMenuRef} />
-        </div>
+                </div>
+            </Dialog>
+            <ColorMenu ref={colorMenuRef} handleSetColor={handleSetColor} />
+            <Label ref={lebelMenuRef} addLabel={props.addLabel} updateLabel={'createdNote'} />
+        </MuiThemeProvider>
     );
 }
 
-export default EditNote;
+export default connect(null, null)(EditNote);

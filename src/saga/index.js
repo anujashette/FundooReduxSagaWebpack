@@ -1,12 +1,12 @@
 import { put, call, takeEvery, takeLatest } from 'redux-saga/effects';
-import {  requestMovieSuccess, requestMovieError, requestGetNotesSuccess, requestGetLabelsSuccess } from '../actions'
+import { requestGetNotesSuccess, requestGetLabelsSuccess, requestGetError } from '../actions'
 import { requestGetNotes, requestGetLabels } from '../services/userService';
 // import { getMovies } from '../services/service';
 
 export function* watchFetchDog() {
     console.log('saga');
-    yield takeLatest('REQUEST_GET_NOTES', getNotesAsync);  
-    yield takeLatest('REQUEST_GET_LABELS', getLabelsAsync);  
+    yield takeLatest('REQUEST_GET_NOTES', getNotesAsync);
+    yield takeLatest('REQUEST_GET_LABELS', getLabelsAsync);
 }
 
 // export function* fetchDogAsync() {
@@ -21,7 +21,7 @@ export function* watchFetchDog() {
 //     } catch (error) {
 //         yield put(requestDogError());
 //     }
-// }
+// }    
 
 export function* getNotesAsync() {
     try {
@@ -33,7 +33,7 @@ export function* getNotesAsync() {
         );
         yield put(requestGetNotesSuccess(data));
     } catch (error) {
-        yield put(requestMovieError());
+        yield put(requestGetError());
     }
 }
 
@@ -42,13 +42,12 @@ export function* getLabelsAsync() {
     try {
         const data = yield call(() => {
             return requestGetLabels().then((res) => {
-                console.log('saga get labels', res);
                 return res;
             })
         }
-        );        
+        );
         yield put(requestGetLabelsSuccess(data));
     } catch (error) {
-        yield put(requestMovieError());
+        yield put(requestGetError());
     }
 }

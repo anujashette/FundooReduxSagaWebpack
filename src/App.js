@@ -19,9 +19,9 @@ class App extends Component {
                     <Route path="/resetpassword/:token" component={ResetPasswordPage}></Route>
                     {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
                     <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/dashboard/takenotes" component={DisplayArea} />
-                    <Route exact path="/dashboard/takenotes/notes" component={DisplayNotes} />
-
+                    <Route path="/dashboard/notes" component={DisplayNotes} />
+                    {/* <Route exact path="/dashboard/takenotes/notes" component={DisplayNotes}/> */}
+                    <Route path="/dashboard/reminder" component={DisplayNotes}/>
                 </BrowserRouter>
             </div>
         )

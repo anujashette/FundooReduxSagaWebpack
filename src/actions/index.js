@@ -19,7 +19,14 @@ export const getNotes = () => {
 };
 
 export const requestGetNotesSuccess = (data) => {
-    return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: data.data.data.data }
+    let notes = data.data.data.data.filter(val => {
+        return val.isArchived === false && val.isDeleted === false;
+      });
+    return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: notes.reverse() }
+};
+
+export const requestGetError = () => {
+    return { type: 'REQUESTED_GET_FAILED' }
 };
 
 export const getlabels = () => {
@@ -38,5 +45,24 @@ export const clearLabelCheck = () => {
     return { type: 'CLEAR_LABEL_CHECK' }
 };
 
+export const setTransition = () => {    
+    return { type: 'SET_TRSNSITION' }
+};
 
+export const unsetTransition = () => {    
+    return { type: 'UNSET_TRSNSITION' }
+};
 
+export const setOtherTransition = () => {    
+    return { type: 'SET_OTHER_TRSNSITION' }
+};
+
+export const unsetOtherTransition = () => {    
+    return { type: 'UNSET_OTHER_TRSNSITION' }
+};
+
+// export const setColor = (colorCss) => {    
+//     console.log('set color===',colorCss);
+    
+//     return { type: 'SET_COLOR', action:colorCss }
+// };

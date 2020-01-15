@@ -11,7 +11,7 @@ const theme = createMuiTheme({
     overrides: {
         MuiPopover: {
             paper: {
-                width: '90px',
+                width: '93px',
                 height: 'auto',
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -25,14 +25,14 @@ const { forwardRef, useImperativeHandle } = React;
 
 const ColorMenu = forwardRef((props, ref) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [color, setColor] = React.useState(['#91ffaf', '#ff9191',
+    const [color, setColor] = React.useState(['#ffffff','#91ffaf', '#ff9191',
         '#ffcc91',
         '#efff91',
         '#91edff',
         '#91a3ff',
         '#e791ff',
         '#c72c65',
-        '#e34040']);
+       ]);
 
     useImperativeHandle(ref, () => ({
         handleClick(event) {
@@ -50,12 +50,11 @@ const ColorMenu = forwardRef((props, ref) => {
         setAnchorEl(null);
     };
 
-    const handleSetColor = (selectedColor) => {
-        console.log('props', selectedColor);
-        props.dispatch(setColorToRedux(selectedColor))
-        // setColorToRedux(selectedColor)
-        handleCloseOn()
-    }
+    // const handleSetColor = (selectedColor) => {
+    //     console.log('props', selectedColor);
+    //     props.dispatch(setColorToRedux(selectedColor))
+    //     handleCloseOn()
+    // }
 
     const open = Boolean(anchorEl);
     const id = open ? 'color-popover' : undefined;
@@ -79,8 +78,8 @@ const ColorMenu = forwardRef((props, ref) => {
                     }}
                 >
                     {color.map((color, index) => {
-                        return <Avatar key={index} style={{ backgroundColor: color, color: color, width: '30px', height: '30px' }}
-                            onClick={() => handleSetColor(color)}
+                        return <Avatar key={index} style={{border:'0.5px solid rgb(156, 156, 156)', backgroundColor: color, color: color, width: '30px', height: '30px' }}
+                            onClick={() => props.handleSetColor(color)}
                         ></Avatar>
                     })}
                 </Popover>
@@ -88,15 +87,5 @@ const ColorMenu = forwardRef((props, ref) => {
         </div>
     );
 })
-
-const mapStateToProps = () => {
-
-}
-
-// const mapDispatchToProps = (dispatch) => {
-//     return({
-//         setColorToRedux: () => {dispatch('SET_COLOR_ACTION')}
-//     })
-// }
 
 export default connect(null, null, null, { forwardRef: true })(ColorMenu);

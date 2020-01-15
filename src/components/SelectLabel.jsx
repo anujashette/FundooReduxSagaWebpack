@@ -41,11 +41,19 @@ const SelectLabel = forwardRef((props, ref) => {
             }
         }
         props.dispatch({ type: 'CHECK_LIST', action: props.labels })
+
+        if(props.updateLabel === 'createdNote'){
+            props.addLabel(data.id);
+            handleCloseOn();
+            props.handleClose();
+        }
     };
 
 
     useImperativeHandle(ref, () => ({
         handleOpen(event) {
+            console.log('handleOpen');
+
             setAnchorEl(event.currentTarget);
         }
     }));

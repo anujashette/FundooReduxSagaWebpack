@@ -5,6 +5,20 @@
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
+}
+
+.take-note-transition {
+  box-shadow: 0px 1px 4px 0px #888888;
+  width: 583px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin: 0 0 0 360px;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
 }
 
 .input-base {
@@ -50,4 +64,49 @@
 
 .pin-icon {
   padding: 10px 0px 0px;
+}
+
+//edit note
+
+.edit-note-div {
+  box-shadow: 0px 1px 4px 0px #888888;
+  width: 537px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.dialog-card {
+  width: 100%;
+}
+
+@media only screen and (max-width: 900px) and (min-width: 601px) {
+  .take-note-div {
+    width: 490px;
+  }
+
+  .create-note-div {
+    width: 510px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .take-note-div {
+    // max-width: 560px;
+    min-width: 292px;
+    width: 104%;
+  }
+
+  .create-note-div {
+    max-width: 565px;
+    min-width: 310px;
+    width: 108.3%;
+  }
+
+  .edit-note-div {
+    max-width: unset;
+    min-width: unset;
+    width: 100%;
+  }
 }

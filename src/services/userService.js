@@ -1,5 +1,5 @@
-import { create, get, read } from '../services/httpService';
-let token = localStorage.getItem('token');
+import { create, read } from '../services/httpService';
+
 export function registerUser(userObj) {
 
     let userParam = {
@@ -33,6 +33,8 @@ export function forgotPassword(userObj) {
 }
 
 export function resetPassword(userObj) {
+    let token = localStorage.getItem('token');
+
     let userParam = {
         route: `/user/reset-password?access_token=${userObj.token}`,
         jsonObject: userObj.passwordField,
@@ -42,29 +44,77 @@ export function resetPassword(userObj) {
 }
 
 export function requestCreateNote(noteObj) {
-    let userParam = {
+    let token = localStorage.getItem('token');
+    let noteParam = {
         route: `/notes/addNotes?access_token=${token}`,
         jsonObject: noteObj,
-        headers: ''
+        headers:  { 'content-type': 'multipart/form-data' }
     }
-    console.log('user service--',userParam);
-    return create(userParam);
+    return create(noteParam);
 }
 
 export function requestGetNotes() {
-    let userParam = {
+    let token = localStorage.getItem('token');
+
+    let noteParam = {
         route: `/notes/getNotesList?access_token=${token}`,
         headers: ''
     }
-    console.log(userParam);
-    return read(userParam);
+    return read(noteParam);
 }
 
 export function requestGetLabels() {
-    let userParam = {
+    let token = localStorage.getItem('token');
+
+    let labelParam = {
         route: `/noteLabels/getNoteLabelList?access_token=${token}`,
         headers: ''
     }
-    console.log(userParam);
-    return read(userParam);
+    return read(labelParam);
 }
+
+export function updateNoteItem(noteObj,path) {
+    let token = localStorage.getItem('token');
+
+    let noteParam = {
+        route: `/notes/${path}?access_token=${token}`,
+        jsonObject: noteObj,
+        headers: ''
+    }
+    console.log('updateNoteItem',noteParam);
+    
+
+    return create(noteParam);
+}
+
+export function addLabelToNote(noteObj) {
+    let token = localStorage.getItem('token');
+
+    let noteParam = {
+        route: `/notes/${noteObj.noteId}/addLabelToNotes/${noteObj.labelId}/add?access_token=${token}`,
+        jsonObject: {},
+        headers: {
+            // 'Content-Type':'application/json',
+            // 'Accept':'*',
+            // Authorization : token
+     }
+    }
+
+    return create(noteParam);
+}
+
+// export function pinUnpinedNote(noteObj) {
+//     let token = localStorage.getItem('token');
+
+//     let noteParam = {
+//         route: `/notes/${noteObj.noteId}/addLabelToNotes/${noteObj.labelId}/add?access_token=${token}`,
+//         jsonObject: {},
+//         headers: {
+//             // 'Content-Type':'application/json',
+//             // 'Accept':'*',
+//             // Authorization : token
+//      }
+//     }
+
+//     return create(noteParam);
+// }

@@ -16,8 +16,9 @@ import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
 import { requestCreateNote } from '../services/userService';
 import ColorMenu from './ColorMenu';
-import { setColorToRedux, clearLabelCheck } from '../actions';
+import { setColorToRedux, clearLabelCheck, getNotes } from '../actions';
 import Label from './Label';
+import jtoF from 'json2formdata';
 const { useRef } = React;
 
 const theme = createMuiTheme({
@@ -34,7 +35,8 @@ const theme = createMuiTheme({
             }
         }
     }
-})
+});
+
 function TakeNote(props) {
     const [values, setValues] = useState({
         takeNote: true,
@@ -44,7 +46,7 @@ function TakeNote(props) {
         description: '',
         isArchived: false
     });
-    const menuRef = useRef();
+    const colorMenuRef = useRef();
     const lebelMenuRef = useRef();
     let labelID = [];
 
@@ -79,7 +81,8 @@ function TakeNote(props) {
     }
 
     const setState = () => {
-        // const formData = new FormData();
+        // labelID = JSON.stringify(labelID)
+        const formData = new FormData();
         // formData.append('photos', this.state.imagePath);
         // const config = {
         //   headers: {
@@ -87,21 +90,30 @@ function TakeNote(props) {
         //     'content-type': 'multipart/form-data'
         //   }
         // }
-        let noteObj = {
-            // file: '',
-            title: values.title,
-            description: values.description,
-            labelIdList: labelID,
-            // checklist: '',
-            // reminder:'',
-            isPined: values.isPin,
-            isArchived: values.isArchived,
-            color: props.reduxState.state.currentColor,
-            // collaberators: ''
-        }
-        requestCreateNote(noteObj)
+        // let noteObj = {
+        //     // file: '',
+        //     title: values.title,
+        //     description: values.description,
+        //     labelIdList: labelID,
+        //     // checklist: '',
+        //     // reminder:'',
+        //     isPined: values.isPin,
+        //     isArchived: values.isArchived,
+        //     color: props.reduxState.state.currentColor,
+        //     // collaberators: ''
+        // }
+        formData.append('title',values.title)
+        formData.append('description',values.description)
+        formData.append('labelIdList',[labelID])
+        formData.append('isPined', values.isPin)
+        formData.append('isArchived', values.isArchived)
+        formData.append('color', props.reduxState.state.currentColor)
+
+    //    let formData = jtoF(noteObj)
+        requestCreateNote(formData)
             .then((response) => {
                 clearState();
+                props.dispatch(getNotes());
             })
             .catch((error) => {
                 clearState();
@@ -117,10 +129,11 @@ function TakeNote(props) {
         labelID = [];
         props.dispatch(clearLabelCheck())
     }
+
     var label = props.reduxState.state.labels.map((key, index) => {
 
         if (key.isDeleted && key !== null) {
-            labelID.push(key.id); ``
+            labelID.push(key.id);
             return (
                 <Chip
                     key={index}
@@ -135,11 +148,17 @@ function TakeNote(props) {
         }
     });
 
+    const handleSetColor = (selectedColor) => {
+        console.log('props', selectedColor);
+        props.dispatch(setColorToRedux(selectedColor))
+        colorMenuRef.current.handleClose()
+    }
+
     return (
         <MuiThemeProvider theme={theme}>
             {/* <ClickAwayListener onClickAway={createNoteClose}> */}
             {values.takeNote ?
-                <div className='take-note-div' >
+                <div className={ props.reduxState.state.transitionTakeNote} >
                     <InputBase
                         placeholder='Take a note...'
                         className='input-base'
@@ -189,8 +208,8 @@ function TakeNote(props) {
                             <Reminder className='icons-padding' />
                             <PersonAdd className='icons-padding' />
                             <Color className='icons-padding'
-                                onClick={(event) => menuRef.current.handleClick(event)}
-                            // onMouseLeave={() => menuRef.current.handleClose()}
+                                onClick={(event) => colorMenuRef.current.handleClick(event)}
+                            // onMouseLeave={() => colorMenuRef.current.handleClose()}
                             />
                             <Image className='icons-padding' />
                             <Archive className='icons-padding' onClick={handleArchive} />
@@ -203,7 +222,7 @@ function TakeNote(props) {
                 </div>
             }
             {/* </ClickAwayListener> */}
-            <ColorMenu ref={menuRef} />
+            <ColorMenu ref={colorMenuRef} handleSetColor={handleSetColor} />
             <Label ref={lebelMenuRef} />
         </MuiThemeProvider>
     )
@@ -216,4 +235,5 @@ const mapStateToProps = (state) => {
         }
     }
 }
+
 export default connect(mapStateToProps)(TakeNote);

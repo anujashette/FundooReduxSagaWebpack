@@ -42,10 +42,10 @@ const theme = createMuiTheme({
             }
         },
         MuiAppBar: {
-        positionStatic: {
-            position: 'fixed'
+            positionStatic: {
+                position: 'fixed'
+            }
         }
-    }
     }
 })
 const useStyles = makeStyles(theme => ({
@@ -65,9 +65,10 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(10),
         width: '57%',
+        maxWidth: '700px',
         height: '48px',
         display: 'none',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             display: 'block',
         },
     },
@@ -309,7 +310,7 @@ export default function PrimarySearchAppBar(props) {
                 {renderMobileMenu}
                 {renderMenu}
             </div>
-            <DrawerLeft ref={drawerRef} />
+            <DrawerLeft ref={drawerRef} props={props}/>
 
         </MuiThemeProvider>
 

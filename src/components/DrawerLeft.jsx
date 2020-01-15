@@ -26,6 +26,9 @@ import Trash from '@material-ui/icons/DeleteOutlined'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import '../styles/drawer.scss';
 import DisplayArea from './DisplayArea';
+import { connect } from 'react-redux';
+import { setTransition, unsetTransition, setColor, unsetOtherTransition, setOtherTransition } from '../actions';
+import { withRouter } from 'react-router-dom';
 
 const { forwardRef, useImperativeHandle } = React;
 const drawerWidth = 240;
@@ -38,23 +41,19 @@ const overrideTheme = createMuiTheme({
       }
     }
   }
-})
+});
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
-
-
   drawer: {
     width: drawerWidth,
     flexShrink: 0
-    
-    
   },
   drawerPaper: {
     width: drawerWidth,
-    borderRight:'0px'
+    borderRight: '0px'
   },
   drawerHeader: {
     display: 'flex',
@@ -77,25 +76,62 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
-    //  [theme.breakpoints.up('sm')]: {
-    //         display: 'none',
-    //     },
-  },
+    marginLeft: 0
+  }
 }));
 
 const DrawerLeft = forwardRef((props, ref) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const history = props.props.props.history;
 
   useImperativeHandle(ref, () => ({
-
     handleDrawerOpen() {
       setOpen(!open);
+      if (!open && history.location.pathname === '/dashboard/takenotes/notes') {
+        console.log('drawer open>.>>>>', open);
+        props.dispatch(setTransition());
+      }
+      else if (!open && history.location.pathname !== '/dashboard/takenotes/notes') {
+        props.dispatch(setOtherTransition());
+      }
+      else if (open && history.location.pathname !== '/dashboard/takenotes/notes') {
+        props.dispatch(unsetOtherTransition());
+      }
+      else {
+        console.log('drawer close>.>>>>', open);
+        props.dispatch(unsetTransition());
+      }
     }
   }));
 
+  const handleNotes = () => {
+    
+    history.push('notes')
+  }
 
+  const handleReminder = () => {
+    console.log('history',history);
+    
+    history.push('reminder');
+
+  }
+
+  const handleLabels = () => {
+
+  }
+
+  const handleEditLabel = () => {
+
+  }
+
+  const handleArchive = () => {
+
+  }
+
+  const handleBin = () => {
+
+  }
 
   return (
     <div className={classes.root}>
@@ -111,13 +147,13 @@ const DrawerLeft = forwardRef((props, ref) => {
           }}
         >
           <List>
-            <ListItem button>
+            <ListItem button id='drawer-item' onClick={handleNotes}>
               <ListItemIcon><img src={Bulb} alt="notes_icon" /></ListItemIcon>
               <ListItemText primary='Notes' />
             </ListItem>
 
-            <ListItem button>
-              <ListItemIcon>{<Notification />}</ListItemIcon>
+            <ListItem button id='drawer-item' onClick={handleReminder}>
+              <ListItemIcon><Notification /></ListItemIcon>
               <ListItemText primary='Reminder' />
             </ListItem>
           </List>
@@ -125,31 +161,29 @@ const DrawerLeft = forwardRef((props, ref) => {
           <Divider />
           <p className='label-style'>Labels</p>
           <List>
-            <ListItem button>
+            <ListItem button id='drawer-item' onClick={handleLabels}>
               <ListItemIcon><LabelIcon /></ListItemIcon>
               <ListItemText primary='labels' />
             </ListItem>
 
-            <ListItem button>
-              <ListItemIcon>{<EditOutline />}</ListItemIcon>
+            <ListItem button id='drawer-item' onClick={handleEditLabel}>
+              <ListItemIcon><EditOutline /></ListItemIcon>
               <ListItemText primary='Edit labels' />
             </ListItem>
           </List>
 
           <Divider />
-        <List>
-          <ListItem button>
-            <ListItemIcon><Archive /></ListItemIcon>
-            <ListItemText primary='Archive' />
-          </ListItem>
+          <List>
+            <ListItem button id='drawer-item' onClick={handleArchive}>
+              <ListItemIcon><Archive /></ListItemIcon>
+              <ListItemText primary='Archive' />
+            </ListItem>
 
-          <ListItem button>
-            <ListItemIcon>{<Trash />}</ListItemIcon>
-            <ListItemText primary='Bin' />
-          </ListItem>
-        </List>
-
-
+            <ListItem button id='drawer-item' onClick={handleBin}>
+              <ListItemIcon><Trash /></ListItemIcon>
+              <ListItemText primary='Bin' />
+            </ListItem>
+          </List>
         </Drawer>
 
         {/* <main
@@ -169,4 +203,5 @@ const DrawerLeft = forwardRef((props, ref) => {
   );
 });
 
-export default DrawerLeft;
+
+export default connect(null, null, null, { forwardRef: true })(DrawerLeft);

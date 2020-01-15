@@ -30,19 +30,16 @@ const Label = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         handleOpenMenu(event) {
+
             setAnchorEl(event.currentTarget);
         }
     }));
 
-    const handleHover = () => {
-        console.log('handleHover');
+    console.log('label---', props);
 
-    }
-
-    const handleClose=()=> {
+    const handleClose = () => {
         setAnchorEl(null);
     }
-
 
     const open = Boolean(anchorEl);
     const id = open ? 'more-popover' : undefined;
@@ -64,13 +61,18 @@ const Label = forwardRef((props, ref) => {
                         horizontal: 'left',
                     }}
                 >
-                    <MenuItem onMouseEnter={(event)=>labelRef.current.handleOpen(event)}>Add Label <ArrowRightIcon /></MenuItem>
+                    <MenuItem onMouseEnter={(event) => labelRef.current.handleOpen(event)}>Add Label <ArrowRightIcon /></MenuItem>
 
                 </Popover>
-                <SelectLabel ref={labelRef}/>
+                <SelectLabel
+                    ref={labelRef}
+                    addLabel={props.addLabel}
+                    updateLabel={props.updateLabel}
+                    handleClose={handleClose}
+                />
             </MuiThemeProvider>
         </div>
     )
-})
+});
 
 export default connect(null, null, null, { forwardRef: true })(Label);

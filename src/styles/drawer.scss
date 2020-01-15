@@ -4,3 +4,17 @@
     text-transform: uppercase;
     color: grey;
 }
+
+#drawer-item {
+    border-radius: 0px 100px 100px 0px;
+}
+
+#drawer-item:focus {
+    // border-radius: 0px 100px 100px 0px;
+    background-color: #ffe6c7;
+}
+
+// #drawer-item-color {
+//     // border-radius: 0px 100px 100px 0px;
+//     background-color: #ffe6c7;
+// }

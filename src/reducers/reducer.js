@@ -5,7 +5,15 @@ const initState = {
     currentColor: '',
     notes: [],
     labels: [],
-    addedLabels: []
+    addedLabels: [],
+    transitionCss: 'main-display',
+    transitionTakeNote: 'take-note-div',
+    noteColor: 'drawer-item-color',
+    // reminderColor:'',
+    // editLabelColor:'',
+    // archiveColor:'',
+    // binColor:'',
+
 };
 
 const reducer = (state = initState, action) => {
@@ -37,6 +45,20 @@ const reducer = (state = initState, action) => {
             }
             return { ...state, labels: state.labels }
 
+        case 'SET_TRSNSITION':
+            return { ...state, transitionCss: 'transition-main', transitionTakeNote: 'take-note-transition' }
+
+        case 'UNSET_TRSNSITION':
+            return { ...state, transitionCss: 'main-display', transitionTakeNote: 'take-note-div' }
+
+        // case 'SET_OTHER_TRSNSITION':
+        //     return { ...state, transitionCss: 'transition-main-other', transitionTakeNote: 'take-note-transition' }
+
+        // case 'UNSET_OTHER_TRSNSITION':
+        //     return { ...state, transitionCss: 'main-display-other', transitionTakeNote: 'take-note-div' }
+
+        case 'SET_COLOR':
+            return { ...state, action }
         default:
             return state;
     }

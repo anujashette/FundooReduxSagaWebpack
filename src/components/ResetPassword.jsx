@@ -195,7 +195,6 @@ function ResetPassword(props) {
                             </InputAdornment>
                         </FormControl>
 
-
                     </CardContent>
                     <CardActions>
                         <div className='action-button-login'>

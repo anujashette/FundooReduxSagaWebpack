@@ -2,14 +2,12 @@ import React from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, MuiThemeProvider, Chip, Snackbar } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Chip } from '@material-ui/core';
 import ExpandMoreOutlined from '@material-ui/icons/ExpandMoreOutlined'
 import Avatar from '@material-ui/core/Avatar'
 import TextField from '@material-ui/core/TextField';
 import styled from "styled-components";
 import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -19,7 +17,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Warning from '../Assets/warning-16.png';
 import { validatePassword } from '../validation/validator';
 import { loginUser, forgotPassword } from '../services/userService';
-import { Redirect } from 'react-router-dom';
 import auth from './auth';
 
 const theme = createMuiTheme({
