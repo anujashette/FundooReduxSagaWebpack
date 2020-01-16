@@ -17,7 +17,6 @@ import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
 import { updateNoteItem, addLabelToNote } from '../services/userService';
 import ColorMenu from './ColorMenu';
-import { setColorToRedux, getNotes } from '../actions';
 import EditNote from './EditNote';
 import Label from './Label';
 import Cancel from '@material-ui/icons/Close';
@@ -79,10 +78,10 @@ function SingleNote(props) {
 
         updateNoteItem(colorObj, path)
             .then((response) => {
-                props.dispatch(getNotes());
+                props.handleGet();
             })
             .catch((error) => {
-                console.log('update color error', error);
+                // console.log('update color error', error);
             })
         colorMenuRef.current.handleClose();
     }
@@ -96,10 +95,10 @@ function SingleNote(props) {
 
         updateNoteItem(archiveObj, path)
             .then((response) => {
-                props.dispatch(getNotes());
+                props.handleGet();
             })
             .catch((error) => {
-                console.log('update archive error', error);
+                // console.log('update archive error', error);
             })
     }
 
@@ -116,10 +115,10 @@ function SingleNote(props) {
 
         addLabelToNote(labelObj)
             .then((response) => {
-                props.dispatch(getNotes());
+                props.handleGet();
             })
             .catch((error) => {
-                console.log('update color error', error);
+                // console.log('update color error', error);
             })
     }
 
@@ -134,18 +133,18 @@ function SingleNote(props) {
 
         updateNoteItem(pinObj, path)
             .then((response) => {
-                props.dispatch(getNotes());
+                props.handleGet();
             })
             .catch((error) => {
-                console.log('update pin error', error);
+                // console.log('update pin error', error);
             })
     }
 
     var label = props.note.noteLabels.map((key, index) => {
-        console.log('label-', key);
+        // console.log('label-', key);
 
         if (key !== null && !key.isDeleted) {
-            console.log('single note===', props.note.noteLabels);
+            // console.log('single note===', props.note.noteLabels);
 
             // labelID.push(key.id); 
             return (
@@ -165,7 +164,7 @@ function SingleNote(props) {
     return (
         <MuiThemeProvider theme={theme}>
             {!values.isEdited ?
-                <Card id='display-card'  style={{ background: props.note.color }}>
+                <Card id='display-card' style={{ background: props.note.color }}>
                     <div className='create-note-card'>
                         <Typography
                             className={classes.inputTitle}
@@ -178,7 +177,7 @@ function SingleNote(props) {
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
                         }
                     </div>
-                    { values.isCheckList ?
+                    {values.isCheckList ?
                         <NewCheckList />
                         :
                         <Typography
@@ -210,6 +209,7 @@ function SingleNote(props) {
                     note={props.note}
                     addLabel={addLabel}
                     handleSetArchive={handleSetArchive}
+                    handleGet={props.handleGet}
                 />
             }
 
@@ -227,7 +227,7 @@ function SingleNote(props) {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('redux', state);
+    // // console.log('redux', state);
 
     return {
         reduxState: {

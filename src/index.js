@@ -11,7 +11,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(watchFetchDog);
 
-console.log('store',store);
+// console.log('store',store);
 
 ReactDOM.render(
     <Provider store={store}>

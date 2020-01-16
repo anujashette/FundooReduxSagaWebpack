@@ -25,18 +25,18 @@ const { forwardRef, useImperativeHandle } = React;
 
 const ColorMenu = forwardRef((props, ref) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [color, setColor] = React.useState(['#ffffff','#91ffaf', '#ff9191',
+    const [color, setColor] = React.useState(['#ffffff', '#91ffaf', '#ff9191',
         '#ffcc91',
         '#efff91',
         '#91edff',
         '#91a3ff',
         '#e791ff',
         '#c72c65',
-       ]);
+    ]);
 
     useImperativeHandle(ref, () => ({
         handleClick(event) {
-            console.log(color);
+            // console.log(color);
 
             setAnchorEl(event.currentTarget);
         },
@@ -51,7 +51,7 @@ const ColorMenu = forwardRef((props, ref) => {
     };
 
     // const handleSetColor = (selectedColor) => {
-    //     console.log('props', selectedColor);
+    //     // console.log('props', selectedColor);
     //     props.dispatch(setColorToRedux(selectedColor))
     //     handleCloseOn()
     // }
@@ -78,7 +78,7 @@ const ColorMenu = forwardRef((props, ref) => {
                     }}
                 >
                     {color.map((color, index) => {
-                        return <Avatar key={index} style={{border:'0.5px solid rgb(156, 156, 156)', backgroundColor: color, color: color, width: '30px', height: '30px' }}
+                        return <Avatar key={index} style={{ border: '0.5px solid rgb(156, 156, 156)', backgroundColor: color, color: color, width: '30px', height: '30px' }}
                             onClick={() => props.handleSetColor(color)}
                         ></Avatar>
                     })}

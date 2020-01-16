@@ -67,9 +67,9 @@ const MyChip = props => (
         {...props}
         clickable={false}
         avatar={<Avatar>AS</Avatar>}
-        onDelete={() => console.log("I did something")}
+        onDelete={() =>  console.log("I did something")}
         deleteIcon={<ExpandMoreOutlined />}
-        onClick={() => console.log("I did something")}
+        onClick={() =>  console.log("I did something")}
     />
 );
 
@@ -111,7 +111,7 @@ function ResetPassword(props) {
 
     const handleReset = () => {
         let param = props
-        console.log(param);
+        // console.log(param);
 
         let validatePasswordField = validatePassword(values.password);
 
@@ -127,12 +127,12 @@ function ResetPassword(props) {
                 }
                 resetPassword(userObj)
                     .then((response) => {
-                        console.log(response);
+                        // console.log(response);
                         clearFields('New password set successfully');
                         param.props.history.push('/')
                     })
                     .catch((error) => {
-                        console.log(error);
+                        // console.log(error);
                         clearFields('Invalid user credetials');
                     })
             }

@@ -1,5 +1,5 @@
 export const requestMovieSuccess = (data) => {
-    console.log('actions', data.data.data);
+    // // console.log('actions', data.data.data);
 
     return { type: 'REQUESTED_MOVIE_SUCCEEDED', movies: data.data.data }
 };
@@ -19,9 +19,8 @@ export const getNotes = () => {
 };
 
 export const requestGetNotesSuccess = (data) => {
-    // let notes = data.data.data.data.filter(val => {
-    //     return val.isArchived === false && val.isDeleted === false;
-    //   });
+    console.log('requestGetNotesSuccess',data.data.data.data);
+    
     return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: data.data.data.data.reverse() }
 };
 
@@ -64,9 +63,3 @@ export const setOtherTransition = () => {
 export const unsetOtherTransition = () => {    
     return { type: 'UNSET_OTHER_TRSNSITION' }
 };
-
-// export const setColor = (colorCss) => {    
-//     console.log('set color===',colorCss);
-    
-//     return { type: 'SET_COLOR', action:colorCss }
-// };

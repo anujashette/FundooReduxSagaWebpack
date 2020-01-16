@@ -30,8 +30,6 @@ const theme = createMuiTheme({
 const SelectLabel = forwardRef((props, ref) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [checked, setChecked] = React.useState([]);
-
 
     const handleChange = (data) => event => {
 
@@ -49,15 +47,13 @@ const SelectLabel = forwardRef((props, ref) => {
         }
     };
 
-
     useImperativeHandle(ref, () => ({
         handleOpen(event) {
-            console.log('handleOpen');
+            // console.log('handleOpen');
 
             setAnchorEl(event.currentTarget);
         }
     }));
-
 
     const handleCloseOn = () => {
         setAnchorEl(null);
@@ -65,7 +61,7 @@ const SelectLabel = forwardRef((props, ref) => {
 
     const open = Boolean(anchorEl);
     const id = open ? 'more-popover' : undefined;
-    console.log('get all labels', props);
+    // console.log('get all labels', props);
 
     return (
         <div>

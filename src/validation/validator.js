@@ -5,7 +5,7 @@ function validateName(name) {
 }
 
 function validateEmail(email) {
-    console.log('email');
+    // console.log('email');
     
     return validator.isEmail(email);
 }

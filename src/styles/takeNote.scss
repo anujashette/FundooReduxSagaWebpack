@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   transition-timing-function: linear;
 }
 
@@ -16,8 +16,8 @@
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
-  margin: 0 0 0 360px;
-  transition-duration: 0.1s;
+  margin: 0 0 0 330px;
+  transition-duration: 0.2s;
   transition-timing-function: linear;
 }
 
@@ -33,6 +33,20 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+}
+
+.create-note-transition {
+  box-shadow: 0px 1px 4px 0px #888888;
+  width: 603px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 0 0 0 330px;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
 }
 
 .create-note-icon-div {
@@ -81,13 +95,59 @@
   width: 100%;
 }
 
+@media screen and (max-width: 1023px) and (min-width: 901px) {
+  .take-note-div {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .take-note-transition {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .create-note-div {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .create-note-transition {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+}
+
 @media only screen and (max-width: 900px) and (min-width: 601px) {
   .take-note-div {
     width: 490px;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .take-note-transition {
+    width: 490px;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
   }
 
   .create-note-div {
     width: 510px;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .create-note-transition {
+    width: 510px;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
   }
 }
 
@@ -96,12 +156,35 @@
     // max-width: 560px;
     min-width: 292px;
     width: 104%;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .take-note-transition {
+    min-width: 292px;
+    width: 104%;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
   }
 
   .create-note-div {
     max-width: 565px;
     min-width: 310px;
     width: 108.3%;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .create-note-transition {
+    max-width: 565px;
+    min-width: 310px;
+    width: 108.3%;
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
   }
 
   .edit-note-div {

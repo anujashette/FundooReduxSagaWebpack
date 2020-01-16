@@ -81,7 +81,7 @@ export function updateNoteItem(noteObj,path) {
         jsonObject: noteObj,
         headers: ''
     }
-    console.log('updateNoteItem',noteParam);
+    // console.log('updateNoteItem',noteParam);
     
 
     return create(noteParam);
@@ -105,10 +105,21 @@ export function addLabelToNote(noteObj) {
 
 export function requestGetReminderNotes() {
     let token = localStorage.getItem('token');
-
+    
     let noteParam = {
         route: `/notes/getReminderNotesList?access_token=${token}`,
         headers: ''
     }
     return read(noteParam);
+}
+
+export function getLabelNotes(labelName) {
+    let token = localStorage.getItem('token');
+    // console.log('get label notes');
+    
+    let noteParam = {
+        route: `/notes/getNotesListByLabel/${labelName}?access_token=${token}`,
+        headers: ''
+    }
+    return create(noteParam);
 }

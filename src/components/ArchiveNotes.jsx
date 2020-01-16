@@ -1,41 +1,41 @@
 import React, { Component } from 'react'
-import '../styles/DisplayNotes.scss';
+import '../styles/displayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
 import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
-import TakeNote from './TakeNote';
 import clsx from 'clsx';
 
 const styles = theme => {
-return({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -'240px',
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-        //  [theme.breakpoints.up('sm')]: {
-        //         display: 'none',
-        //     },
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },
-})};
+    return ({
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            marginLeft: -'240px',
+        },
+        contentShift: {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+            //  [theme.breakpoints.up('sm')]: {
+            //         display: 'none',
+            //     },
+        },
+        drawerHeader: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: theme.spacing(0, 1),
+            ...theme.mixins.toolbar,
+            justifyContent: 'flex-end',
+        },
+    })
+};
 const theme = createMuiTheme({
     breakpoints: {
         values: {
@@ -67,26 +67,16 @@ class ArchiveNotes extends Component {
     }
 
     render() {
-        const {classes} = this.props;
-        console.log('display notes===>', classes.content);
-
-        let pin = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === true;
-        });
+        const { classes } = this.props;
+        // // console.log('display notes===>', classes.content);
 
         let others = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === false;
-        });
-
-        const pinNotes = pin.map((note, index) => {
-            return (
-                <SingleNote key={index} note={note} />
-            )
+            return val.isArchived === true;
         });
 
         const notes = others.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} />
+                <SingleNote key={index} note={note} handleGet={this.handleGet} />
             )
         });
 
@@ -103,20 +93,9 @@ class ArchiveNotes extends Component {
                     }}
                 >
                     <div className={classes.drawerHeader} />
-                    <TakeNote props={this.props} />
 
                 </main>
                 <div className={this.props.transitionCss}>
-                    {pin.length !== 0 ?
-                        <p className='pin-title'>PINNED</p>
-                        :
-                        null
-                    }
-
-                    <div className='display-notes'>
-                        {pinNotes}
-                    </div>
-                    <p className='pin-title'>OTHERS</p>
                     <div className='display-notes'>
                         {notes}
                     </div>

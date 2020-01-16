@@ -161,7 +161,7 @@ export default function PrimarySearchAppBar(props) {
 
     const handleSignout = () => {
         handleMenuClose();
-        console.log('logged out', props);
+        // // console.log('logged out', props);
         auth.logout(() => {
             props.props.history.push('/');
             localStorage.clear();

@@ -39,7 +39,7 @@ function NewCheckList() {
         setValues({ ...values, changeItem: event.target.value, isItemEnetered: true });
 
         itemsArray.push(values.changeItem);
-        console.log('array====>', itemsArray);
+        // console.log('array====>', itemsArray);
     };
 
     const handleClose = () => {
@@ -48,10 +48,10 @@ function NewCheckList() {
 
     const handleClear = () => {
         itemsArray.push(values.changeItem);
-        console.log('array====>', itemsArray);
+        // console.log('array====>', itemsArray);
 
         setValues({ ...values, changeItem: '', isItemEnetered: false, listItems: itemsArray });
-        console.log('array pushed====>', values.listItems);
+        // console.log('array pushed====>', values.listItems);
     }
 
 

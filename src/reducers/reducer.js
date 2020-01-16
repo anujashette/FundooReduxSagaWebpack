@@ -8,16 +8,18 @@ const initState = {
     addedLabels: [],
     transitionCss: 'main-display',
     transitionTakeNote: 'take-note-div',
+    transitionCreateNote:'create-note-div',
     noteColor: 'drawer-item-color',
     // reminderColor:'',
     // editLabelColor:'',
     // archiveColor:'',
     // binColor:'',
-
+    currentLabelName:'',
+    editLabelDialog:false
 };
 
 const reducer = (state = initState, action) => {
-    console.log('action', action);
+    // console.log('action', action);
     switch (action.type) {
         case 'SET_COLOR_ACTION':
             return { ...state, currentColor: action.color };
@@ -29,6 +31,8 @@ const reducer = (state = initState, action) => {
             return { ...state, isChange: !state.loggedIn };
 
         case 'REQUESTED_GET_NOTES_SUCCEEDED':
+            console.log('REQUESTED_GET_NOTES_SUCCEEDED',action.notes);
+            
             return { ...state, notes: action.notes };
 
         case 'REQUESTED_GET_LABELS_SUCCEEDED':
@@ -46,10 +50,10 @@ const reducer = (state = initState, action) => {
             return { ...state, labels: state.labels }
 
         case 'SET_TRSNSITION':
-            return { ...state, transitionCss: 'transition-main', transitionTakeNote: 'take-note-transition' }
+            return { ...state, transitionCss: 'transition-main', transitionTakeNote: 'take-note-transition', transitionCreateNote:'create-note-transition' }
 
         case 'UNSET_TRSNSITION':
-            return { ...state, transitionCss: 'main-display', transitionTakeNote: 'take-note-div' }
+            return { ...state, transitionCss: 'main-display', transitionTakeNote: 'take-note-div', transitionCreateNote:'create-note-div' }
 
         // case 'SET_OTHER_TRSNSITION':
         //     return { ...state, transitionCss: 'transition-main-other', transitionTakeNote: 'take-note-transition' }
@@ -57,8 +61,13 @@ const reducer = (state = initState, action) => {
         // case 'UNSET_OTHER_TRSNSITION':
         //     return { ...state, transitionCss: 'main-display-other', transitionTakeNote: 'take-note-div' }
 
-        case 'SET_COLOR':
-            return { ...state, action }
+        case 'CURRENT_CLICKED_LABEL':
+            return { ...state, currentLabelName:action.labelName }
+
+        case 'EDIT_LABEL_OPEN':
+                console.log('label',action);
+
+            return { ...state, editLabelDialog:action.editLabelDialog }    
         default:
             return state;
     }

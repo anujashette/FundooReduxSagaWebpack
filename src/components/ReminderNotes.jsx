@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../styles/DisplayNotes.scss';
+import '../styles/displayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
 import { getReminderNotes, getlabels } from '../actions';
@@ -8,34 +8,35 @@ import TakeNote from './TakeNote';
 import clsx from 'clsx';
 
 const styles = theme => {
-return({
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -'240px',
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-        //  [theme.breakpoints.up('sm')]: {
-        //         display: 'none',
-        //     },
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },
-})};
+    return ({
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            marginLeft: -'240px',
+        },
+        contentShift: {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+            //  [theme.breakpoints.up('sm')]: {
+            //         display: 'none',
+            //     },
+        },
+        drawerHeader: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: theme.spacing(0, 1),
+            ...theme.mixins.toolbar,
+            justifyContent: 'flex-end',
+        },
+    })
+};
 const theme = createMuiTheme({
     breakpoints: {
         values: {
@@ -62,12 +63,12 @@ class ReminderNotes extends Component {
     }
 
     handleGet = () => {
-        this.props.dispatch(getReminderNotes());
         this.props.dispatch(getlabels());
+        this.props.dispatch(getReminderNotes());
     }
 
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
 
         // let others = this.props.notes.filter(val => {
         //     return val.isArchived === false && val.isDeleted === false && val.isPined === false && ;
@@ -75,7 +76,7 @@ class ReminderNotes extends Component {
 
         const notes = this.props.notes.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} />
+                <SingleNote key={index} note={note} handleGet={this.handleGet}/>
             )
         });
 

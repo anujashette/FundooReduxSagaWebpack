@@ -4,11 +4,10 @@ import { requestGetNotes, requestGetLabels, requestGetReminderNotes } from '../s
 // import { getMovies } from '../services/service';
 
 export function* watchFetchDog() {
-    console.log('saga');
+    // console.log('saga');
     yield takeLatest('REQUEST_GET_NOTES', getNotesAsync);
     yield takeLatest('REQUEST_GET_LABELS', getLabelsAsync);
     yield takeLatest('REQUEST_GET_REMINDER_NOTES', getReminderNotesAsync);
-
 }
 
 // export function* fetchDogAsync() {

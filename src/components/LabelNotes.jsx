@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, useRef } from 'react'
 import '../styles/displayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
-import { getNotes, getlabels } from '../actions';
+import { getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
 import clsx from 'clsx';
-
+import { getLabelNotes } from '../services/userService';
 
 const styles = theme => {
     return ({
@@ -50,12 +50,12 @@ const theme = createMuiTheme({
     }
 });
 
-class DisplayNotes extends Component {
+class LabelNotes extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-
+            labelNotes:[]
         }
     }
 
@@ -64,31 +64,27 @@ class DisplayNotes extends Component {
     }
 
     handleGet = () => {
+        
+        getLabelNotes(this.props.currentLabelName)
+        .then((response)=> {
+
+          this.setState({labelNotes:response.data.data.data})
+
+        })
+        .catch((error)=> {
+      
+        });
         this.props.dispatch(getlabels());
-        this.props.dispatch(getNotes());
     }
 
     render() {
+
+    
         const { classes } = this.props;
-        // // console.log('display notes===>', classes.content);
-
-        let pin = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === true;
-        });
-
-        let others = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === false;
-        });
-
-        const pinNotes = pin.map((note, index) => {
+        
+        const notes = this.state.labelNotes.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} />
-            )
-        });
-
-        const notes = others.map((note, index) => {
-            return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} />
+                <SingleNote key={index} note={note} handleGet={this.handleGet}/>
             )
         });
 
@@ -106,19 +102,8 @@ class DisplayNotes extends Component {
                 >
                     <div className={classes.drawerHeader} />
                     <TakeNote props={this.props} />
-
                 </main>
                 <div className={this.props.transitionCss}>
-                    {pin.length !== 0 ?
-                        <p className='pin-title'>PINNED</p>
-                        :
-                        null
-                    }
-
-                    <div className='display-notes'>
-                        {pinNotes}
-                    </div>
-                    <p className='pin-title'>OTHERS</p>
                     <div className='display-notes'>
                         {notes}
                     </div>
@@ -132,4 +117,4 @@ const mapStateToMap = (reduxState) => {
     return reduxState;
 }
 
-export default connect(mapStateToMap)(withStyles(styles)(DisplayNotes));
+export default connect(mapStateToMap)(withStyles(styles)(LabelNotes));

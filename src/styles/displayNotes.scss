@@ -3,39 +3,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   transition-timing-function: linear;
   // margin: 100px 0 0 0;
 }
 
 .transition-main {
-  margin: 0 0 0 180px;
+  margin: 0 0 0 150px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   transition-timing-function: linear;
-}
-
-.main-display-other {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition-duration: 0.1s;
-  transition-timing-function: linear;
-  margin: 100px 0 0 0;
-}
-
-.transition-main-other {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition-duration: 0.1s;
-  transition-timing-function: linear;
-  margin: 100px 0 0 180px;
 }
 
 .display-notes {
@@ -101,7 +81,19 @@
   }
 }
 
-@media screen and (max-width: 1024px) and (min-width: 901px) {
+@media screen and (max-width: 1023px) and (min-width: 901px) {
+  .main-display {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .transition-main {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
   .display-notes {
     width: 82%;
     max-width: 738px;
@@ -114,6 +106,17 @@
 }
 
 @media only screen and (max-width: 900px) and (min-width: 600px) {
+  .main-display {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .transition-main {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
   .display-notes {
     width: 82%;
     max-width: 500px;
@@ -127,6 +130,17 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .main-display {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+
+  .transition-main {
+    transition-duration: unset;
+    transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
 
   #display-card {
     width: 100%;

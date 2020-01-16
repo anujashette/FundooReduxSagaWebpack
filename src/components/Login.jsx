@@ -48,13 +48,13 @@ function Login(props) {
     const handlePassword = () => {
         event.preventDefault();
         let validateUsername = validateEmail(values.email);
-        console.log('validate email', validateUsername);
+        // console.log('validate email', validateUsername);
 
         setValues({
             ...values,
             isEmail: validateUsername,
         });
-        console.log('isEmail', values.isEmail);
+        // console.log('isEmail', values.isEmail);
 
         if (validateUsername) {
             props.handleNext(values.email);

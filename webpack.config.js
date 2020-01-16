@@ -48,6 +48,7 @@ module.exports = {
     contentBase: './dist',
     inline: true,
     hot: true,
+    // host:'192.168.0.90',
     port: '4200',
     historyApiFallback: true
   }

@@ -1,35 +1,45 @@
 import React, { Component } from 'react'
 import Appbar from './Appbar';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import DisplayArea from './DisplayArea';
-import DisplayNotes from './DisplayNotes';
+import EditLabel from './EditLabel';
+import { connect } from 'react-redux';
 
 const theme = createMuiTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 768,
-        lg: 900,
-        xl: 1200
-      }
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 768,
+      lg: 900,
+      xl: 1200
     }
-  });
+  }
+});
 
 class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        return (
-            <MuiThemeProvider theme={theme}>
-            <div>
-                <Appbar props={this.props}/>
-            </div>
-            </MuiThemeProvider>
-        )
-    }
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+          <Appbar props={this.props} />
+          {this.props.state.editLabelDialog ?  
+            <EditLabel></EditLabel>
+            :  
+            null
+          }
+
+      </MuiThemeProvider>
+    )
+  }
 }
 
-export default Dashboard
+const mapStateToProps = (state) => {
+  return {
+      state
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard)

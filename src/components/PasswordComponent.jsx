@@ -70,9 +70,9 @@ const MyChip = props => (
         {...props}
         clickable={false}
         avatar={<Avatar>A</Avatar>}
-        onDelete={() => console.log("I did something")}
+        onDelete={() =>  console.log("I did something")}
         deleteIcon={<ExpandMoreOutlined />}
-        onClick={() => console.log("I did something")}
+        onClick={() =>  console.log("I did something")}
     />
 );
 
@@ -106,14 +106,14 @@ function PasswordComponent(props) {
 
         forgotPassword(userObj)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 setValues({ isLoggedIn: true });
 
                 clearFields();
                 props.snackBarClose('Set password link sent to you registered email, please check.');
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 props.snackBarClose('Invalid user credetials')
             })
     }
@@ -125,7 +125,7 @@ function PasswordComponent(props) {
     }
 
     const handleSubmit = () => {
-        console.log('handle submit---->',props);
+        // console.log('handle submit---->',props);
 
         let validatePasswordField = validatePassword(values.password);
 
@@ -139,7 +139,7 @@ function PasswordComponent(props) {
                 }
                 loginUser(userObj)
                     .then((response) => {
-                        console.log('response', response.data);
+                        // console.log('response', response.data);
                         localStorage.setItem('firstName', response.data.firstName);
                         localStorage.setItem('lastName', response.data.lastName)
                         localStorage.setItem('email', response.data.email)
@@ -147,15 +147,15 @@ function PasswordComponent(props) {
                         localStorage.setItem('token', response.data.id)
                         localStorage.setItem('imageUrl', response.data.imageUrl)
                         auth.login(() => {
-                            props.props.props.history.push('/dashboard/takenotes/notes');
-                            console.log('logged in', props);
+                            props.props.props.history.push('/dashboard/*/notes');
+                            // console.log('logged in', props);
                         });
 
                         props.snackBarClose('User logged in successfully');
                         clearFields();
                     })
                     .catch((error) => {
-                        console.log(error);
+                        // console.log(error);
                         // props.snackBarClose('Invalid user credetials');
                         clearFields();
                     })

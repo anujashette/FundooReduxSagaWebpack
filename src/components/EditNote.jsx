@@ -56,7 +56,7 @@ const useStyles = makeStyles({
 
 function EditNote(props) {
     const classes = useStyles();
-    const { handleEditClose, open, note } = props;
+    const { handleEditClose, open, note, handleGet } = props;
     const [values, setValues] = useState({
         takeNote: true,
         isPined: note.isPined,
@@ -114,10 +114,10 @@ function EditNote(props) {
 
         updateNoteItem(updateObj, path)
             .then((response) => {
-                props.dispatch(getNotes());
+                handleGet();
             })
             .catch((error) => {
-                console.log('update note error', error);
+                // console.log('update note error', error);
             })
     };
 
@@ -138,7 +138,7 @@ function EditNote(props) {
             .then((response) => {
             })
             .catch((error) => {
-                console.log('update color error', error);
+                // console.log('update color error', error);
             })
         colorMenuRef.current.handleClose();
     }
@@ -156,7 +156,7 @@ function EditNote(props) {
             .then((response) => {
             })
             .catch((error) => {
-                console.log('update pin error', error);
+                // console.log('update pin error', error);
             })
     }
 

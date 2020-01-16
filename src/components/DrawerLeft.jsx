@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useEffect }from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -27,8 +27,9 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import '../styles/drawer.scss';
 import DisplayArea from './DisplayArea';
 import { connect } from 'react-redux';
-import { setTransition, unsetTransition, setColor, unsetOtherTransition, setOtherTransition, getReminderNotes } from '../actions';
+import { setTransition, unsetTransition, requestGetNotesSuccess, getlabels} from '../actions';
 import { withRouter } from 'react-router-dom';
+import { getLabelNotes } from '../services/userService';
 
 const { forwardRef, useImperativeHandle } = React;
 const drawerWidth = 240;
@@ -84,48 +85,61 @@ const DrawerLeft = forwardRef((props, ref) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const history = props.props.props.history;
+  const [labels, setlabels] = React.useState([]);
 
   useImperativeHandle(ref, () => ({
     handleDrawerOpen() {
       setOpen(!open);
-      if (!open ) {
-        console.log('drawer open>>>>>', open);
+      if (!open) {
         props.dispatch(setTransition());
       }
       else {
-        console.log('drawer close>>>>>', open);
         props.dispatch(unsetTransition());
       }
     }
   }));
 
   const handleNotes = () => {
-    
+
     history.push('notes')
   }
 
   const handleReminder = () => {
-    console.log('history',history);
-    // props.dispatch(getReminderNotes());
     history.push('reminder');
 
   }
 
-  const handleLabels = () => {
+  const handleLabels = (labelName) => {
+    props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName: labelName})
 
+    history.push('label'); 
   }
 
   const handleEditLabel = () => {
+    props.dispatch({type:'EDIT_LABEL_OPEN', editLabelDialog:true})
+    // history.push('editLabel');
 
   }
 
   const handleArchive = () => {
-
+    history.push('archive');
   }
 
   const handleBin = () => {
-
+    history.push('bin');
   }
+
+  useEffect(() => {
+   props.dispatch(getlabels());
+  },[]);
+
+  const labelsList = props.reduxState.state.labels.map((label, index) => {
+    return (
+      <ListItem key={index} button id='drawer-item' onClick={()=>handleLabels(label.label)}>
+        <ListItemIcon><LabelIcon /></ListItemIcon>
+        <ListItemText primary={label.label} />
+      </ListItem>);
+  })
 
   return (
     <div className={classes.root}>
@@ -155,10 +169,7 @@ const DrawerLeft = forwardRef((props, ref) => {
           <Divider />
           <p className='label-style'>Labels</p>
           <List>
-            <ListItem button id='drawer-item' onClick={handleLabels}>
-              <ListItemIcon><LabelIcon /></ListItemIcon>
-              <ListItemText primary='labels' />
-            </ListItem>
+            {labelsList}
 
             <ListItem button id='drawer-item' onClick={handleEditLabel}>
               <ListItemIcon><EditOutline /></ListItemIcon>
@@ -179,23 +190,17 @@ const DrawerLeft = forwardRef((props, ref) => {
             </ListItem>
           </List>
         </Drawer>
-
-        {/* <main
-          className={clsx(classes.content, {
-            [classes.contentShift]: open,
-          })}
-          style={{display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',}}
-        >
-          <div className={classes.drawerHeader} />
-           <DisplayArea props={props}/>
-        </main> */}
-
       </MuiThemeProvider>
     </div>
   );
 });
 
+const mapStateToProps = (state) => {
+  return {
+    reduxState: {
+      state: state
+    }
+  }
+}
 
-export default connect(null, null, null, { forwardRef: true })(DrawerLeft);
+export default connect(mapStateToProps, null, null, { forwardRef: true })(DrawerLeft);

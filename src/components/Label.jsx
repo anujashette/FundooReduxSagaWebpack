@@ -35,7 +35,7 @@ const Label = forwardRef((props, ref) => {
         }
     }));
 
-    console.log('label---', props);
+    // console.log('label---', props);
 
     const handleClose = () => {
         setAnchorEl(null);

@@ -149,7 +149,7 @@ function TakeNote(props) {
     });
 
     const handleSetColor = (selectedColor) => {
-        console.log('props', selectedColor);
+        // console.log('props', selectedColor);
         props.dispatch(setColorToRedux(selectedColor))
         colorMenuRef.current.handleClose()
     }
@@ -158,7 +158,7 @@ function TakeNote(props) {
         <MuiThemeProvider theme={theme}>
             {/* <ClickAwayListener onClickAway={createNoteClose}> */}
             {values.takeNote ?
-                <div className={ props.reduxState.state.transitionTakeNote} >
+                <div className={ props.reduxState.state.transitionTakeNote} >  
                     <InputBase
                         placeholder='Take a note...'
                         className='input-base'
@@ -174,7 +174,7 @@ function TakeNote(props) {
                         style={{ padding: '9px 7 0px 7' }} />
                 </div>
                 :
-                <div className='create-note-div' style={{ background: props.reduxState.state.currentColor }}>
+                <div className={ props.reduxState.state.transitionCreateNote} style={{ background: props.reduxState.state.currentColor }}>
                     <div className='create-note-card'>
                         <InputBase
                             placeholder='Title'

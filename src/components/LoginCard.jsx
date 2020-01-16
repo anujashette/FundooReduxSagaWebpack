@@ -60,19 +60,19 @@ export default function LoginCard(props) {
   });
 
   const handleNext = (username) => {
-    console.log('in handle next', username);
+    // console.log('in handle next', username);
     localStorage.setItem('email', username)
     setValues({ ...values, isNext: !values.isNext, email: username })
   }
 
   // const handleNext = () => {
-  //   console.log('in handle next');
+  //   // console.log('in handle next');
   //   localStorage.setItem('email')
   //   setValues({...values, isNext: !values.isNext })
   // }
 
   const snackBarClose = (errorMessage) => {
-    console.log('after error',errorMessage);
+    // console.log('after error',errorMessage);
     setValues({ ...values, snackbaropen: !values.snackbaropen, snackBarMsg: errorMessage });
   }
 
