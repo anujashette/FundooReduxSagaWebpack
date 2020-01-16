@@ -33,10 +33,13 @@ export const requestGetError = () => {
 };
 
 export const getlabels = () => {
+    
     return { type: 'REQUEST_GET_LABELS' }
 };
 
 export const requestGetLabelsSuccess = (data) => {
+    console.log('REQUESTED_GET_LABELS_SUCCEEDED',data.data.data.details);
+    
     return { type: 'REQUESTED_GET_LABELS_SUCCEEDED', labels: data.data.data.details }
 };
 

@@ -6,6 +6,7 @@ import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
 import clsx from 'clsx';
+import Masonry from 'react-masonry-css';
 
 
 const styles = theme => {
@@ -88,6 +89,7 @@ class DisplayNotes extends Component {
 
         const notes = others.map((note, index) => {
             return (
+
                 <SingleNote key={index} note={note} handleGet={this.handleGet} />
             )
         });
@@ -120,7 +122,12 @@ class DisplayNotes extends Component {
                     </div>
                     <p className='pin-title'>OTHERS</p>
                     <div className='display-notes'>
-                        {notes}
+                        <Masonry
+                            breakpointCols={3}
+                            className="my-masonry-grid"
+                            columnClassName="my-masonry-grid_column">
+                            {notes}
+                        </Masonry>
                     </div>
                 </div>
             </MuiThemeProvider>

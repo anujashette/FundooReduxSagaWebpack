@@ -53,6 +53,8 @@ export function* getReminderNotesAsync() {
 }
 
 export function* getLabelsAsync() {
+    console.log('getlabels');
+
     try {
         const data = yield call(() => {
             return requestGetLabels().then((res) => {

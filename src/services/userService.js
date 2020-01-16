@@ -1,4 +1,4 @@
-import { create, read } from '../services/httpService';
+import { create, read, remove } from '../services/httpService';
 
 export function registerUser(userObj) {
 
@@ -122,4 +122,39 @@ export function getLabelNotes(labelName) {
         headers: ''
     }
     return create(noteParam);
+}
+
+export function createLabel(labelObj) {
+    let token = localStorage.getItem('token');
+    // console.log('get label notes');
+    
+    let labelParam = {
+        route: `/noteLabels?access_token=${token}`,
+        jsonObject:labelObj,
+        headers: ''
+    }
+    return create(labelParam);
+}
+
+export function updateLabel(labelObj,labelId) {
+    let token = localStorage.getItem('token');
+    // console.log('get label notes');
+    
+    let labelParam = {
+        route: `/noteLabels/${labelId}/updateNoteLabel?access_token=${token}`,
+        jsonObject:labelObj,
+        headers: ''
+    }
+    return create(labelParam);
+}
+
+export function deleteLabel(labelId) {
+    let token = localStorage.getItem('token');
+    // console.log('get label notes');
+    
+    let labelParam = {
+        route: `/noteLabels/${labelId}/deleteNoteLabel?access_token=${token}`,
+        headers: ''
+    }
+    return remove(labelParam);
 }

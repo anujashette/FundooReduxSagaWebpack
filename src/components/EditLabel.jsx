@@ -8,6 +8,8 @@ import Delete from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
 import LabelUpdate from './LabelUpdate';
 import '../styles/label.scss';
+import { createLabel } from '../services/userService';
+import { getlabels } from '../actions';
 
 const theme = createMuiTheme({
     overrides: {
@@ -44,8 +46,7 @@ class EditLabel extends Component {
     }
 
     componentDidMount() {
-        // this.props.handleGetLabel()
-        // this.setState({labelArray: this.props.labelData})
+
     }
 
     handleChange = (e) => {
@@ -64,25 +65,37 @@ class EditLabel extends Component {
     }
 
     handleCreate = () => {
+        let labelData = {
+            "label":this.state.label ,
+            "isDeleted":false,
+            "userId": localStorage.getItem('userId')
+          }
+        createLabel(labelData)
+        .then((response)=>{
+            this.getLabelList();
+        })
+        .catch((error)=>{
+
+        });
         this.setState({ label: '', labelEditor: false })
-        let labelData = { label: this.state.label }
-        let response = addLabel(labelData);
-        this.props.handleGetLabel()
+
     }
+    getLabelList = () => {
+        this.props.dispatch(getlabels());
+        console.log("EditLabel", this.props.state);
 
+    }
     handleLabel = () => {
-
+        
     }
 
     render() {
-        console.log("EditLabel", this.props.state.editLabelDialog);
-
         if (this.props.state.labels) {
             var labels = this.props.state.labels.map((key, index) => {
                 if (!key.isDeleted) {
                     return (
                         <LabelUpdate
-                            // handleGetLabel={this.props.handleGetLabel}
+                        getLabelList={this.getLabelList}
                             labelData={key}
                             key={index} />)
                 }
@@ -127,7 +140,7 @@ class EditLabel extends Component {
 
                         <Divider />
                         <div className="edit-label-button">
-                        <Button size="medium">
+                        <Button size="medium" onClick={this.handleClose}>
                             Done
                         </Button>
                         </div>

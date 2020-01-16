@@ -13,3 +13,8 @@ export function read(getParam) {
     // console.log('http axios', getParam);
     return axios.get(backendUrl + getParam.route, getParam.headers);
 }
+
+export function remove(getParam) {
+    // console.log('http axios', getParam);
+    return axios.delete(backendUrl + getParam.route, getParam.headers);
+}

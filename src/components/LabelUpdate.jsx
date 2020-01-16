@@ -4,6 +4,9 @@ import Delete from '@material-ui/icons/Delete'
 import Edit from '@material-ui/icons/Edit'
 import LabelIcon from '@material-ui/icons/Label'
 import Done from '@material-ui/icons/Done'
+import { updateLabel, deleteLabel } from '../services/userService';
+import { getlabels } from '../actions';
+import { connect } from 'react-redux';
 
 class LabelUpdate extends Component {
     constructor(props) {
@@ -17,16 +20,18 @@ class LabelUpdate extends Component {
     }
 
     componentDidMount() {
-        // this.props.handleGetLabel()
+        this.props.dispatch(getlabels());
     }
 
     labelDelete = () => {
-        let labeId = {
-            labelId: this.state.labelData._id
-        }
-        // let response = deleteLabel(labeId)
-        // this.props.handleGetLabel()
-        // console.log('delete LABEL response', response);
+    
+        deleteLabel(this.state.labelData.id)
+        .then((response)=>{
+            this.props.getLabelList();
+        })
+        .catch((error)=>{
+
+        });
 
     }
 
@@ -35,7 +40,6 @@ class LabelUpdate extends Component {
 
         const label = e.target.value
         this.setState({ label: label });
-        console.log('data label')
     }
 
     onMouseEnterHandler = () => {
@@ -53,12 +57,15 @@ class LabelUpdate extends Component {
     handleUpdate = () => {
         this.setState({ renameLabel: false })
         let labelData = {
-            labelId: this.state.labelData._id
-            , label: this.state.label
+            label: this.state.label
         }
-        // let updateRes = updateLabel(labelData)
-        // this.props.handleGetLabel()
-        // console.log('update label response' , updateRes);
+        updateLabel(labelData, this.state.labelData.id)
+        .then((response)=>{
+            this.props.getLabelList();
+        })
+        .catch((error)=>{
+
+        });
     }
 
     handleRename = () => {
@@ -111,4 +118,4 @@ class LabelUpdate extends Component {
     }
 }
 
-export default LabelUpdate;
+export default connect()(LabelUpdate);
