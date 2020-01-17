@@ -69,6 +69,54 @@
 
 // Edit note
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.display-notes-list {
+  width: 48%;
+  display: flex;
+  flex-wrap: wrap;
+  // margin: 70px 0 0 0;
+}
+
+#display-card-list {
+  width: 100%;
+  margin: 0 8px 16px 8px;
+  height: fit-content;
+}
+
+.pin-title-list {
+  width: 46.5%;
+  max-width: 600px;
+}
+
+// edit note
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 1420px) and (min-width: 1024px) {
   .display-notes {
     width: 73%;
@@ -103,24 +151,6 @@
     width: 79%;
     max-width: 710px;
   }
-}
-
-.my-masonry-grid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
-  display: flex;
-  margin-left: -30px; /* gutter size offset */
-  width: auto;
-}
-.my-masonry-grid_column {
-  padding-left: 30px; /* gutter size */
-  background-clip: padding-box;
-}
- 
-/* Style your items */
-.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
-  background: grey;
-  margin-bottom: 30px;
 }
 
 @media only screen and (max-width: 900px) and (min-width: 600px) {
@@ -161,7 +191,7 @@
   }
 
   #display-card {
-    width: 100%;
+    width: 95%;
     max-width: unset;
     margin: 0 8px 16px 8px;
     height: fit-content;

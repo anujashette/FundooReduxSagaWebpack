@@ -6,6 +6,7 @@ import { getReminderNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
 import clsx from 'clsx';
+import Masonry from 'react-masonry-component';
 
 const styles = theme => {
     return ({
@@ -96,9 +97,9 @@ class ReminderNotes extends Component {
                     <TakeNote props={this.props} />
                 </main>
                 <div className={this.props.transitionCss}>
-                    <div className='display-notes'>
+                    <Masonry className='display-notes'>
                         {notes}
-                    </div>
+                    </Masonry>
                 </div>
             </MuiThemeProvider>
         )

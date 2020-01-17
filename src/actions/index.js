@@ -59,10 +59,14 @@ export const unsetTransition = () => {
     return { type: 'UNSET_TRSNSITION' }
 };
 
-export const setOtherTransition = () => {    
-    return { type: 'SET_OTHER_TRSNSITION' }
-};
+// export const setOtherTransition = () => {    
+//     return { type: 'SET_OTHER_TRSNSITION' }
+// };
 
-export const unsetOtherTransition = () => {    
-    return { type: 'UNSET_OTHER_TRSNSITION' }
+// export const unsetOtherTransition = () => {    
+//     return { type: 'UNSET_OTHER_TRSNSITION' }
+// };
+
+export const changeView = (listGridCss) => {    
+    return { type: 'CHANGE_VIEW', listGridCss:listGridCss };
 };

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import Masonry from 'react-masonry-component';
 
 const styles = theme => {
     return ({
@@ -96,9 +97,9 @@ class ArchiveNotes extends Component {
 
                 </main>
                 <div className={this.props.transitionCss}>
-                    <div className='display-notes'>
+                    <Masonry className='display-notes'>
                         {notes}
-                    </div>
+                    </Masonry>
                 </div>
             </MuiThemeProvider>
         )

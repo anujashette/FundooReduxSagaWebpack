@@ -1,5 +1,7 @@
 const webpack = require('webpack');
-const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+
 module.exports = {
   entry: './src/index.js',
   module: {
@@ -42,7 +44,8 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+
   ],
   devServer: {
     contentBase: './dist',
@@ -53,3 +56,10 @@ module.exports = {
     historyApiFallback: true
   }
 };
+
+
+// new HtmlWebpackPlugin({
+//   template: path.join(__dirname + '/dist/index.html'),
+//   filename: './index.html',
+//   favicon: "./dist/keep.png"
+// })

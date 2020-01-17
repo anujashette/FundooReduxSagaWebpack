@@ -164,7 +164,7 @@ function SingleNote(props) {
     return (
         <MuiThemeProvider theme={theme}>
             {!values.isEdited ?
-                <Card id='display-card' style={{ background: props.note.color }}>
+                <Card id={props.reduxState.state.displayCardList} style={{ background: props.note.color }}>
                     <div className='create-note-card'>
                         <Typography
                             className={classes.inputTitle}
@@ -213,7 +213,6 @@ function SingleNote(props) {
                 />
             }
 
-
             <ColorMenu
                 ref={colorMenuRef}
                 handleSetColor={handleSetColor} />
@@ -227,7 +226,6 @@ function SingleNote(props) {
 }
 
 const mapStateToProps = (state) => {
-    // // console.log('redux', state);
 
     return {
         reduxState: {

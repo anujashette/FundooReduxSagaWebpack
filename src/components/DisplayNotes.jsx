@@ -6,7 +6,7 @@ import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
 import clsx from 'clsx';
-import Masonry from 'react-masonry-css';
+import Masonry from 'react-masonry-component';
 
 
 const styles = theme => {
@@ -70,6 +70,9 @@ class DisplayNotes extends Component {
     }
 
     render() {
+        const masonryOptions = {
+            transitionDuration: 0
+        };
         const { classes } = this.props;
         // // console.log('display notes===>', classes.content);
 
@@ -110,26 +113,39 @@ class DisplayNotes extends Component {
                     <TakeNote props={this.props} />
 
                 </main>
-                <div className={this.props.transitionCss}>
-                    {pin.length !== 0 ?
-                        <p className='pin-title'>PINNED</p>
-                        :
-                        null
-                    }
+                {!this.props.listGridView ?
+                    <div className={this.props.transitionCss}>
+                        {pin.length !== 0 ?
+                            <p className='pin-title-list'>PINNED</p>
+                            :
+                            null
+                        }
 
-                    <div className='display-notes'>
-                        {pinNotes}
+                        <div className='display-notes-list'>
+                            {pinNotes}
+                        </div>
+                        <p className='pin-title-list'>OTHERS</p>
+                        <div className='display-notes-list'>
+                            {notes}
+                        </div>
                     </div>
-                    <p className='pin-title'>OTHERS</p>
-                    <div className='display-notes'>
-                        <Masonry
-                            breakpointCols={3}
-                            className="my-masonry-grid"
-                            columnClassName="my-masonry-grid_column">
+                    :
+                    <div className={this.props.transitionCss}>
+                        {pin.length !== 0 ?
+                            <p className='pin-title'>PINNED</p>
+                            :
+                            null
+                        }
+
+                        <Masonry className='display-notes'>
+                            {pinNotes}
+                        </Masonry>
+                        <p className='pin-title'>OTHERS</p>
+                        <Masonry className='display-notes'>
                             {notes}
                         </Masonry>
                     </div>
-                </div>
+                }
             </MuiThemeProvider>
         )
     }

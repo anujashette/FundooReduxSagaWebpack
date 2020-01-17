@@ -24,8 +24,10 @@ import '../styles/appBar.scss';
 import Popover from '@material-ui/core/Popover';
 import auth from './auth';
 import DrawerLeft from './DrawerLeft';
-const { useRef } = React;
+import { connect } from 'react-redux';
+import { changeView } from '../actions';
 
+const { useRef } = React;
 const theme = createMuiTheme({
     overrides: {
         MuiPaper: {
@@ -131,7 +133,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function PrimarySearchAppBar(props) {
+function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -167,6 +169,19 @@ export default function PrimarySearchAppBar(props) {
             localStorage.clear();
         });
     }
+
+    const handleListAndGrid = () => {
+        console.log('handleListAndGrid',props.listGridView);
+        
+        if(props.listGridView) {
+            props.dispatch(changeView('display-card-list'));
+
+        }
+        else{
+            props.dispatch(changeView('display-card'));
+
+        }
+    };
 
     const menuId = open ? 'primary-search-account-menu' : undefined;
     const renderMenu = (
@@ -273,7 +288,7 @@ export default function PrimarySearchAppBar(props) {
                             <IconButton aria-label="show 4 new mails" color="inherit">
                                 <Refresh />
                             </IconButton>
-                            <IconButton aria-label="show 17 new notifications" color="inherit">
+                            <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleListAndGrid}>
                                 <img src={grid} style={{ width: '1em' }} />
                             </IconButton>
                             {/* <IconButton
@@ -310,9 +325,14 @@ export default function PrimarySearchAppBar(props) {
                 {renderMobileMenu}
                 {renderMenu}
             </div>
-            <DrawerLeft ref={drawerRef} props={props}/>
+            <DrawerLeft ref={drawerRef} props={props} />
 
         </MuiThemeProvider>
 
     );
 }
+
+const mapStateToMap = (reduxState) => {
+    return reduxState;
+}
+export default connect(mapStateToMap) (PrimarySearchAppBar);
