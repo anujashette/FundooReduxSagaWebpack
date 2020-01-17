@@ -76,7 +76,7 @@ class BinNotes extends Component {
 
         const notes = others.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} />
             )
         });
 
@@ -96,9 +96,15 @@ class BinNotes extends Component {
 
                 </main>
                 <div className={this.props.transitionCss}>
-                    <Masonry className='display-notes'>
-                        {notes}
-                    </Masonry>
+                    {!this.props.listGridView ?
+                        <div className='display-notes-list'>
+                            {notes}
+                        </div>
+                        :
+                        <Masonry className='display-notes'>
+                            {notes}
+                        </Masonry>
+                    }
                 </div>
             </MuiThemeProvider>
         )

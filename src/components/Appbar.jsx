@@ -1,5 +1,5 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,10 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Keep from '../Assets/keep.png';
 import list from '../Assets/list.svg';
 import grid from '../Assets/grid.svg';
@@ -25,7 +23,7 @@ import Popover from '@material-ui/core/Popover';
 import auth from './auth';
 import DrawerLeft from './DrawerLeft';
 import { connect } from 'react-redux';
-import { changeView } from '../actions';
+import { changeView, getNotes, getlabels } from '../actions';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -130,7 +128,19 @@ const useStyles = makeStyles(theme => ({
         padding: '5px 21px',
         borderRadius: '4px',
         margin: '20px 0 -20px 0'
-    }
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+      },
+      buttonProgress: {
+        color: '#f1f1f1',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+      }
 }));
 
 function PrimarySearchAppBar(props) {
@@ -138,6 +148,19 @@ function PrimarySearchAppBar(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+//   const buttonClassname = clsx({
+//     [classes.buttonSuccess]: success,
+//   });
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+ 
     const drawerRef = useRef();
 
     const isMenuOpen = Boolean(anchorEl);
@@ -163,7 +186,6 @@ function PrimarySearchAppBar(props) {
 
     const handleSignout = () => {
         handleMenuClose();
-        // // console.log('logged out', props);
         auth.logout(() => {
             props.props.history.push('/');
             localStorage.clear();
@@ -171,18 +193,28 @@ function PrimarySearchAppBar(props) {
     }
 
     const handleListAndGrid = () => {
-        console.log('handleListAndGrid',props.listGridView);
-        
-        if(props.listGridView) {
+        if (props.listGridView) {
             props.dispatch(changeView('display-card-list'));
-
         }
-        else{
+        else {
             props.dispatch(changeView('display-card'));
-
         }
     };
 
+    const handleRefresh = () => {
+        console.log('refresh');
+        
+        props.dispatch(getNotes());
+        props.dispatch(getlabels());
+        if (!loading) {
+            setSuccess(false);
+            setLoading(true);
+            timer.current = setTimeout(() => {
+              setSuccess(true);
+              setLoading(false);
+            }, 2000);
+          }
+    }
     const menuId = open ? 'primary-search-account-menu' : undefined;
     const renderMenu = (
         <Popover
@@ -224,8 +256,9 @@ function PrimarySearchAppBar(props) {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="default">
+                <IconButton aria-label="show 4 new mails" color="default" className={classes.wrapper}>
                     <Refresh />
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </IconButton>
                 <p>Refresh</p>
             </MenuItem>
@@ -285,26 +318,18 @@ function PrimarySearchAppBar(props) {
                         </div>
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
-                            <IconButton aria-label="show 4 new mails" color="inherit">
+                            <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleRefresh}>
                                 <Refresh />
                             </IconButton>
-                            <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleListAndGrid}>
-                                <img src={grid} style={{ width: '1em' }} />
-                            </IconButton>
-                            {/* <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-
-                                <Avatar>
-                                    <img src={Keep} alt='keep icon' />
-                                </Avatar>
-                            </IconButton> */}
-
+                            {props.listGridView ?
+                                <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleListAndGrid}>
+                                    <img src={list} style={{ width: '1em' }} />
+                                </IconButton>
+                                :
+                                <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleListAndGrid}>
+                                    <img src={grid} style={{ width: '1em' }} />
+                                </IconButton>
+                            }
                             <Avatar aria-describedby={menuId} onClick={handleProfileMenuOpen} >
                                 <img src={Keep} alt='keep icon' />
                             </Avatar>
@@ -326,7 +351,6 @@ function PrimarySearchAppBar(props) {
                 {renderMenu}
             </div>
             <DrawerLeft ref={drawerRef} props={props} />
-
         </MuiThemeProvider>
 
     );
@@ -335,4 +359,4 @@ function PrimarySearchAppBar(props) {
 const mapStateToMap = (reduxState) => {
     return reduxState;
 }
-export default connect(mapStateToMap) (PrimarySearchAppBar);
+export default connect(mapStateToMap)(PrimarySearchAppBar);

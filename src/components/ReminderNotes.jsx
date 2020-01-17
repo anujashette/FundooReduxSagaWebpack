@@ -97,9 +97,15 @@ class ReminderNotes extends Component {
                     <TakeNote props={this.props} />
                 </main>
                 <div className={this.props.transitionCss}>
-                    <Masonry className='display-notes'>
-                        {notes}
-                    </Masonry>
+                {!this.props.listGridView ?
+                        <div className='display-notes-list'>
+                            {notes}
+                        </div>
+                    :
+                        <Masonry className='display-notes'>
+                            {notes}
+                        </Masonry>
+                }
                 </div>
             </MuiThemeProvider>
         )

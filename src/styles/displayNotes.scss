@@ -86,10 +86,14 @@
 
 
 .display-notes-list {
-  width: 48%;
+  // width: 48%;
+  // display: flex;
+  // flex-wrap: wrap;
+  // // margin: 70px 0 0 0;
+  width: 70%;
+  max-width: 620px;
   display: flex;
   flex-wrap: wrap;
-  // margin: 70px 0 0 0;
 }
 
 #display-card-list {
@@ -101,6 +105,13 @@
 .pin-title-list {
   width: 46.5%;
   max-width: 600px;
+  font-size: 0.8em;
+  font-family: sans-serif;
+  font-weight: 100;
+  align-self: start;
+  margin: auto;
+  padding: 10px;
+  min-width:600px;
 }
 
 // edit note
@@ -151,6 +162,12 @@
     width: 79%;
     max-width: 710px;
   }
+
+  .pin-title-list{
+    width: 46.5%;
+  max-width: 600px;
+    min-width: 590px;
+  }
 }
 
 @media only screen and (max-width: 900px) and (min-width: 600px) {
@@ -175,6 +192,20 @@
     max-width: 472px;
     min-width: 480px;
   }
+
+  .display-notes-list {
+    width: 63%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 86%;
+    max-width: 525px;
+}
+.pin-title-list {
+  width: 55%;
+  max-width: 500px;
+  min-width: 500px;
+}
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -198,12 +229,29 @@
     min-width: unset;
   }
 
+
+  // #display-card-list {
+  //   width: 95%;
+  //   max-width: unset;
+  //   margin: 0 8px 16px 8px;
+  //   height: fit-content;
+  //   min-width: unset;
+  // }
+
   .display-notes {
+    width: 100%;
+  }
+
+  .display-notes-list {
     width: 100%;
   }
 
   .pin-title {
     width: 100%;
+  }
+
+  .pin-title-list {
+    width: 96%;
   }
 
   .display-card {
