@@ -165,7 +165,7 @@ function PasswordComponent(props) {
             }
         }
         else {
-            setValues({ ...values, isPassword: true, errorMessage: 'Enter a password' })
+            setValues({...values, isPassword: true, errorMessage: 'Enter a password' })
         }
     }
 

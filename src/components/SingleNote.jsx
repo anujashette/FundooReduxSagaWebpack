@@ -2,24 +2,27 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, Typography } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Typography, Tooltip } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import '../styles/displayNotes.scss';
 import Image from '@material-ui/icons/Image';
 import Unpin from '../Assets/unpin.svg';
 import Pin from '../Assets/pin.svg';
 import Archive from '@material-ui/icons/ArchiveOutlined';
+import Unarchive from '@material-ui/icons/UnarchiveOutlined';
 import Reminder from '@material-ui/icons/NotificationsOutlined';
 import PersonAdd from '@material-ui/icons/PersonAddOutlined';
 import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
-import { updateNoteItem, addLabelToNote } from '../services/userService';
+import { updateNoteItem, addLabelToNote, trashNote, deleteNote, deleteNoteForever } from '../services/userService';
 import ColorMenu from './ColorMenu';
 import EditNote from './EditNote';
 import Label from './Label';
 import Cancel from '@material-ui/icons/Close';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -140,6 +143,37 @@ function SingleNote(props) {
             })
     }
 
+    const handleDeleteForever = () => {
+        const noteObj = {
+            "noteIdList": [props.note.id]
+        }
+        deleteNoteForever(noteObj)
+        .then((response)=> {
+            props.handleGet();
+            console.log(response);
+        })  
+        .catch((error)=> {
+            console.log(error);
+            
+        })
+    }
+
+    const handleRestore = () => {
+        const noteObj = {
+            "isDeleted": false,
+            "noteIdList": [props.note.id]
+        }
+        trashNote(noteObj)
+        .then((response)=> {
+            props.handleGet();
+            console.log(response);
+        })  
+        .catch((error)=> {
+            console.log(error);
+            
+        })
+    }
+
     var label = props.note.noteLabels.map((key, index) => {
         // console.log('label-', key);
 
@@ -188,19 +222,40 @@ function SingleNote(props) {
                     <div style={{ padding: '10px' }}>
                         {label}
                     </div>
-                    <div className='display-icons-div'>
-                        <Reminder className='icons-padding' className={classes.svgIcon} />
-                        <PersonAdd className='icons-padding' className={classes.svgIcon} />
-                        <Color className='icons-padding' className={classes.svgIcon}
-                            onClick={changeNoteColor}
-                        // onMouseLeave={() => colorMenuRef.current.handleClose()}
-                        />
-                        <Image className='icons-padding' className={classes.svgIcon} />
-                        <Archive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
-                        <More className='icons-padding' className={classes.svgIcon}
-                            onClick={(event) => labelMenuRef.current.handleOpenMenu(event)}
-                        />
-                    </div>
+                    {!props.note.isDeleted ?
+
+                        <div className='display-icons-div'>
+                            <Reminder className='icons-padding' className={classes.svgIcon} />
+                            <PersonAdd className='icons-padding' className={classes.svgIcon} />
+                            <Color className='icons-padding' className={classes.svgIcon}
+                                onClick={changeNoteColor}
+                            // onMouseLeave={() => colorMenuRef.current.handleClose()}
+                            />
+                            <Image className='icons-padding' className={classes.svgIcon} />
+                            {props.note.isArchived ?
+                                <Tooltip title='Unarchive'>
+                                    <Unarchive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
+                                </Tooltip>
+                                :
+                                <Tooltip title='Archive'>
+                                    <Archive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
+                                </Tooltip>
+
+                            }
+                            <More className='icons-padding' className={classes.svgIcon}
+                                onClick={(event) => labelMenuRef.current.handleOpenMenu(event)}
+                            />
+                        </div>
+                        :
+                        <div className='display-bin-icons-div'>
+                            <Tooltip title='Delete forever'>
+                                <DeleteForeverIcon className='icons-padding' className={classes.svgIcon} onClick={handleDeleteForever} />
+                            </Tooltip>
+                            <Tooltip title='Restore'>
+                                <RestoreFromTrashIcon className='icons-padding' className={classes.svgIcon} onClick={handleRestore}/>
+                            </Tooltip>
+                        </div>
+                    }
                 </Card>
                 :
                 <EditNote
@@ -220,7 +275,10 @@ function SingleNote(props) {
             <Label
                 ref={labelMenuRef}
                 addLabel={addLabel}
-                updateLabel={'createdNote'} />
+                updateLabel={'createdNote'}
+                note={props.note}
+                handleGet={props.handleGet}
+            />
         </MuiThemeProvider>
     )
 }

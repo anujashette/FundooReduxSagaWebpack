@@ -61,6 +61,7 @@ class LabelNotes extends Component {
 
     componentDidMount() {
         this.handleGet();
+
     }
 
     handleGet = () => {
@@ -79,7 +80,8 @@ class LabelNotes extends Component {
 
     render() {
 
-    
+        console.log('param.props.match.params.token.........',this.props.match.params.labelname);
+        
         const { classes } = this.props;
         
         const notes = this.state.labelNotes.map((note, index) => {

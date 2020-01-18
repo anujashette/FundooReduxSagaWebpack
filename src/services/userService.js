@@ -150,11 +150,34 @@ export function updateLabel(labelObj,labelId) {
 
 export function deleteLabel(labelId) {
     let token = localStorage.getItem('token');
-    // console.log('get label notes');
     
     let labelParam = {
         route: `/noteLabels/${labelId}/deleteNoteLabel?access_token=${token}`,
         headers: ''
     }
     return remove(labelParam);
+}
+
+export function trashNote(noteObj) {
+    let token = localStorage.getItem('token');
+    console.log('get label notes');
+    
+    let labelParam = {
+        route: `/notes/trashNotes?access_token=${token}`,
+        jsonObject: noteObj,
+        headers: ''
+    }
+    return create(labelParam);
+}
+
+export function deleteNoteForever(noteObj) {
+    let token = localStorage.getItem('token');
+    console.log('get label notes');
+    
+    let labelParam = {
+        route: `/notes/deleteForeverNotes?access_token=${token}`,
+        jsonObject: noteObj,
+        headers: ''
+    }
+    return create(labelParam);
 }

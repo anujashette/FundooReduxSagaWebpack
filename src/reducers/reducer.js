@@ -67,8 +67,11 @@ const reducer = (state = initState, action) => {
 
         case 'CHANGE_VIEW':
             console.log('label', action);
-            return { ...state, listGridView: !state.listGridView, displayCardList:action.listGridCss}
+            return { ...state, listGridView: !state.listGridView, displayCardList: action.listGridCss }
 
+        case 'UPDATE_LABELS':
+            return { ...state, labels: action.updatedLabels };
+            
         default:
             return state;
     }

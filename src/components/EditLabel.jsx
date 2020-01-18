@@ -66,17 +66,17 @@ class EditLabel extends Component {
 
     handleCreate = () => {
         let labelData = {
-            "label":this.state.label ,
-            "isDeleted":false,
+            "label": this.state.label,
+            "isDeleted": false,
             "userId": localStorage.getItem('userId')
-          }
+        }
         createLabel(labelData)
-        .then((response)=>{
-            this.getLabelList();
-        })
-        .catch((error)=>{
+            .then((response) => {
+                this.getLabelList();
+            })
+            .catch((error) => {
 
-        });
+            });
         this.setState({ label: '', labelEditor: false })
 
     }
@@ -85,19 +85,25 @@ class EditLabel extends Component {
         console.log("EditLabel", this.props.state);
 
     }
-    handleLabel = () => {
-        
+    handleDeletLabel = (LabelId) => {
+        let updatedLabels = this.props.state.labels.filter(val => {
+            return val.id !== LabelId;
+        });
+        console.log(updatedLabels);
+       this.dispatch({type:'UPDATE_LABELS', updatedLabels})
+       console.log(this.props.state.labels);
     }
 
     render() {
         if (this.props.state.labels) {
-            var labels = this.props.state.labels.map((key, index) => {
-                if (!key.isDeleted) {
+            var labels = this.props.state.labels.map((label, index) => {
+                if (!label.isDeleted) {
                     return (
                         <LabelUpdate
-                        getLabelList={this.getLabelList}
-                            labelData={key}
-                            key={index} />)
+                            getLabelList={this.getLabelList}
+                            handleDeletLabel={this.handleDeletLabel}
+                            labelData={label}
+                            key={label.id} />)
                 }
                 else
                     return null
@@ -140,8 +146,8 @@ class EditLabel extends Component {
 
                         <Divider />
                         <div className="edit-label-button">
-                        <Button size="medium" onClick={this.handleClose}>
-                            Done
+                            <Button size="medium" onClick={this.handleClose}>
+                                Done
                         </Button>
                         </div>
                     </Dialog>

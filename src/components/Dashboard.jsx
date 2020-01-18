@@ -21,16 +21,25 @@ class Dashboard extends Component {
     super(props);
   }
 
+  handleLabelNotesLoad = (labelUrl) => {
+  console.log(' handleLabelNotesLoad={props.handleLabelNotesLoad}',labelUrl);
+  this.props.history.push(labelUrl);
+
+      this.props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName:   this.props.match.params.labelname.slice(1)});
+
+}
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-          <Appbar props={this.props} />
-          {this.props.state.editLabelDialog ?  
-            <EditLabel></EditLabel>
-            :  
-            null
-          }
-
+        <Appbar
+          props={this.props}
+          handleLabelNotesLoad={this.handleLabelNotesLoad} />
+        {this.props.state.editLabelDialog ?
+          <EditLabel ></EditLabel>
+          :
+          null
+        }
       </MuiThemeProvider>
     )
   }
@@ -38,7 +47,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      state
+    state
   }
 }
 

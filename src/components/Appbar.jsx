@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Camera from '@material-ui/icons/CameraAltOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Keep from '../Assets/keep.png';
 import list from '../Assets/list.svg';
@@ -132,35 +133,46 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
         margin: theme.spacing(1),
         position: 'relative',
-      },
-      buttonProgress: {
+    },
+    buttonProgress: {
         color: '#f1f1f1',
         position: 'absolute',
         top: '50%',
         left: '50%',
         marginTop: -12,
         marginLeft: -12,
-      }
+    }
 }));
+
+const SmallAvatar = withStyles(theme => ({
+    root: {
+        width: 23,
+        height: 23,
+        border: `2px solid ${theme.palette.background.paper}`,
+        fontSize: '2.25rem'
+    },
+}))(Avatar);
+
 
 function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [cameraColor, setCameraColor] = React.useState('#8e8e8e');
 
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
-  const timer = React.useRef();
-//   const buttonClassname = clsx({
-//     [classes.buttonSuccess]: success,
-//   });
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
+    const [loading, setLoading] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+    const timer = React.useRef();
+    //   const buttonClassname = clsx({
+    //     [classes.buttonSuccess]: success,
+    //   });
+    React.useEffect(() => {
+        return () => {
+            clearTimeout(timer.current);
+        };
+    }, []);
 
- 
+
     const drawerRef = useRef();
 
     const isMenuOpen = Boolean(anchorEl);
@@ -203,18 +215,28 @@ function PrimarySearchAppBar(props) {
 
     const handleRefresh = () => {
         console.log('refresh');
-        
+
         props.dispatch(getNotes());
         props.dispatch(getlabels());
         if (!loading) {
             setSuccess(false);
             setLoading(true);
             timer.current = setTimeout(() => {
-              setSuccess(true);
-              setLoading(false);
+                setSuccess(true);
+                setLoading(false);
             }, 2000);
-          }
+        }
     }
+
+    const handleUploadImage = () => {
+        console.log('onSelectFile');
+        setCameraColor('rgb(86, 151, 255)');
+    }
+
+    const onSelectFile = () => {
+        setCameraColor('#8e8e8e');
+    }
+
     const menuId = open ? 'primary-search-account-menu' : undefined;
     const renderMenu = (
         <Popover
@@ -234,7 +256,30 @@ function PrimarySearchAppBar(props) {
             style={{ top: '48px' }}
         >
             <div className='profile-div'>
-                <Avatar className={classes.profileAvatar}><img src={Keep} alt='anuja' /></Avatar>
+                <Badge
+                    overlap="circle"
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    badgeContent={<SmallAvatar
+                        style={{ background: '#ffffff', color: cameraColor, boxShadow: '0px 1px 5px 0px #d8d8d8' }}
+                        onClick={handleUploadImage}
+                    >
+                        <input id='selector-file' accept="image/*" type="file" onChange={onSelectFile} style={{ display: 'none' }} />
+                        <label htmlFor="selector-file">
+                            <Camera style={{ width: '0.7em' }} >
+                            </Camera>
+                        </label>
+
+
+                    </SmallAvatar>}
+                >
+                    <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
+                        <img src={localStorage.getItem('imageUrl')} alt='' />
+                    </Avatar>
+
+                </Badge>
                 <Typography className={classes.name} >{localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</Typography>
                 <Typography className={classes.email}>{localStorage.getItem('email')}</Typography>
                 <div className='line' />
@@ -276,8 +321,8 @@ function PrimarySearchAppBar(props) {
                     color="inherit"
                     style={{ padding: '8px' }}
                 >
-                    <Avatar className={classes.avatar}>
-                        <img src={Keep} alt='keep icon' />
+                    <Avatar className={classes.avatar} style={{ background: '#5ccaca' }}>
+                        <img src={localStorage.getItem('imageUrl')} alt='keep icon' />
                     </Avatar>
                 </IconButton>
                 <p>Profile</p>
@@ -330,8 +375,8 @@ function PrimarySearchAppBar(props) {
                                     <img src={grid} style={{ width: '1em' }} />
                                 </IconButton>
                             }
-                            <Avatar aria-describedby={menuId} onClick={handleProfileMenuOpen} >
-                                <img src={Keep} alt='keep icon' />
+                            <Avatar aria-describedby={menuId} onClick={handleProfileMenuOpen} style={{ background: '#5ccaca' }}>
+                                <img src={localStorage.getItem('imageUrl')} alt='' />
                             </Avatar>
                         </div>
                         <div className={classes.sectionMobile}>
@@ -350,7 +395,8 @@ function PrimarySearchAppBar(props) {
                 {renderMobileMenu}
                 {renderMenu}
             </div>
-            <DrawerLeft ref={drawerRef} props={props} />
+            <DrawerLeft ref={drawerRef} props={props}/> 
+            
         </MuiThemeProvider>
 
     );

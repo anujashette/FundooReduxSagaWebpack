@@ -24,14 +24,16 @@ class LabelUpdate extends Component {
     }
 
     labelDelete = () => {
-    
-        deleteLabel(this.state.labelData.id)
-        .then((response)=>{
-            this.props.getLabelList();
-        })
-        .catch((error)=>{
 
-        });
+        deleteLabel(this.state.labelData.id)
+            .then((response) => {
+                this.props.getLabelList();
+                this.props.handleDeletLabel(this.state.labelData.id)
+
+            })
+            .catch((error) => {
+
+            });
 
     }
 
@@ -60,12 +62,12 @@ class LabelUpdate extends Component {
             label: this.state.label
         }
         updateLabel(labelData, this.state.labelData.id)
-        .then((response)=>{
-            this.props.getLabelList();
-        })
-        .catch((error)=>{
+            .then((response) => {
+                this.props.getLabelList();
+            })
+            .catch((error) => {
 
-        });
+            });
     }
 
     handleRename = () => {
@@ -95,7 +97,6 @@ class LabelUpdate extends Component {
                                 value={this.state.label}
                                 name="Label"
                                 onChange={e => this.handleChange(e)}
-                                // type="text"
                                 autoFocus
                                 style={{ color: "#434343", fontSize: "15px", padding: "5px" }}
                             ></InputBase>

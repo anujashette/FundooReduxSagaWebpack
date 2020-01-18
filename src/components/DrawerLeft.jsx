@@ -110,15 +110,17 @@ const DrawerLeft = forwardRef((props, ref) => {
   }
 
   const handleLabels = (labelName) => {
-    props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName: labelName})
+    // props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName: labelName});
+    // history.push(`label`); 
+    props.props.handleLabelNotesLoad(`label:${labelName}`);
+    
+    // history.push(`label:${labelName}`); 
+    // history.push(`${labelName}`); 
 
-    history.push('label'); 
   }
 
   const handleEditLabel = () => {
     props.dispatch({type:'EDIT_LABEL_OPEN', editLabelDialog:true})
-    // history.push('editLabel');
-
   }
 
   const handleArchive = () => {
