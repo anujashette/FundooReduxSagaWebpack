@@ -1,26 +1,10 @@
-export const requestMovieSuccess = (data) => {
-    // // console.log('actions', data.data.data);
-
-    return { type: 'REQUESTED_MOVIE_SUCCEEDED', movies: data.data.data }
-};
-
-export const requestMovieError = () => {
-    return { type: 'REQUESTED_MOVIE_FAILED' }
-};
-
-export const fetchMovie = () => {
-    return { type: 'FETCHED_MOVIE' }
-};
-
 // FUNDOO NOTES
 
 export const getNotes = () => {
     return { type: 'REQUEST_GET_NOTES' }
 };
 
-export const requestGetNotesSuccess = (data) => {
-    console.log('requestGetNotesSuccess',data.data.data.data);
-    
+export const requestGetNotesSuccess = (data) => {    
     return { type: 'REQUESTED_GET_NOTES_SUCCEEDED', notes: data.data.data.data.reverse() }
 };
 
@@ -33,13 +17,10 @@ export const requestGetError = () => {
 };
 
 export const getlabels = () => {
-    
     return { type: 'REQUEST_GET_LABELS' }
 };
 
-export const requestGetLabelsSuccess = (data) => {
-    console.log('REQUESTED_GET_LABELS_SUCCEEDED',data.data.data.details);
-    
+export const requestGetLabelsSuccess = (data) => {    
     return { type: 'REQUESTED_GET_LABELS_SUCCEEDED', labels: data.data.data.details }
 };
 
@@ -59,14 +40,18 @@ export const unsetTransition = () => {
     return { type: 'UNSET_TRSNSITION' }
 };
 
-// export const setOtherTransition = () => {    
-//     return { type: 'SET_OTHER_TRSNSITION' }
-// };
-
-// export const unsetOtherTransition = () => {    
-//     return { type: 'UNSET_OTHER_TRSNSITION' }
-// };
-
 export const changeView = (listGridCss) => {    
     return { type: 'CHANGE_VIEW', listGridCss:listGridCss };
+};
+
+export const requestGetLabelNotes = (labelName) => {
+    return { type: 'REQUEST_GET_LABELS_NOTES', labelName }
+};
+
+export const setLabelNotes = (labelNotes) => {  
+    return { type: 'SET_LABEL_NOTES', labelNotes:labelNotes };
+};
+
+export const setLabelName = (labelName) => {  
+    return { type: 'SET_LABEL_NAME', labelName:labelName };
 };

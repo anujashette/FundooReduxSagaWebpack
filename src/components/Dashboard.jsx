@@ -3,6 +3,7 @@ import Appbar from './Appbar';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import EditLabel from './EditLabel';
 import { connect } from 'react-redux';
+import { requestGetLabelNotes, setLabelName } from '../actions';
 
 const theme = createMuiTheme({
   breakpoints: {
@@ -19,17 +20,26 @@ const theme = createMuiTheme({
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+    }
   }
 
-  handleLabelNotesLoad = (labelUrl) => {
-  console.log(' handleLabelNotesLoad={props.handleLabelNotesLoad}',labelUrl);
-  this.props.history.push(labelUrl);
+  componentDidMount() {
+    this.handleLabelNotes(this.props.match.params[0].slice(8));
+  }
 
-      this.props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName:   this.props.match.params.labelname.slice(1)});
+  handleLabelNotes = (labelName) => {
+    this.props.dispatch(requestGetLabelNotes(labelName));
+    this.props.dispatch(setLabelName(labelName));
+  }
 
-}
+  handleLabelNotesLoad = (labelName) => {
+    this.props.history.push(`label:${labelName}`);
+    this.handleLabelNotes(labelName);
+  }
 
   render() {
+
     return (
       <MuiThemeProvider theme={theme}>
         <Appbar

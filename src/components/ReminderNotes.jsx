@@ -64,17 +64,12 @@ class ReminderNotes extends Component {
     }
 
     handleGet = () => {
-        this.props.dispatch(getlabels());
         this.props.dispatch(getReminderNotes());
+        this.props.dispatch(getlabels());
     }
 
     render() {
         const { classes } = this.props;
-
-        // let others = this.props.notes.filter(val => {
-        //     return val.isArchived === false && val.isDeleted === false && val.isPined === false && ;
-        // });
-
         const notes = this.props.notes.map((note, index) => {
             return (
                 <SingleNote key={index} note={note} handleGet={this.handleGet}/>

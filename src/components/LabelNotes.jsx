@@ -2,7 +2,7 @@ import React, { Component, useRef } from 'react'
 import '../styles/displayNotes.scss';
 import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
-import { getlabels } from '../actions';
+import { getlabels, requestGetLabelNotes } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
 import TakeNote from './TakeNote';
 import clsx from 'clsx';
@@ -55,36 +55,22 @@ class LabelNotes extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            labelNotes:[]
+            labelName:this.props.match.params.labelname.slice(1)
         }
     }
 
-    componentDidMount() {
+    componentDidMount() { 
         this.handleGet();
-
     }
 
-    handleGet = () => {
-        
-        getLabelNotes(this.props.currentLabelName)
-        .then((response)=> {
-
-          this.setState({labelNotes:response.data.data.data})
-
-        })
-        .catch((error)=> {
-      
-        });
+    handleGet = () => {        
+        this.props.dispatch(requestGetLabelNotes(this.state.labelName));
         this.props.dispatch(getlabels());
     }
 
-    render() {
-
-        console.log('param.props.match.params.token.........',this.props.match.params.labelname);
-        
+    render() {        
         const { classes } = this.props;
-        
-        const notes = this.state.labelNotes.map((note, index) => {
+        const notes = this.props.labelNotes.map((note, index) => {
             return (
                 <SingleNote key={index} note={note} handleGet={this.handleGet}/>
             )

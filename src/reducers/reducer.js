@@ -9,15 +9,12 @@ const initState = {
     transitionCss: 'main-display',
     transitionTakeNote: 'take-note-div',
     transitionCreateNote: 'create-note-div',
-    noteColor: 'drawer-item-color',
-    // reminderColor:'',
-    // editLabelColor:'',
-    // archiveColor:'',
-    // binColor:'',
+    labelNotes: [],
     currentLabelName: '',
     editLabelDialog: false,
     listGridView: true,
     displayCardList: 'display-card',
+    searchedNotes: []
 };
 
 const reducer = (state = initState, action) => {
@@ -57,8 +54,10 @@ const reducer = (state = initState, action) => {
         case 'UNSET_TRSNSITION':
             return { ...state, transitionCss: 'main-display', transitionTakeNote: 'take-note-div', transitionCreateNote: 'create-note-div' }
 
+        case 'SET_LABEL_NOTES':
+            return { ...state, labelNotes: action.labelNotes }
 
-        case 'CURRENT_CLICKED_LABEL':
+        case 'SET_LABEL_NAME':
             return { ...state, currentLabelName: action.labelName }
 
         case 'EDIT_LABEL_OPEN':
@@ -71,7 +70,12 @@ const reducer = (state = initState, action) => {
 
         case 'UPDATE_LABELS':
             return { ...state, labels: action.updatedLabels };
-            
+
+        case 'SEARCH_KEYWORD':
+            let searchNotes = state.notes.filter(val => {
+                return val.isDeleted === false && val.title !== '' && val.description !== '' && val.title === action.searchKeyword || val.description === action.searchKeyword;
+            });
+            return { ...state, searchedNotes: searchNotes }
         default:
             return state;
     }

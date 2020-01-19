@@ -69,8 +69,7 @@ class ArchiveNotes extends Component {
 
     render() {
         const { classes } = this.props;
-        // // console.log('display notes===>', classes.content);
-
+        
         let others = this.props.notes.filter(val => {
             return val.isArchived === true;
         });

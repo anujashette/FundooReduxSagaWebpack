@@ -11,6 +11,7 @@ import ArchiveNotes from './components/ArchiveNotes.jsx';
 import BinNotes from './components/BinNotes.jsx';
 import LabelNotes from './components/LabelNotes.jsx';
 import EditLabel from './components/EditLabel.jsx';
+import SearchNotes from './components/SearchNotes.jsx';
 
 class App extends Component {
     render() {
@@ -27,6 +28,7 @@ class App extends Component {
                     <Route path="/dashboard/*/label:labelname" component={LabelNotes}/>
                     <Route path="/dashboard/*/archive" component={ArchiveNotes}/>
                     <Route path="/dashboard/*/bin" component={BinNotes}/>
+                    <Route path="/dashboard/*/search" component={SearchNotes}/>
                 </BrowserRouter>
             </div>
         )

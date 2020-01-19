@@ -4,10 +4,8 @@ import SingleNote from './SingleNote.jsx';
 import { connect } from 'react-redux';
 import { getNotes, getlabels } from '../actions';
 import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core';
-import TakeNote from './TakeNote';
 import clsx from 'clsx';
 import Masonry from 'react-masonry-component';
-
 
 const styles = theme => {
     return ({
@@ -51,13 +49,10 @@ const theme = createMuiTheme({
     }
 });
 
-class DisplayNotes extends Component {
+class SearchNotes extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-
-        }
     }
 
     componentDidMount() {
@@ -65,29 +60,14 @@ class DisplayNotes extends Component {
     }
 
     handleGet = () => {
-        this.props.dispatch(getlabels());
         this.props.dispatch(getNotes());
+        this.props.dispatch(getlabels());
     }
 
     render() {
-
         const { classes } = this.props;
 
-        var pin = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === true;
-        });
-
-        var others = this.props.notes.filter(val => {
-            return val.isArchived === false && val.isDeleted === false && val.isPined === false;
-        });
-
-        const pinNotes = pin.map((note, index) => {
-            return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} />
-            )
-        });
-
-        const notes = others.map((note, index) => {
+        const notes = this.props.searchedNotes.map((note, index) => {            
             return (
                 <SingleNote key={index} note={note} handleGet={this.handleGet} />
             )
@@ -106,45 +86,18 @@ class DisplayNotes extends Component {
                     }}
                 >
                     <div className={classes.drawerHeader} />
-                    <TakeNote props={this.props} />
-
                 </main>
-                {!this.props.listGridView ?
-                    <div className={this.props.transitionCss}>
-                        {pin.length !== 0 ?
-                            <p className='pin-title-list'>PINNED</p>
-                            :
-                            null
-                        }
-
-                        <div className='display-notes-list'>
-                            {pinNotes}
-                        </div>
-                        <p className='pin-title-list'>OTHERS</p>
+                <div className={this.props.transitionCss}>
+                    {!this.props.listGridView ?
                         <div className='display-notes-list'>
                             {notes}
                         </div>
-                    </div>
-                    :
-                    <div className={this.props.transitionCss}>
-                        {pin.length !== 0 ?
-                            <p className='pin-title'>PINNED</p>
-                            :
-                            null
-                        }
-                        <Masonry className='display-notes'>
-                            {pinNotes}
-                        </Masonry>
-                        {pin.length !== 0 ?
-                            <p className='pin-title'>OTHERS</p>
-                            :
-                            null
-                        }
+                        :
                         <Masonry className='display-notes'>
                             {notes}
                         </Masonry>
-                    </div>
-                }
+                    }
+                </div>
             </MuiThemeProvider>
         )
     }
@@ -154,4 +107,4 @@ const mapStateToMap = (reduxState) => {
     return reduxState;
 }
 
-export default connect(mapStateToMap)(withStyles(styles)(DisplayNotes));
+export default connect(mapStateToMap)(withStyles(styles)(SearchNotes));

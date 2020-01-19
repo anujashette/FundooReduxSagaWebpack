@@ -15,8 +15,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Bulb from '../Assets/bulb.svg';
 import Archive from '@material-ui/icons/ArchiveOutlined';
 import Notification from '@material-ui/icons/NotificationsNoneOutlined'
@@ -25,11 +23,8 @@ import LabelIcon from '@material-ui/icons/LabelOutlined'
 import Trash from '@material-ui/icons/DeleteOutlined'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import '../styles/drawer.scss';
-import DisplayArea from './DisplayArea';
 import { connect } from 'react-redux';
-import { setTransition, unsetTransition, requestGetNotesSuccess, getlabels} from '../actions';
-import { withRouter } from 'react-router-dom';
-import { getLabelNotes } from '../services/userService';
+import { setTransition, unsetTransition, getlabels} from '../actions';
 
 const { forwardRef, useImperativeHandle } = React;
 const drawerWidth = 240;
@@ -85,7 +80,6 @@ const DrawerLeft = forwardRef((props, ref) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const history = props.props.props.history;
-  const [labels, setlabels] = React.useState([]);
 
   useImperativeHandle(ref, () => ({
     handleDrawerOpen() {
@@ -100,23 +94,15 @@ const DrawerLeft = forwardRef((props, ref) => {
   }));
 
   const handleNotes = () => {
-
     history.push('notes')
   }
 
   const handleReminder = () => {
     history.push('reminder');
-
   }
 
-  const handleLabels = (labelName) => {
-    // props.dispatch({type:'CURRENT_CLICKED_LABEL',labelName: labelName});
-    // history.push(`label`); 
-    props.props.handleLabelNotesLoad(`label:${labelName}`);
-    
-    // history.push(`label:${labelName}`); 
-    // history.push(`${labelName}`); 
-
+  const handleLabels = (labelName) => { 
+    props.props.handleLabelNotesLoad(labelName);
   }
 
   const handleEditLabel = () => {

@@ -2,15 +2,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, Typography, Tooltip } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
+import styled from "styled-components";
+
 import '../styles/displayNotes.scss';
 import Image from '@material-ui/icons/Image';
 import Unpin from '../Assets/unpin.svg';
 import Pin from '../Assets/pin.svg';
 import Archive from '@material-ui/icons/ArchiveOutlined';
 import Unarchive from '@material-ui/icons/UnarchiveOutlined';
-import Reminder from '@material-ui/icons/NotificationsOutlined';
 import PersonAdd from '@material-ui/icons/PersonAddOutlined';
 import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
@@ -21,8 +22,10 @@ import ColorMenu from './ColorMenu';
 import EditNote from './EditNote';
 import Label from './Label';
 import Cancel from '@material-ui/icons/Close';
+import WatchLaterOutlined from '@material-ui/icons/WatchLaterOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import Reminder from './Reminder';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -45,6 +48,24 @@ const useStyles = makeStyles({
     }
 });
 
+const StyledChip = styled(Chip)`
+  &.MuiChip-root {
+    background-color: #f4f4f4;
+    color: darkblue;
+  }
+  & .MuiChip-deleteIcon {
+    color: default;
+    margin-left: 8px;
+  }
+
+  & .MuiChip-label {
+    font-size: 15px;
+    font-family: "Work Sans";
+    padding-left: 14px;
+    padding-right: 4px;
+  }
+`;
+
 function SingleNote(props) {
     const classes = useStyles();
 
@@ -52,10 +73,23 @@ function SingleNote(props) {
         isPined: false,
         isCheckList: false,
         isArchived: false,
-        isEdited: false
+        isEdited: false,
+        noteId:props.note.id
     });
 
-    let labelID = [];
+    const MyChip = props => (
+        <StyledChip
+            {...props}
+            clickable={false}
+            avatar={<WatchLaterOutlined/>}
+            onDelete={() => updateItem({
+                noteIdList: [values.noteId]
+            },'removeReminderNotes')}
+            deleteIcon={<Cancel />}
+            onClick={() => console.log("I did something")}
+        />
+    );
+
     const colorMenuRef = useRef();
     const labelMenuRef = useRef();
 
@@ -79,13 +113,7 @@ function SingleNote(props) {
 
         let path = 'changesColorNotes';
 
-        updateNoteItem(colorObj, path)
-            .then((response) => {
-                props.handleGet();
-            })
-            .catch((error) => {
-                // console.log('update color error', error);
-            })
+        updateItem(colorObj, path);
         colorMenuRef.current.handleClose();
     }
 
@@ -96,13 +124,8 @@ function SingleNote(props) {
         }
         let path = 'archiveNotes';
 
-        updateNoteItem(archiveObj, path)
-            .then((response) => {
-                props.handleGet();
-            })
-            .catch((error) => {
-                // console.log('update archive error', error);
-            })
+        updateItem(archiveObj, path);
+
     }
 
     const handleDelete = (labelData) => {
@@ -134,13 +157,8 @@ function SingleNote(props) {
 
         let path = 'pinUnpinNotes';
 
-        updateNoteItem(pinObj, path)
-            .then((response) => {
-                props.handleGet();
-            })
-            .catch((error) => {
-                // console.log('update pin error', error);
-            })
+        updateItem(pinObj, path);
+
     }
 
     const handleDeleteForever = () => {
@@ -148,14 +166,14 @@ function SingleNote(props) {
             "noteIdList": [props.note.id]
         }
         deleteNoteForever(noteObj)
-        .then((response)=> {
-            props.handleGet();
-            console.log(response);
-        })  
-        .catch((error)=> {
-            console.log(error);
-            
-        })
+            .then((response) => {
+                props.handleGet();
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+
+            })
     }
 
     const handleRestore = () => {
@@ -164,31 +182,62 @@ function SingleNote(props) {
             "noteIdList": [props.note.id]
         }
         trashNote(noteObj)
-        .then((response)=> {
-            props.handleGet();
-            console.log(response);
-        })  
-        .catch((error)=> {
-            console.log(error);
-            
-        })
+            .then((response) => {
+                props.handleGet();
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+
+            })
     }
+
+    const handleSetReminder = (dateAndTime) => {
+        const reminderObj = {
+            reminder: dateAndTime,
+            noteIdList: [props.note.id]
+        }
+
+        let path = 'addUpdateReminderNotes';
+        updateItem(reminderObj, path);
+    }
+
+    const updateItem = (dataObject, path) => {
+        updateNoteItem(dataObject, path)
+            .then((response) => {
+                props.handleGet();
+            })
+            .catch((error) => {
+                console.log('update pin error', error);
+            })
+    }
+
+    var reminderChip = props.note.reminder.map((reminder, index) => {
+        // let date = reminder.toString()
+        // console.log('mppp',date.getDate() );
+        
+        return (<MyChip 
+            key={index}
+            label={reminder} 
+            style={{ 
+                backgroundColor: '#f4f4f4', 
+            // border: '0.5px solid rgb(138, 138, 138)', 
+            alignSelf: 'center' }} />)
+    });
 
     var label = props.note.noteLabels.map((key, index) => {
         // console.log('label-', key);
 
         if (key !== null && !key.isDeleted) {
-            // console.log('single note===', props.note.noteLabels);
-
-            // labelID.push(key.id); 
             return (
                 <Chip
-                    key={index}
+                    key={key.id}
                     label={key.label}
                     onDelete={handleDelete(key)}
                     deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
                     style={{
-                        height: "20px", maxWidth: "100px"
+                        height: "20px", maxWidth: "100px",
+                        backgroundColor: '#f4f4f4'
                     }}
                 />
             )
@@ -222,10 +271,17 @@ function SingleNote(props) {
                     <div style={{ padding: '10px' }}>
                         {label}
                     </div>
+                    <div style={{ padding: '10px' }}>
+                        {reminderChip}
+                    </div>
                     {!props.note.isDeleted ?
 
                         <div className='display-icons-div'>
-                            <Reminder className='icons-padding' className={classes.svgIcon} />
+                            {/* <ReminderIcon className='icons-padding' className={classes.svgIcon} /> */}
+                            <Reminder
+                                handleSetReminder={handleSetReminder}
+                            />
+
                             <PersonAdd className='icons-padding' className={classes.svgIcon} />
                             <Color className='icons-padding' className={classes.svgIcon}
                                 onClick={changeNoteColor}
@@ -252,7 +308,7 @@ function SingleNote(props) {
                                 <DeleteForeverIcon className='icons-padding' className={classes.svgIcon} onClick={handleDeleteForever} />
                             </Tooltip>
                             <Tooltip title='Restore'>
-                                <RestoreFromTrashIcon className='icons-padding' className={classes.svgIcon} onClick={handleRestore}/>
+                                <RestoreFromTrashIcon className='icons-padding' className={classes.svgIcon} onClick={handleRestore} />
                             </Tooltip>
                         </div>
                     }

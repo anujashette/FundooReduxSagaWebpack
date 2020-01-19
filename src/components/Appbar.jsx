@@ -159,6 +159,8 @@ function PrimarySearchAppBar(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [cameraColor, setCameraColor] = React.useState('#8e8e8e');
+    const [searchKeyword, setSearchKeyword] = React.useState('');
+    // let searchKeyword = '';
 
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
@@ -235,6 +237,15 @@ function PrimarySearchAppBar(props) {
 
     const onSelectFile = () => {
         setCameraColor('#8e8e8e');
+    }
+
+    const handleSearchNotes = () => {
+        props.props.history.push('search');
+    }
+
+    const handleSearch = (event) =>{ 
+        setSearchKeyword(event.target.value);
+        props.dispatch({type:'SEARCH_KEYWORD', searchKeyword:event.target.value});
     }
 
     const menuId = open ? 'primary-search-account-menu' : undefined;
@@ -358,6 +369,9 @@ function PrimarySearchAppBar(props) {
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
                                 }}
+                                value={searchKeyword}
+                                onChange={handleSearch}
+                                onClick={handleSearchNotes}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </div>
@@ -395,8 +409,8 @@ function PrimarySearchAppBar(props) {
                 {renderMobileMenu}
                 {renderMenu}
             </div>
-            <DrawerLeft ref={drawerRef} props={props}/> 
-            
+            <DrawerLeft ref={drawerRef} props={props} />
+
         </MuiThemeProvider>
 
     );
