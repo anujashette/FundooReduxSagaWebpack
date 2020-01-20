@@ -161,6 +161,7 @@ function PrimarySearchAppBar(props) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [cameraColor, setCameraColor] = React.useState('#8e8e8e');
     const [searchKeyword, setSearchKeyword] = React.useState('');
+    const [srcState, setSrcState] = React.useState(null);
     // let searchKeyword = '';
 
     // const [loading, setLoading] = React.useState(false);
@@ -236,9 +237,19 @@ function PrimarySearchAppBar(props) {
         setCameraColor('rgb(86, 151, 255)');
     }
 
-    const onSelectFile = () => {
-        setCameraColor('#8e8e8e');
-    }
+    // const onSelectFile = (e) => {
+    //     setCameraColor('#8e8e8e');
+    //         if (e.target.files && e.target.files.length > 0) {
+    //             const reader = new FileReader();
+    //             reader.addEventListener('load', () =>
+    //                 setSrcState(reader.result)
+    //             );
+    //             reader.readAsDataURL(e.target.files[0]);
+    //             console.log(srcState);
+                
+    //             props.handleImageCrop(srcState);
+    //         }
+    // }
 
     const handleSearchNotes = () => {
         props.props.history.push('search');
@@ -278,13 +289,12 @@ function PrimarySearchAppBar(props) {
                         style={{ background: '#ffffff', color: cameraColor, boxShadow: '0px 1px 5px 0px #d8d8d8' }}
                         onClick={handleUploadImage}
                     >
-                        <input id='selector-file' accept="image/*" type="file" onChange={onSelectFile} style={{ display: 'none' }} />
+                        {/* <input id='selector-file' accept="image/*" type="file" onChange={onSelectFile} style={{ display: 'none' }} />
                         <label htmlFor="selector-file">
                             <Camera style={{ width: '0.7em' }} >
                             </Camera>
-                        </label>
-
-
+                        </label> */}
+                        <PictureCropper/>
                     </SmallAvatar>}
                 >
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
@@ -292,7 +302,6 @@ function PrimarySearchAppBar(props) {
                     </Avatar>
                     
                 </Badge>
-                <PictureCropper/>
                 <Typography className={classes.name} >{localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</Typography>
                 <Typography className={classes.email}>{localStorage.getItem('email')}</Typography>
                 <div className='line' />

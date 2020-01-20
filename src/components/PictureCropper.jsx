@@ -1,26 +1,31 @@
 import ReactDOM from 'react-dom';
 import React, { PureComponent, Component } from 'react';
 import ReactCrop from 'react-image-crop';
-// import 'react-image-crop/dist/ReactCrop.css';
+import Camera from '@material-ui/icons/CameraAltOutlined';
 
 import '../styles/cropper.scss';
+import { Dialog } from '@material-ui/core';
 
 class PictureCropper extends Component {
     state = {
         src: null,
         crop: {
+            unit: '%',
+            width: 30,
             aspect: 16 / 9,
         },
+        open:false
     };
 
     onSelectFile = e => {
         if (e.target.files && e.target.files.length > 0) {
             const reader = new FileReader();
             reader.addEventListener('load', () =>
-                this.setState({ src: reader.result })
+                this.setState({ src: reader.result, open:true})
             );
             reader.readAsDataURL(e.target.files[0]);
         }
+        
     };
 
     // If you setState the crop in here you should return false.
@@ -84,14 +89,24 @@ class PictureCropper extends Component {
         });
     }
 
+    handleClose = () => {
+        this.setState({open:false})
+    }
+
     render() {
         const { crop, croppedImageUrl, src } = this.state;
 
         return (
             <div className="App">
                 <div>
-                    <input type="file" accept="image/*" onChange={this.onSelectFile} />
+                    {/* <input type="file" accept="image/*" onChange={this.onSelectFile} /> */}
+                    <input id='selector-file' accept="image/*" type="file" onChange={this.onSelectFile} style={{ display: 'none' }} />
+                        <label htmlFor="selector-file">
+                            <Camera style={{ width: '0.7em' }} >
+                            </Camera>
+                        </label>
                 </div>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
                 {src && (
                     <ReactCrop
                         src={src}
@@ -100,11 +115,13 @@ class PictureCropper extends Component {
                         onImageLoaded={this.onImageLoaded}
                         onComplete={this.onCropComplete}
                         onChange={this.onCropChange}
+                        style={{width:'70%', height:'400px'}}
                     />
                 )}
                 {croppedImageUrl && (
                     <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
                 )}
+                </Dialog>
             </div>
         );
     }
