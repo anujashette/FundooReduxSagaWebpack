@@ -75,22 +75,6 @@
 
 // Edit note
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .display-notes-list {
   // width: 48%;
   // display: flex;
@@ -117,22 +101,10 @@
   align-self: start;
   margin: auto;
   padding: 10px;
-  min-width:600px;
+  min-width: 600px;
 }
 
 // edit note
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media screen and (max-width: 1420px) and (min-width: 1024px) {
   .display-notes {
@@ -169,9 +141,9 @@
     max-width: 710px;
   }
 
-  .pin-title-list{
+  .pin-title-list {
     width: 46.5%;
-  max-width: 600px;
+    max-width: 600px;
     min-width: 590px;
   }
 }
@@ -205,13 +177,12 @@
     flex-wrap: wrap;
     width: 86%;
     max-width: 525px;
-}
-.pin-title-list {
-  width: 55%;
-  max-width: 500px;
-  min-width: 500px;
-}
-
+  }
+  .pin-title-list {
+    width: 55%;
+    max-width: 500px;
+    min-width: 500px;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -234,7 +205,6 @@
     height: fit-content;
     min-width: unset;
   }
-
 
   // #display-card-list {
   //   width: 95%;

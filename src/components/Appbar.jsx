@@ -24,6 +24,7 @@ import Popover from '@material-ui/core/Popover';
 import auth from './auth';
 import DrawerLeft from './DrawerLeft';
 import { connect } from 'react-redux';
+import PictureCropper from './PictureCropper.jsx';
 import { changeView, getNotes, getlabels } from '../actions';
 
 const { useRef } = React;
@@ -128,7 +129,7 @@ const useStyles = makeStyles(theme => ({
         border: '1px solid #dadada',
         padding: '5px 21px',
         borderRadius: '4px',
-        margin: '20px 0 -20px 0'
+        margin: '20px 0 0px 0'
     },
     wrapper: {
         margin: theme.spacing(1),
@@ -162,15 +163,15 @@ function PrimarySearchAppBar(props) {
     const [searchKeyword, setSearchKeyword] = React.useState('');
     // let searchKeyword = '';
 
-    const [loading, setLoading] = React.useState(false);
-    const [success, setSuccess] = React.useState(false);
-    const timer = React.useRef();
+    // const [loading, setLoading] = React.useState(false);
+    // const [success, setSuccess] = React.useState(false);
+    // const timer = React.useRef();
     //   const buttonClassname = clsx({
     //     [classes.buttonSuccess]: success,
     //   });
     React.useEffect(() => {
         return () => {
-            clearTimeout(timer.current);
+            // clearTimeout(timer.current);
         };
     }, []);
 
@@ -220,14 +221,14 @@ function PrimarySearchAppBar(props) {
 
         props.dispatch(getNotes());
         props.dispatch(getlabels());
-        if (!loading) {
-            setSuccess(false);
-            setLoading(true);
-            timer.current = setTimeout(() => {
-                setSuccess(true);
-                setLoading(false);
-            }, 2000);
-        }
+        // if (!loading) {
+        //     setSuccess(false);
+        //     setLoading(true);
+        //     timer.current = setTimeout(() => {
+        //         setSuccess(true);
+        //         setLoading(false);
+        //     }, 2000);
+        // }
     }
 
     const handleUploadImage = () => {
@@ -289,13 +290,13 @@ function PrimarySearchAppBar(props) {
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
                         <img src={localStorage.getItem('imageUrl')} alt='' />
                     </Avatar>
-
+                    
                 </Badge>
+                <PictureCropper/>
                 <Typography className={classes.name} >{localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</Typography>
                 <Typography className={classes.email}>{localStorage.getItem('email')}</Typography>
                 <div className='line' />
                 <Button className={classes.signout_button} onClick={handleSignout}>Sign out</Button>
-                <div className='line' />
             </div>
         </Popover>
     );
@@ -314,7 +315,7 @@ function PrimarySearchAppBar(props) {
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="default" className={classes.wrapper}>
                     <Refresh />
-                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    {/* {loading && <CircularProgress size={24} className={classes.buttonProgress} />} */}
                 </IconButton>
                 <p>Refresh</p>
             </MenuItem>
@@ -410,9 +411,7 @@ function PrimarySearchAppBar(props) {
                 {renderMenu}
             </div>
             <DrawerLeft ref={drawerRef} props={props} />
-
         </MuiThemeProvider>
-
     );
 }
 

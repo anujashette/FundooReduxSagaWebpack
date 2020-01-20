@@ -24,11 +24,11 @@ class App extends Component {
                     {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
                     <Route path="/dashboard/*" component={Dashboard} />
                     <Route exact path="/dashboard/*/notes" component={DisplayNotes} />
-                    <Route path="/dashboard/*/reminder" component={ReminderNotes}/>
-                    <Route path="/dashboard/*/label:labelname" component={LabelNotes}/>
-                    <Route path="/dashboard/*/archive" component={ArchiveNotes}/>
-                    <Route path="/dashboard/*/bin" component={BinNotes}/>
-                    <Route path="/dashboard/*/search" component={SearchNotes}/>
+                    <Route path="/dashboard/*/reminder" component={ReminderNotes} />
+                    <Route path="/dashboard/*/label:labelname" component={LabelNotes} />
+                    <Route path="/dashboard/*/archive" component={ArchiveNotes} />
+                    <Route path="/dashboard/*/bin" component={BinNotes} />
+                    <Route path="/dashboard/*/search" component={SearchNotes} />
                 </BrowserRouter>
             </div>
         )

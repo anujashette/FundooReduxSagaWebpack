@@ -8,11 +8,17 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import Picker from './Picker';
-import { updateNoteItem } from '../services/userService';
 import { connect } from 'react-redux';
-import { ClickAwayListener } from '@material-ui/core';
+import { ClickAwayListener, Button } from '@material-ui/core';
+import '../styles/label.scss';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const theme = createMuiTheme({
     overrides: {
@@ -23,7 +29,7 @@ const theme = createMuiTheme({
         },
         MuiListItem: {
             gutters: {
-                paddingLeft:'0px'
+                paddingLeft: '0px'
             }
         }
     }
@@ -51,6 +57,7 @@ function Reminder(props) {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [picker, setPicker] = useState(false);
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     const open = Boolean(anchorEl);
     const id = open ? 'transitions-popper' : undefined;
@@ -83,10 +90,21 @@ function Reminder(props) {
         const nextWeek = new Date();
         // nextWeek.setDate(nextWeek.getDate() + (1 + 7 - nextWeek.getDay()) % 7);
         nextWeek.setDate(nextWeek.getDate() + (7 - nextWeek.getDay()) % 7 + 1);
-        nextWeek.setHours(20, 0, 0);        
+        nextWeek.setHours(20, 0, 0);
         props.handleSetReminder(nextWeek.toISOString());
         handleClick(null);
     }
+
+
+    const handleDateChange = async date => {
+        console.log("value in date", date);
+        await setSelectedDate(
+            date
+        );
+        props.handleSetReminder(date.toISOString());
+        handleClick(null);
+        console.log("value in handle change ", selectedDate);
+    };
 
     return (
         <div>
@@ -95,7 +113,7 @@ function Reminder(props) {
                 aria-describedby={id}
                 type="button"
                 onClick={handleClick} />
-                {/* <ClickAwayListener onClickAway={() =>handleClick()}> */}
+            {/* <ClickAwayListener onClickAway={() =>handleClick()}> */}
             <MuiThemeProvider theme={theme}>
                 {!picker ?
                     <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition >
@@ -138,9 +156,39 @@ function Reminder(props) {
                                             style={{ padding: '0 10px 0px 10px' }} />
                                         <ListItemText primary="Select date and time" />
                                     </ListItem>
-                                    {/* {/* <ListItem button> */}
-                                        {/* <Picker/> */}
-                                    {/* </ListItem> */}
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <Grid container direction="column" >
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                format="MM/dd/yyyy"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Select Date"
+                                                value={selectedDate}
+                                                onChange={handleDateChange}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date',
+                                                }}
+                                            />
+
+                                            <KeyboardTimePicker
+                                                margin="normal"
+                                                id="time-picker"
+                                                label="Select Time"
+                                                value={selectedDate}
+                                                onChange={handleDateChange}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change time',
+                                                }}
+                                            />
+                                        </Grid>
+                                    </MuiPickersUtilsProvider>
+                                    <div className="save-button">
+                                        <Button size="medium" style={{textTransform:'initial'}} onClick={handlePickerClick} id={id}>
+                                            Save
+                                    </Button>
+                                    </div>
                                 </List>
                             </Fade>
                         )}
@@ -152,4 +200,4 @@ function Reminder(props) {
     );
 }
 
-export default connect(null,null)(Reminder);
+export default connect(null, null)(Reminder);

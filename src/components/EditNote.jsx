@@ -33,7 +33,8 @@ const theme = createMuiTheme({
         MuiInputBase: {
             root: {
                 fontSize: '0.9rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                wordBreak: 'break-all'
             }
         },
         // MuiDialog: {

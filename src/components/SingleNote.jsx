@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar, Dialog } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import styled from "styled-components";
 
@@ -26,6 +26,7 @@ import WatchLaterOutlined from '@material-ui/icons/WatchLaterOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import Reminder from './Reminder';
+import Collabrator from './Collabrator';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -37,7 +38,8 @@ const useStyles = makeStyles({
     inputTitle: {
         fontSize: 14,
         width: '93%',
-        padding: '5px 10px 0 10px'
+        padding: '5px 10px 0 10px',
+        wordBreak: 'break-all'
     },
     svgIcon: {
         width: '17px',
@@ -45,6 +47,14 @@ const useStyles = makeStyles({
         'justify-content': 'space-evenly',
         padding: ' 0 10px 10px 10px',
         cursor: 'pointer'
+    },
+    dialogCard: {
+        maxWidth: '600px',
+        padding:'0px',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+            maxWidth: 'unset'
+        }
     }
 });
 
@@ -59,7 +69,7 @@ const StyledChip = styled(Chip)`
   }
 
   & .MuiChip-label {
-    font-size: 15px;
+    font-size: 10px;
     font-family: "Work Sans";
     padding-left: 14px;
     padding-right: 4px;
@@ -74,18 +84,19 @@ function SingleNote(props) {
         isCheckList: false,
         isArchived: false,
         isEdited: false,
-        noteId:props.note.id
+        noteId: props.note.id,
+        open: false
     });
 
     const MyChip = props => (
         <StyledChip
             {...props}
             clickable={false}
-            avatar={<WatchLaterOutlined/>}
+            avatar={<WatchLaterOutlined style={{ width: "13px", height: "13px" }} />}
             onDelete={() => updateItem({
                 noteIdList: [values.noteId]
-            },'removeReminderNotes')}
-            deleteIcon={<Cancel />}
+            }, 'removeReminderNotes')}
+            deleteIcon={<Cancel style={{ width: "13px", height: "13px" }} />}
             onClick={() => console.log("I did something")}
         />
     );
@@ -212,17 +223,31 @@ function SingleNote(props) {
             })
     }
 
-    var reminderChip = props.note.reminder.map((reminder, index) => {
-        // let date = reminder.toString()
-        // console.log('mppp',date.getDate() );
+    const handleCollabrator = () => {
+        console.log('collab');
         
-        return (<MyChip 
+        setValues({ ...values, open: !values.open });
+    }
+
+    var reminderChip = props.note.reminder.map((reminder, index) => {
+        let date = JSON.stringify(reminder);
+        let day = new Date(date).getDate();
+        let month = new Date(date).toLocaleString( 'default', { month: 'short' });
+        let hours = new Date(date).getHours();
+        let minutes = new Date(date).getMinutes();
+        minutes = minutes > 9 ? minutes : '0' + minutes;
+
+        return (<MyChip
             key={index}
-            label={reminder} 
-            style={{ 
-                backgroundColor: '#f4f4f4', 
-            // border: '0.5px solid rgb(138, 138, 138)', 
-            alignSelf: 'center' }} />)
+            label={`${day} ${month} ,  ${hours}:${minutes}`}
+            style={{
+                backgroundColor: '#f4f4f4',
+                alignSelf: 'center',
+                height:'20px',
+                fontSize:'0.6rem',
+                textDecoration : new Date(date) < new Date() ? 'line-through' : 'none'
+            }} 
+            />)
     });
 
     var label = props.note.noteLabels.map((key, index) => {
@@ -282,7 +307,12 @@ function SingleNote(props) {
                                 handleSetReminder={handleSetReminder}
                             />
 
-                            <PersonAdd className='icons-padding' className={classes.svgIcon} />
+                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollabrator} />
+                            <Dialog onClose={handleCollabrator} aria-labelledby="simple-dialog-title" open={values.open}>
+                                <p>anuja</p>
+                                {/* <Collabrator/> */}
+                            </Dialog>
+                            
                             <Color className='icons-padding' className={classes.svgIcon}
                                 onClick={changeNoteColor}
                             // onMouseLeave={() => colorMenuRef.current.handleClose()}
@@ -296,7 +326,6 @@ function SingleNote(props) {
                                 <Tooltip title='Archive'>
                                     <Archive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
                                 </Tooltip>
-
                             }
                             <More className='icons-padding' className={classes.svgIcon}
                                 onClick={(event) => labelMenuRef.current.handleOpenMenu(event)}
