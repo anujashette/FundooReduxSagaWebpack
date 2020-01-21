@@ -17,7 +17,7 @@ import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
-import { updateNoteItem, addLabelToNote, trashNote, deleteNote, deleteNoteForever } from '../services/userService';
+import { updateNoteItem, addLabelToNote, trashNote, deleteNote, deleteNoteForever, addCollaboratorToNote } from '../services/userService';
 import ColorMenu from './ColorMenu';
 import EditNote from './EditNote';
 import Label from './Label';
@@ -26,7 +26,7 @@ import WatchLaterOutlined from '@material-ui/icons/WatchLaterOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import Reminder from './Reminder';
-import Collabrator from './Collabrator';
+import Collaberator from './Collaberator';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -85,7 +85,8 @@ function SingleNote(props) {
         isArchived: false,
         isEdited: false,
         noteId: props.note.id,
-        open: false
+        open: false,
+        collaboratedUser : [] 
     });
 
     const MyChip = props => (
@@ -213,6 +214,21 @@ function SingleNote(props) {
         updateItem(reminderObj, path);
     }
 
+    const handleUpdateCollaborator = (selectedUser) =>{
+        console.log('in single-->', props.note);
+
+        addCollaboratorToNote(selectedUser, props.note.id)
+        .then((response)=>{
+            console.log(response);
+            
+        })
+        .catch((error)=>{
+            console.log(error);
+            
+        });
+        // handleCollabrator();
+    }
+
     const updateItem = (dataObject, path) => {
         updateNoteItem(dataObject, path)
             .then((response) => {
@@ -223,11 +239,17 @@ function SingleNote(props) {
             })
     }
 
-    const handleCollabrator = () => {
+    const handleCollaberator = () => {
         console.log('collab');
         
         setValues({ ...values, open: !values.open });
     }
+
+    let CollaberatorAvatar = props.note.collaborators.map((userItem, index)=>{
+        let nameFirstLetter = userItem.firstName.charAt(0);
+        return ( <Avatar style={{ margin: '5px 15px 0 5px',  background: props.note.color}}>{nameFirstLetter}</Avatar>
+        )
+    });
 
     var reminderChip = props.note.reminder.map((reminder, index) => {
         let date = JSON.stringify(reminder);
@@ -251,7 +273,6 @@ function SingleNote(props) {
     });
 
     var label = props.note.noteLabels.map((key, index) => {
-        // console.log('label-', key);
 
         if (key !== null && !key.isDeleted) {
             return (
@@ -285,7 +306,7 @@ function SingleNote(props) {
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
                         }
                     </div>
-                    {values.isCheckList ?
+                    { values.isCheckList ?
                         <NewCheckList />
                         :
                         <Typography
@@ -295,27 +316,25 @@ function SingleNote(props) {
                     }
                     <div style={{ padding: '10px' }}>
                         {label}
-                    </div>
-                    <div style={{ padding: '10px' }}>
                         {reminderChip}
+                        {CollaberatorAvatar}
                     </div>
                     {!props.note.isDeleted ?
 
                         <div className='display-icons-div'>
-                            {/* <ReminderIcon className='icons-padding' className={classes.svgIcon} /> */}
                             <Reminder
                                 handleSetReminder={handleSetReminder}
                             />
 
-                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollabrator} />
-                            <Dialog onClose={handleCollabrator} aria-labelledby="simple-dialog-title" open={values.open}>
-                                <p>anuja</p>
-                                {/* <Collabrator/> */}
+                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollaberator} />
+                            <Dialog onClose={handleCollaberator} aria-labelledby="simple-dialog-title" open={values.open}>
+                                <Collaberator 
+                                handleCollabrator={handleCollaberator}
+                                handleUpdateCollaborator={handleUpdateCollaborator}/>
                             </Dialog>
                             
                             <Color className='icons-padding' className={classes.svgIcon}
                                 onClick={changeNoteColor}
-                            // onMouseLeave={() => colorMenuRef.current.handleClose()}
                             />
                             <Image className='icons-padding' className={classes.svgIcon} />
                             {props.note.isArchived ?

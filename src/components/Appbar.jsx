@@ -288,7 +288,7 @@ function PrimarySearchAppBar(props) {
                     </SmallAvatar>}
                 >
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
-                        <img src={localStorage.getItem('imageUrl')} alt='' />
+                        <img src={Keep} alt='' />
                     </Avatar>
                     
                 </Badge>
@@ -334,7 +334,7 @@ function PrimarySearchAppBar(props) {
                     style={{ padding: '8px' }}
                 >
                     <Avatar className={classes.avatar} style={{ background: '#5ccaca' }}>
-                        <img src={localStorage.getItem('imageUrl')} alt='keep icon' />
+                        <img src={Keep} alt='keep icon' />
                     </Avatar>
                 </IconButton>
                 <p>Profile</p>
@@ -391,7 +391,7 @@ function PrimarySearchAppBar(props) {
                                 </IconButton>
                             }
                             <Avatar aria-describedby={menuId} onClick={handleProfileMenuOpen} style={{ background: '#5ccaca' }}>
-                                <img src={localStorage.getItem('imageUrl')} alt='' />
+                                <img src={Keep} alt='' />
                             </Avatar>
                         </div>
                         <div className={classes.sectionMobile}>

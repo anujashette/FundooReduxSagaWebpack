@@ -3,6 +3,7 @@ const initState = {
     'isChange': false,
     'loggedIn': false,
     currentColor: '',
+    users:[],
     notes: [],
     labels: [],
     addedLabels: [],
@@ -30,8 +31,6 @@ const reducer = (state = initState, action) => {
             return { ...state, isChange: !state.loggedIn };
 
         case 'REQUESTED_GET_NOTES_SUCCEEDED':
-            console.log('REQUESTED_GET_NOTES_SUCCEEDED', action.notes);
-
             return { ...state, notes: action.notes };
 
         case 'REQUESTED_GET_LABELS_SUCCEEDED':

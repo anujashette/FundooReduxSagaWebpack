@@ -172,11 +172,33 @@ export function trashNote(noteObj) {
 
 export function deleteNoteForever(noteObj) {
     let token = localStorage.getItem('token');
-    console.log('get label notes');
     
     let labelParam = {
         route: `/notes/deleteForeverNotes?access_token=${token}`,
         jsonObject: noteObj,
+        headers: ''
+    }
+    return create(labelParam);
+}
+
+export function searchUserList(searchObj)  {
+    let token = localStorage.getItem('token');
+    console.log('get label notes');
+    
+    let labelParam = {
+        route: `/user/searchUserList?access_token=${token}`,
+        jsonObject: searchObj,
+        headers: ''
+    }
+    return create(labelParam);
+}
+
+export function addCollaboratorToNote(userObj, noteId)  {
+    let token = localStorage.getItem('token');
+    
+    let labelParam = {
+        route: `/notes/${noteId}/AddcollaboratorsNotes?access_token=${token}`,
+        jsonObject: userObj,
         headers: ''
     }
     return create(labelParam);
