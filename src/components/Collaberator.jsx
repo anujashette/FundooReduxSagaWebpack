@@ -1,13 +1,14 @@
 import React, { useState, Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Divider, Avatar, InputBase, Button, List, ListItem, ListItemText, Popover, withStyles } from '@material-ui/core';
+import { Card, Divider, Avatar, InputBase, Button, List, ListItem, ListItemText, Popover } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import Keep from '../Assets/keep.png';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Done from '@material-ui/icons/Done';
 import '../styles/collaberator.scss';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";import { searchUserList } from '../services/userService';
+import Select from "@material-ui/core/Select"; import { searchUserList } from '../services/userService';
 import { IconButton } from '@material-ui/core';
 
 const styles = theme => {
@@ -22,7 +23,11 @@ const styles = theme => {
         },
         inputBaseStyle: {
             width: '200px',
-            fontSize: '0.9rem'
+            fontSize: '0.9rem',
+            [theme.breakpoints.up('md')]: {
+                width: '140px',
+                fontSize: '0.6rem',
+            },
         },
         doneIcon: {
             alignSelf: 'center',
@@ -30,8 +35,11 @@ const styles = theme => {
             cursor: 'pointer'
         },
         iconButton: {
-            marginLeft: '255px',
-            padding: '5px 15px'
+            // marginLeft: '255px',
+            padding: '5px 10px',
+            [theme.breakpoints.up('md')]: {
+                marginLeft: '0px',
+            }
         },
         divider: {
             margin: '0 15px'
@@ -50,11 +58,9 @@ class Collaberator extends Component {
             userList: [],
             selectedUsers: [],
             selectedUser: '',
-            open:false
+            open: false
         }
     }
-
-
 
     handleChange = async (event) => {
         await this.setState({ username: event.target.value });
@@ -62,18 +68,18 @@ class Collaberator extends Component {
 
     handleSearch = (event) => {
         event.persist();
-
         let searchObj = {
             searchWord: this.state.username
         }
 
         searchUserList(searchObj)
             .then((response) => {
-                console.log(response);
-                this.setState({ userList: response.data.data.details, open:true });
+                let sortedList = response.data.data.details.filter((user) => {
+                    return localStorage.getItem('email') !== user.email
+                });
+                this.setState({ userList: sortedList, open: true });
             })
             .catch((error) => {
-                console.log(error);
             })
     }
 
@@ -82,15 +88,15 @@ class Collaberator extends Component {
     };
 
     handleSelect = userItem => {
-
         selectedItem.push(userItem);
-        this.setState({ selectedUsers: selectedItem});
+        this.setState({ selectedUsers: selectedItem });
         this.props.handleUpdateCollaborator(userItem);
         this.handleClose();
     };
 
     handleOnSave = () => {
-        // this.props.handleUpdateCollaborator(this.state.selectedUsers);
+        this.props.collberatorOnSave();
+        this.props.handleCollabrator();
     }
 
     handleOnCancel = () => {
@@ -133,35 +139,30 @@ class Collaberator extends Component {
                             <p className='owner-email'>{localStorage.getItem('email')}</p>
                         </div>
                     </div>
-
                     {CollaboratorAvatar}
-
-                    <div className='owner-div'>
+                    <div className='search-div'>
                         <Avatar className={classes.avatarStyle}><PersonAddIcon className={classes.iconstyle} /></Avatar>
-                        <InputBase
-                            placeholder='Person or email to share with'
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                            className={classes.inputBaseStyle}
-                            htmlFor="demo-controlled-open-select-label"
-                        />
-                        <IconButton className={classes.iconButton} onClick={this.handleSearch}  >
-                            <Done className={classes.doneIcon} />
-                        </IconButton>
-
-
+                        <div className='input-base'>
+                            <InputBase
+                                placeholder='Person or email to share with'
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                                className={classes.inputBaseStyle}
+                                htmlFor="demo-controlled-open-select-label"
+                            />
+                            <IconButton className={classes.iconButton} onClick={this.handleSearch}  >
+                                <Done className={classes.doneIcon} />
+                            </IconButton>
+                        </div>
                         <FormControl className={classes.formControl}>
-                    
                             <Select
                                 labelId="demo-controlled-open-select-label"
                                 id="demo-controlled-open-select"
                                 open={this.state.open}
                                 onClose={this.handleClose}
-                                // onOpen={handleOpen}
                                 value={this.state.selectedUser}
                                 onChange={this.handleChange}
-                                style={{ display: "none" }}
-                            >
+                                style={{ display: "none" }}>
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
@@ -170,22 +171,16 @@ class Collaberator extends Component {
                                 </List>
                             </Select>
                         </FormControl>
-
                     </div>
-
-
-
                     <div className='bottom-div'>
-                        <Button size="medium" 
-                        style={{ textTransform: 'initial', background: ' transparent' }}
-                        onClick={this.handleOnCancel}
-                        >
+                        <Button size="medium"
+                            style={{ textTransform: 'initial', background: ' transparent' }}
+                            onClick={this.handleOnCancel}>
                             Cancel
                         </Button>
-                        <Button size="medium" 
-                        style={{ textTransform: 'initial', background: ' transparent' }}
-                        onClick={this.handleOnSave}                        
-                        >
+                        <Button size="medium"
+                            style={{ textTransform: 'initial', background: ' transparent' }}
+                            onClick={this.handleOnSave}>
                             Save
                         </Button>
                     </div>
@@ -200,5 +195,5 @@ const mapStateToMap = (reduxState) => {
     return reduxState;
 }
 
-export default connect(mapStateToMap)(withStyles(styles)(Collaberator));
+export default connect(mapStateToMap)(withStyles(styles, { withTheme: true })(Collaberator));
 

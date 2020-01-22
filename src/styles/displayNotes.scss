@@ -73,6 +73,22 @@
   width: 100%;
 }
 
+.display-label-area {
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  max-width: 210px;
+}
+
+.edit-label-area {
+  padding: 10px;
+  display: flex;
+  width: 94%;
+  flex-wrap: wrap;
+  min-width: 230px;
+}
+
 // Edit note
 
 .display-notes-list {

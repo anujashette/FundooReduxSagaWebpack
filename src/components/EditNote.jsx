@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import { blue } from '@material-ui/core/colors';
 import React, { useState } from 'react';
-import { InputBase, createMuiTheme, MuiThemeProvider, Button, Chip } from '@material-ui/core';
+import { InputBase, createMuiTheme, MuiThemeProvider, Button, Chip, Tooltip, Avatar } from '@material-ui/core';
 import '../styles/takeNote.scss';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import List from '@material-ui/icons/List'
@@ -17,10 +17,12 @@ import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
-import { requestCreateNote, updateNoteItem } from '../services/userService';
+import { updateNoteItem, addCollaboratorToNote } from '../services/userService';
 import ColorMenu from './ColorMenu';
-import { setColorToRedux, clearLabelCheck, getNotes } from '../actions';
 import Label from './Label';
+import Collaberator from './Collaberator';
+import '../styles/displayNotes.scss';
+
 const { useRef } = React;
 
 const theme = createMuiTheme({
@@ -36,12 +38,7 @@ const theme = createMuiTheme({
                 fontWeight: '600',
                 wordBreak: 'break-all'
             }
-        },
-        // MuiDialog: {
-        //     paperWidthSm: {
-        //         // maxWidth: '605px'
-        //     }
-        // }
+        }
     }
 });
 
@@ -65,7 +62,8 @@ function EditNote(props) {
         title: note.title,
         description: note.description,
         isArchived: note.isArchived,
-        color: note.color
+        color: note.color,
+        collaberatorClick: false
     });
     const colorMenuRef = useRef();
     const lebelMenuRef = useRef();
@@ -76,7 +74,11 @@ function EditNote(props) {
 
     const handleCheckList = () => {
         setValues({ ...values, takeNote: false, isCheckList: !values.isCheckList });
-    }
+    };
+
+    const handleListItemClick = value => {
+        handleEditClose(value);
+    };
 
     const handleArchive = () => {
         setValues({ ...values, isArchived: !note.isArchived })
@@ -86,22 +88,6 @@ function EditNote(props) {
     const handleDelete = (key) => {
 
     }
-
-    var label = note.noteLabels.map((key, index) => {
-        if (key !== null && !key.isDeleted) {
-            return (
-                <Chip
-                    key={index}
-                    label={key.label}
-                    onDelete={handleDelete(key)}
-                    deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
-                    style={{
-                        height: "20px", maxWidth: "100px"
-                    }}
-                />
-            )
-        }
-    });
 
     const handleClose = () => {
         handleEditClose();
@@ -118,12 +104,7 @@ function EditNote(props) {
                 handleGet();
             })
             .catch((error) => {
-                // console.log('update note error', error);
             })
-    };
-
-    const handleListItemClick = value => {
-        handleEditClose(value);
     };
 
     const handleSetColor = (selectedColor) => {
@@ -139,7 +120,6 @@ function EditNote(props) {
             .then((response) => {
             })
             .catch((error) => {
-                // console.log('update color error', error);
             })
         colorMenuRef.current.handleClose();
     }
@@ -161,55 +141,117 @@ function EditNote(props) {
             })
     }
 
+    const handleCollaberator = () => {
+        setValues({ ...values, collaberatorClick: !values.collaberatorClick })
+        console.log('collb click', values.collaberatorClick);
+    }
+
+    const handleUpdateCollaborator = (selectedUser) => {
+        console.log('in single-->', props.note);
+
+        addCollaboratorToNote(selectedUser, props.note.id)
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const collberatorOnSave = () => {
+        handleCollaberator();
+    }
+
+    var label = note.noteLabels.map((key, index) => {
+        if (key !== null && !key.isDeleted) {
+            return (
+                <Chip
+                    key={index}
+                    label={key.label}
+                    onDelete={handleDelete(key)}
+                    deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
+                    style={{
+                        height: "20px", maxWidth: "100px", marginTop:' 18px'
+                    }}
+                />
+            )
+        }
+    });
+
+
+    let CollaberatorAvatar = props.note.collaborators.map((userItem, index) => {
+        let nameFirstLetter = userItem.firstName.charAt(0);
+        return (
+            <Tooltip title={userItem.email} key={index}>
+                <Avatar style={{
+                    margin: '5px 2.5px 5px 2.5px',
+                    background: props.note.color,
+                    boxShadow: '0px 1px 5px 0px #000000',
+                    color: '#000000'
+                }}>{nameFirstLetter}</Avatar>
+            </Tooltip>
+        )
+    });
+
     return (
         <MuiThemeProvider theme={theme}>
             <Dialog className='dialog-card' onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+                {!values.collaberatorClick ?
+                    <div className='edit-note-div' style={{ background: values.color }}>
+                        <div className='create-note-card'>
+                            <InputBase
+                                placeholder='Title'
+                                className='input-base-create'
+                                value={values.title}
+                                onChange={handleChange('title')}
+                            ></InputBase>
 
-                <div className='edit-note-div' style={{ background: values.color }}>
-                    <div className='create-note-card'>
-                        <InputBase
-                            placeholder='Title'
-                            className='input-base-create'
-                            value={values.title}
-                            onChange={handleChange('title')}
-                        ></InputBase>
-
-                        {values.isPined ?
-                            <img src={Pin} className='pin-icon' onClick={handleSetPin} />
-                            :
-                            <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
-                        }
-                    </div>
-                    {values.isCheckList ?
-                        <NewCheckList />
-                        :
-                        <InputBase
-                            placeholder='Take a note...'
-                            className='input-base-create'
-                            value={values.description}
-                            onChange={handleChange('description')}
-                            autoFocus={true}
-                        ></InputBase>
-                    }
-                    <div style={{ padding: '10px' }}>
-                        {label}
-                    </div>
-                    <div className='create-note-icon-div'>
-                        <div className='create-icons-div'>
-                            <Reminder className='icons-padding' />
-                            <PersonAdd className='icons-padding' />
-                            <Color className='icons-padding'
-                                onClick={(event) => colorMenuRef.current.handleClick(event)}
-                            />
-                            <Image className='icons-padding' />
-                            <Archive className='icons-padding' onClick={handleArchive} />
-                            <More className='icons-padding'
-                                onClick={(event) => lebelMenuRef.current.handleOpenMenu(event)}
-                            />
+                            {values.isPined ?
+                                <img src={Pin} className='pin-icon' onClick={handleSetPin} />
+                                :
+                                <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
+                            }
                         </div>
-                        <Button style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', textTransform: 'initial' }} onClick={handleClose}>Close</Button>
+                        {values.isCheckList ?
+                            <NewCheckList />
+                            :
+                            <InputBase
+                                placeholder='Take a note...'
+                                className='input-base-create'
+                                value={values.description}
+                                onChange={handleChange('description')}
+                                autoFocus={true}
+                            ></InputBase>
+                        }
+                        <div className='edit-label-area'>
+                            {label}
+                            {CollaberatorAvatar}
+                        </div>
+                        <div className='create-note-icon-div'>
+                            <div className='create-icons-div'>
+                                <Reminder className='icons-padding' />
+                                <PersonAdd className='icons-padding' onClick={handleCollaberator} />
+                                <Color className='icons-padding'
+                                    onClick={(event) => colorMenuRef.current.handleClick(event)}
+                                />
+                                <Image className='icons-padding' />
+                                <Archive className='icons-padding' onClick={handleArchive} />
+                                <More className='icons-padding'
+                                    onClick={(event) => lebelMenuRef.current.handleOpenMenu(event)}
+                                />
+                            </div>
+                            <Button style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', textTransform: 'initial' }} onClick={handleClose}>Close</Button>
+                        </div>
                     </div>
-                </div>
+                    :
+                    <Collaberator
+                        handleCollabrator={handleCollaberator}
+                        handleUpdateCollaborator={handleUpdateCollaborator}
+                        collberatorOnSave={handleGet}
+                        />
+                }
+
             </Dialog>
             <ColorMenu ref={colorMenuRef} handleSetColor={handleSetColor} />
             <Label ref={lebelMenuRef} addLabel={props.addLabel} updateLabel={'createdNote'} />

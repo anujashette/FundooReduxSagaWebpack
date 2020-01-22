@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import {  MenuItem } from '@material-ui/core';
+import { MenuItem } from '@material-ui/core';
 import '../styles/takeNote.scss';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { connect } from 'react-redux';
@@ -13,7 +13,7 @@ const theme = createMuiTheme({
     overrides: {
         MuiPopover: {
             paper: {
-                width: '110px',
+                width: '135px',
                 height: 'auto',
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -45,15 +45,20 @@ const Label = forwardRef((props, ref) => {
             "noteIdList": [props.note.id]
         }
         trashNote(noteObj)
-        .then((response)=> {
-            props.handleGet();
-            console.log(response);
-            handleClose();
-        })  
-        .catch((error)=> {
-            console.log(error);
-            
-        })
+            .then((response) => {
+                props.handleGet();
+                console.log(response);
+                handleClose();
+            })
+            .catch((error) => {
+                console.log(error);
+
+            })
+    }
+
+    const handleAskQuestion = () => {
+        props.props.props.history.push(`/dashboard/*/QuestionAnswer/${props.note.id}`)
+        
     }
 
     const open = Boolean(anchorEl);
@@ -77,7 +82,15 @@ const Label = forwardRef((props, ref) => {
                     }}
                 >
                     <MenuItem onMouseEnter={(event) => labelRef.current.handleOpen(event)}>Add Label<ArrowRightIcon /></MenuItem>
-                    <MenuItem onMouseEnter={handleDeleteNote}>Delete Note</MenuItem>
+                    {props.updateLabel === 'createdNote' ?
+                        <span>
+                            <MenuItem onClick={handleDeleteNote}>Delete Note</MenuItem>
+                            <MenuItem onClick={handleAskQuestion}>Ask a Question</MenuItem>
+                        </span>
+                        :
+                        null
+                    }
+
                 </Popover>
                 <SelectLabel
                     ref={labelRef}

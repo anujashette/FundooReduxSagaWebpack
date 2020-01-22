@@ -241,7 +241,7 @@ function PrimarySearchAppBar(props) {
     }
 
     const handleSearchNotes = () => {
-        props.props.history.push('search');
+        props.props.history.push('/dashboard/*/search');
     }
 
     const handleSearch = (event) =>{ 

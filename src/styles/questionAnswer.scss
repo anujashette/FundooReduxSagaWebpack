@@ -1,0 +1,34 @@
+.question-answer-main {
+    margin: 65px auto;
+    // padding: 15px;
+    width: 70%;
+    background: rgb(255, 255, 190);
+}
+
+.title-button-div {
+    display: flex;
+    justify-content: space-between;
+    width: 97%;
+    padding: 10px 10px 0 10px;
+}
+
+.title-button-div > h4 {
+    word-break: break-all;
+    margin: 5px 0px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+}
+
+.description-p {
+    word-break: break-all;
+    margin: 0px;
+    padding: 10px 10px 0 10px;
+}
+
+.question-div > h4 {
+    word-break: break-all;
+    margin: 5px 0px;
+    padding: 10px 10px 0 10px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+}

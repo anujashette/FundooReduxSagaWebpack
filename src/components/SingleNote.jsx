@@ -50,7 +50,7 @@ const useStyles = makeStyles({
     },
     dialogCard: {
         maxWidth: '600px',
-        padding:'0px',
+        padding: '0px',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             maxWidth: 'unset'
@@ -86,7 +86,7 @@ function SingleNote(props) {
         isEdited: false,
         noteId: props.note.id,
         open: false,
-        collaboratedUser : [] 
+        collaboratedUser: []
     });
 
     const MyChip = props => (
@@ -214,19 +214,18 @@ function SingleNote(props) {
         updateItem(reminderObj, path);
     }
 
-    const handleUpdateCollaborator = (selectedUser) =>{
+    const handleUpdateCollaborator = (selectedUser) => {
         console.log('in single-->', props.note);
 
         addCollaboratorToNote(selectedUser, props.note.id)
-        .then((response)=>{
-            console.log(response);
-            
-        })
-        .catch((error)=>{
-            console.log(error);
-            
-        });
-        // handleCollabrator();
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
     }
 
     const updateItem = (dataObject, path) => {
@@ -240,21 +239,31 @@ function SingleNote(props) {
     }
 
     const handleCollaberator = () => {
-        console.log('collab');
-        
         setValues({ ...values, open: !values.open });
     }
 
-    let CollaberatorAvatar = props.note.collaborators.map((userItem, index)=>{
+    const collberatorOnSave = () => {
+        props.handleGet();
+    }
+
+    let CollaberatorAvatar = props.note.collaborators.map((userItem, index) => {
         let nameFirstLetter = userItem.firstName.charAt(0);
-        return ( <Avatar style={{ margin: '5px 15px 0 5px',  background: props.note.color}}>{nameFirstLetter}</Avatar>
+        return (
+            <Tooltip title={userItem.email} key={index}>
+                <Avatar style={{
+                    margin: '5px 2.5px 5px 2.5px',
+                    background: props.note.color,
+                    boxShadow: '0px 1px 2px 0px #000000',
+                    color: '#000000'
+                }}>{nameFirstLetter}</Avatar>
+            </Tooltip>
         )
     });
 
     var reminderChip = props.note.reminder.map((reminder, index) => {
         let date = JSON.stringify(reminder);
         let day = new Date(date).getDate();
-        let month = new Date(date).toLocaleString( 'default', { month: 'short' });
+        let month = new Date(date).toLocaleString('default', { month: 'short' });
         let hours = new Date(date).getHours();
         let minutes = new Date(date).getMinutes();
         minutes = minutes > 9 ? minutes : '0' + minutes;
@@ -265,11 +274,11 @@ function SingleNote(props) {
             style={{
                 backgroundColor: '#f4f4f4',
                 alignSelf: 'center',
-                height:'20px',
-                fontSize:'0.6rem',
-                textDecoration : new Date(date) < new Date() ? 'line-through' : 'none'
-            }} 
-            />)
+                height: '20px',
+                fontSize: '0.6rem',
+                textDecoration: new Date(date) < new Date() ? 'line-through' : 'none'
+            }}
+        />)
     });
 
     var label = props.note.noteLabels.map((key, index) => {
@@ -282,7 +291,7 @@ function SingleNote(props) {
                     onDelete={handleDelete(key)}
                     deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
                     style={{
-                        height: "20px", maxWidth: "100px",
+                        height: "20px", maxWidth: "100px",margin:'15px 0 0',
                         backgroundColor: '#f4f4f4'
                     }}
                 />
@@ -306,7 +315,7 @@ function SingleNote(props) {
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
                         }
                     </div>
-                    { values.isCheckList ?
+                    {values.isCheckList ?
                         <NewCheckList />
                         :
                         <Typography
@@ -314,7 +323,7 @@ function SingleNote(props) {
                             onClick={handleEditClose}
                         >{props.note.description}</Typography>
                     }
-                    <div style={{ padding: '10px' }}>
+                    <div className='display-label-area'>
                         {label}
                         {reminderChip}
                         {CollaberatorAvatar}
@@ -328,11 +337,13 @@ function SingleNote(props) {
 
                             <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollaberator} />
                             <Dialog onClose={handleCollaberator} aria-labelledby="simple-dialog-title" open={values.open}>
-                                <Collaberator 
-                                handleCollabrator={handleCollaberator}
-                                handleUpdateCollaborator={handleUpdateCollaborator}/>
+                                <Collaberator
+                                    handleCollabrator={handleCollaberator}
+                                    handleUpdateCollaborator={handleUpdateCollaborator}
+                                    collberatorOnSave={collberatorOnSave}
+                                />
                             </Dialog>
-                            
+
                             <Color className='icons-padding' className={classes.svgIcon}
                                 onClick={changeNoteColor}
                             />
@@ -368,7 +379,7 @@ function SingleNote(props) {
                     note={props.note}
                     addLabel={addLabel}
                     handleSetArchive={handleSetArchive}
-                    handleGet={props.handleGet}
+                    handleGet={collberatorOnSave}
                 />
             }
 
@@ -382,6 +393,7 @@ function SingleNote(props) {
                 updateLabel={'createdNote'}
                 note={props.note}
                 handleGet={props.handleGet}
+                props={props}            
             />
         </MuiThemeProvider>
     )

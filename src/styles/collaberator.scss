@@ -16,6 +16,21 @@
     width: fit-content;
 }
 
+.search-div {
+    padding: 15px 15px 7px 15px;
+    display: flex;
+    // justify-content: space-between;
+    width: 100%;
+}
+
+.input-base {
+    display: flex;
+    // justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    padding: 5px 0px;
+}
+
 .owner-name-div {
     padding: 5px;
 }
@@ -51,3 +66,15 @@
     background: #dedede;
     height: 10px;
 }
+
+// Media query
+
+// @media screen and (max-width: 630px) and (min-width: 400px) {
+//     .input-base {
+//         display: flex;
+//         // justify-content: space-between;
+//         width: 80%;
+//         // max-width: 500px;
+//         padding: 5px 0px;
+//     }
+//   }

@@ -94,11 +94,11 @@ const DrawerLeft = forwardRef((props, ref) => {
   }));
 
   const handleNotes = () => {
-    history.push('notes')
+    history.push('/dashboard/*/notes')
   }
 
   const handleReminder = () => {
-    history.push('reminder');
+    history.push('/dashboard/*/reminder');
   }
 
   const handleLabels = (labelName) => { 
@@ -110,11 +110,11 @@ const DrawerLeft = forwardRef((props, ref) => {
   }
 
   const handleArchive = () => {
-    history.push('archive');
+    history.push('/dashboard/*/archive');
   }
 
   const handleBin = () => {
-    history.push('bin');
+    history.push('/dashboard/*/bin');
   }
 
   useEffect(() => {
