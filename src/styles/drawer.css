@@ -1,0 +1,15 @@
+.label-style {
+  margin: 10px 0 0 10px;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  color: grey;
+}
+
+#drawer-item {
+  border-radius: 0px 100px 100px 0px;
+}
+
+#drawer-item:focus {
+  background-color: #ffe6c7;
+}
+/*# sourceMappingURL=drawer.css.map */

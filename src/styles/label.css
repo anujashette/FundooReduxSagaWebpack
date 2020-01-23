@@ -1,0 +1,21 @@
+.edit-label {
+  overflow-y: auto;
+  height: 360px;
+}
+
+.edit-label-button {
+  padding: 15px;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+}
+
+.save-button {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+/*# sourceMappingURL=label.css.map */

@@ -81,7 +81,7 @@ const Label = forwardRef((props, ref) => {
                         horizontal: 'left',
                     }}
                 >
-                    <MenuItem onMouseEnter={(event) => labelRef.current.handleOpen(event)}>Add Label<ArrowRightIcon /></MenuItem>
+                    <MenuItem onClick={(event) => labelRef.current.handleOpen(event)}>Add Label<ArrowRightIcon /></MenuItem>
                     {props.updateLabel === 'createdNote' ?
                         <span>
                             <MenuItem onClick={handleDeleteNote}>Delete Note</MenuItem>

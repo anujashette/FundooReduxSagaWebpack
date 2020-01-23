@@ -18,16 +18,22 @@ class AskQuestionAnswer extends Component {
             noteId: this.props.match.params.noteId,
             noteDetails: [],
             isQuestionAsked: false,
-            model: 'Example text'
+            model: 'Example text',
+            questionsArray: []
         }
-        // this.handleModelChange = this.handleModelChange.bind(this);
-
     }
 
     componentDidMount() {
         getNoteDetails(this.state.noteId)
-            .then((response) => {                
-                this.setState({ noteDetails: response.data.data.data[0] })
+            .then((response) => {
+                let noteDetail = response.data.data.data[0]
+                this.setState({ noteDetails: noteDetail});
+                console.log('lennnn' , noteDetail.questionAndAnswerNotes.length);
+                
+                if(noteDetail.questionAndAnswerNotes.length > 0 ){
+                    this.setState({ questionsArray:response.data.data.data[0].questionAndAnswerNotes[0],isQuestionAsked:true})
+                }
+                console.log('question array--',this.state.questionsArray);
             })
             .catch((error) => {
                 console.log(error);
@@ -38,16 +44,14 @@ class AskQuestionAnswer extends Component {
         this.props.history.push('/dashboard/*/notes')
     }
 
-
-    handleModelChange= (model) => {
+    handleModelChange = (model) => {
         this.setState({
-          model: model
+            model: model
         });
-      }
-    
+    }
 
     render() {
-        console.log('res',this.state.noteDetails);
+        console.log('res', this.state.noteDetails);
 
         return (
             <div className='question-answer-main'>
@@ -60,20 +64,18 @@ class AskQuestionAnswer extends Component {
                         </Button>
                 </div>
                 <p className='description-p'>{this.state.noteDetails.description}</p>
-                {this.state.isQuestionAsked ?
-                    <FroalaEditorComponent tag='textarea'>
-                        <FroalaEditor
-                            tag='textarea'
+                {!this.state.isQuestionAsked ?
+                    <FroalaEditorComponent tag='textarea'
                             config={this.config}
                             model={this.state.model}
-                            onModelChange={this.handleModelChange}
-                        />
+                            onModelChange={ this.handleModelChange}>
                     </FroalaEditorComponent>
                     :
                     <div className='question-div'>
-                    <Divider/>
-                    <h4>Question asked</h4>
-                    <Divider/>
+                        <Divider />
+                        <h4>Question Asked</h4>
+                        <p className='question-p' dangerouslySetInnerHTML={{ __html: this.state.questionsArray.message }} />
+                        <Divider />
                     </div>
                 }
 

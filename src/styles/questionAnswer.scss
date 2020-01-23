@@ -1,3 +1,10 @@
+@mixin transform($property) {
+    word-break: break-all;
+    margin: 0px;
+    padding: $property;
+}
+.box { @include transform(rotate(30deg)); }
+
 .question-answer-main {
     margin: 65px auto;
     // padding: 15px;
@@ -20,9 +27,11 @@
 }
 
 .description-p {
-    word-break: break-all;
-    margin: 0px;
-    padding: 10px 10px 0 10px;
+    @include transform(10px 10px 0 10px); 
+}
+
+.question-p {
+    @include transform(0 10px 0 10px); 
 }
 
 .question-div > h4 {

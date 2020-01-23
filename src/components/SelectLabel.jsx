@@ -81,7 +81,7 @@ const SelectLabel = forwardRef((props, ref) => {
                     }}
                 >
                     <Typography>Label name</Typography>
-                    <FormGroup aria-label="position" column>
+                    <FormGroup aria-label="position">
 
                         {props.labels.map((data, index) => {
                             return (

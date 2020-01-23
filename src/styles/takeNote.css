@@ -1,0 +1,259 @@
+.take-note-div {
+  -webkit-box-shadow: 0px 1px 4px 0px #888888;
+          box-shadow: 0px 1px 4px 0px #888888;
+  width: 583px;
+  border-radius: 7px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 10px;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.take-note-transition {
+  -webkit-box-shadow: 0px 1px 4px 0px #888888;
+          box-shadow: 0px 1px 4px 0px #888888;
+  width: 583px;
+  border-radius: 7px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 10px;
+  margin: 0 0 0 295px;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.input-base {
+  width: 85%;
+  padding: 5px 0px;
+}
+
+.create-note-div {
+  -webkit-box-shadow: 0px 1px 4px 0px #888888;
+          box-shadow: 0px 1px 4px 0px #888888;
+  width: 603px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.create-note-transition {
+  -webkit-box-shadow: 0px 1px 4px 0px #888888;
+          box-shadow: 0px 1px 4px 0px #888888;
+  width: 603px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0 0 0 330px;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.create-note-icon-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px 10px 5px;
+}
+
+.create-note-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.input-base-create {
+  width: 93%;
+  padding: 5px 10px 0 10px;
+}
+
+.create-icons-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 40%;
+}
+
+.icons-padding {
+  padding: 5px;
+  color: #656565;
+  cursor: pointer;
+}
+
+.pin-icon {
+  padding: 10px 0px 0px;
+}
+
+.edit-note-div {
+  -webkit-box-shadow: 0px 1px 4px 0px #888888;
+          box-shadow: 0px 1px 4px 0px #888888;
+  width: 537px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dialog-card {
+  width: 100%;
+}
+
+@media screen and (max-width: 1023px) and (min-width: 901px) {
+  .take-note-div {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .take-note-transition {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-div {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-transition {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 601px) {
+  .take-note-div {
+    width: 490px;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .take-note-transition {
+    width: 490px;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-div {
+    width: 510px;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-transition {
+    width: 510px;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .take-note-div {
+    min-width: 292px;
+    width: 104%;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .take-note-transition {
+    min-width: 292px;
+    width: 104%;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-div {
+    max-width: 565px;
+    min-width: 310px;
+    width: 108.3%;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .create-note-transition {
+    max-width: 565px;
+    min-width: 310px;
+    width: 108.3%;
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .edit-note-div {
+    max-width: unset;
+    min-width: unset;
+    width: 100%;
+  }
+}
+/*# sourceMappingURL=takeNote.css.map */
