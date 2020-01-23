@@ -24,7 +24,7 @@ const styles = theme => {
         inputBaseStyle: {
             width: '200px',
             fontSize: '0.9rem',
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.down('xs')]: {
                 width: '140px',
                 fontSize: '0.6rem',
             },
@@ -37,7 +37,7 @@ const styles = theme => {
         iconButton: {
             // marginLeft: '255px',
             padding: '5px 10px',
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.up('sm')]: {
                 marginLeft: '0px',
             }
         },

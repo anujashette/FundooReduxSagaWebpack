@@ -1,5 +1,5 @@
 import { create, read, remove } from '../services/httpService';
-
+let token = '';
 export function registerUser(userObj) {
     let userParam = {
         route: '/user/userSignUp',
@@ -37,7 +37,7 @@ export function resetPassword(userObj) {
 }
 
 export function requestCreateNote(noteObj) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/addNotes?access_token=${token}`,
         jsonObject: noteObj,
@@ -47,7 +47,7 @@ export function requestCreateNote(noteObj) {
 }
 
 export function requestGetNotes() {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/getNotesList?access_token=${token}`,
         headers: {}
@@ -56,7 +56,7 @@ export function requestGetNotes() {
 }
 
 export function requestGetLabels() {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels/getNoteLabelList?access_token=${token}`,
         headers: {}
@@ -65,7 +65,7 @@ export function requestGetLabels() {
 }
 
 export function updateNoteItem(noteObj,path) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/${path}?access_token=${token}`,
         jsonObject: noteObj,
@@ -75,7 +75,7 @@ export function updateNoteItem(noteObj,path) {
 }
 
 export function addLabelToNote(noteObj) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/${noteObj.noteId}/addLabelToNotes/${noteObj.labelId}/add?access_token=${token}`,
         jsonObject: {},
@@ -86,7 +86,7 @@ export function addLabelToNote(noteObj) {
 }
 
 export function requestGetReminderNotes() {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/getReminderNotesList?access_token=${token}`,
         headers: {}
@@ -95,7 +95,7 @@ export function requestGetReminderNotes() {
 }
 
 export function getLabelNotes(labelName) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/getNotesListByLabel/${labelName}?access_token=${token}`,
         headers: {}
@@ -104,7 +104,7 @@ export function getLabelNotes(labelName) {
 }
 
 export function createLabel(labelObj) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels?access_token=${token}`,
         jsonObject:labelObj,
@@ -114,7 +114,7 @@ export function createLabel(labelObj) {
 }
 
 export function updateLabel(labelObj,labelId) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels/${labelId}/updateNoteLabel?access_token=${token}`,
         jsonObject:labelObj,
@@ -124,7 +124,7 @@ export function updateLabel(labelObj,labelId) {
 }
 
 export function deleteLabel(labelId) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels/${labelId}/deleteNoteLabel?access_token=${token}`,
         headers: {}
@@ -133,7 +133,7 @@ export function deleteLabel(labelId) {
 }
 
 export function trashNote(noteObj) {
-    let token = localStorage.getItem('token');    
+    token = localStorage.getItem('token');    
     let labelParam = {
         route: `/notes/trashNotes?access_token=${token}`,
         jsonObject: noteObj,
@@ -143,7 +143,7 @@ export function trashNote(noteObj) {
 }
 
 export function deleteNoteForever(noteObj) {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/deleteForeverNotes?access_token=${token}`,
         jsonObject: noteObj,
@@ -153,7 +153,7 @@ export function deleteNoteForever(noteObj) {
 }
 
 export function searchUserList(searchObj)  {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/user/searchUserList?access_token=${token}`,
         jsonObject: searchObj,
@@ -163,7 +163,7 @@ export function searchUserList(searchObj)  {
 }
 
 export function addCollaboratorToNote(userObj, noteId)  {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/${noteId}/AddcollaboratorsNotes?access_token=${token}`,
         jsonObject: userObj,
@@ -173,10 +173,20 @@ export function addCollaboratorToNote(userObj, noteId)  {
 }
 
 export function getNoteDetails( noteId)  {
-    let token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/getNotesDetail/${noteId}?access_token=${token}`,
         headers: {}
     }
     return read(labelParam);
+}
+
+export function addQuestionAndAnswer(questionObj) {
+    token = localStorage.getItem('token');
+    let questionAnswerParam = {
+        route:`/questionAndAnswerNotes/addQuestionAndAnswer?access_token=${token}`,
+        jsonObject: questionObj,
+        headers: {}
+    }
+    return create(questionAnswerParam);
 }
