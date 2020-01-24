@@ -190,3 +190,13 @@ export function addQuestionAndAnswer(questionObj) {
     }
     return create(questionAnswerParam);
 }
+
+export function updateLikeUnLike(likeUnlikeObj,parentId) {
+    token = localStorage.getItem('token');
+    let questionAnswerParam = {
+        route:`/questionAndAnswerNotes/like/${parentId}?access_token=${token}`,
+        jsonObject: likeUnlikeObj,
+        headers: {}
+    }
+    return create(questionAnswerParam);
+}

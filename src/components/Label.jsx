@@ -57,8 +57,12 @@ const Label = forwardRef((props, ref) => {
     }
 
     const handleAskQuestion = () => {
-        props.props.props.history.push(`/dashboard/*/QuestionAnswer/${props.note.id}`)
-        
+        if (props.note.collaborators.length > 0) {
+            props.props.props.history.push(`/dashboard/*/QuestionAnswer/${props.note.id}`)
+        }
+        else {
+            alert('Collaborate note first')
+        }
     }
 
     const open = Boolean(anchorEl);

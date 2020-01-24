@@ -56,7 +56,7 @@ class Collaberator extends Component {
         this.state = {
             username: '',
             userList: [],
-            selectedUsers: [],
+            selectedUsers: props.collaborators,
             selectedUser: '',
             open: false
         }

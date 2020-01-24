@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/questionAnswer.scss';
-import { getNoteDetails, addQuestionAndAnswer } from '../services/userService';
+import { getNoteDetails, addQuestionAndAnswer, updateLikeUnLike } from '../services/userService';
 import { Button, Divider, IconButton, Tooltip, withStyles } from '@material-ui/core';
 import keep from '../Assets/keep.png';
 
@@ -46,13 +46,12 @@ class AskQuestionAnswer extends Component {
             isQuestionAsked: false,
             question: '',
             questionsArray: [],
-            userDetails: {},
-            rating: 0,
-            likes: 0
+            rate: 0,
+            likes: 0,
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.handleGetNote();
     }
 
@@ -61,12 +60,16 @@ class AskQuestionAnswer extends Component {
             .then((response) => {
                 let noteDetail = response.data.data.data[0]
                 this.setState({ noteDetails: noteDetail });
+
                 if (noteDetail.questionAndAnswerNotes.length > 0) {
                     this.setState({
-                        questionsArray: response.data.data.data[0].questionAndAnswerNotes[0],
+                        questionsArray: noteDetail.questionAndAnswerNotes.shift(),
+                        answerArray: noteDetail.questionAndAnswerNotes,
                         isQuestionAsked: true,
-                        userDetails: response.data.data.data[0].questionAndAnswerNotes[0].user
-                    })
+                    });
+                    console.log('array 1', this.state.questionsArray);
+                    console.log('array 2', this.state.answerArray);
+
                 }
             })
             .catch((error) => {
@@ -82,18 +85,12 @@ class AskQuestionAnswer extends Component {
     }
 
     handleClose = () => {
-        this.props.history.push('/dashboard/*/notes')
+        this.props.history.goBack();
     }
 
     handleModelChange = (model) => {
         this.setState({
             question: model
-        });
-    }
-
-    changeRating = (newRating, name) => {
-        this.setState({
-            rating: newRating
         });
     }
 
@@ -114,6 +111,37 @@ class AskQuestionAnswer extends Component {
             })
     }
 
+    changeRating = (newRating) => {
+        this.setState({
+            rate: newRating
+        });
+    }
+
+    handleLike = () => {
+        let likeObj = {
+            like: true
+        }
+        this.handleLikeApi(likeObj);
+    }
+
+    handleDislike = () => {
+        let likeDislikeObj = {
+            like: false
+        }
+        this.handleLikeApi(likeDislikeObj);
+    }
+
+    handleLikeApi = (likeUnlikeObj) => {
+        updateLikeUnLike(likeUnlikeObj, this.state.questionsArray.id)
+            .then((response) => {
+                this.handleGetNote();
+                console.log('res', response);
+            })
+            .catch((error) => {
+                console.log('error', error);
+            })
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -121,14 +149,20 @@ class AskQuestionAnswer extends Component {
                 <div className='title-button-div'>
                     <h4>{this.state.noteDetails.title}</h4>
                     <Button size="medium"
-                        // style={{  }}
                         className={classes.closeButton}
                         onClick={this.handleClose}>
                         Close
                         </Button>
                 </div>
                 <p className='description-p'>{this.state.noteDetails.description}</p>
-                {!this.state.isQuestionAsked ?
+                {this.state.isQuestionAsked ?
+                    <div className='question-div'>
+                        <Divider />
+                        <h4>Question Asked</h4>
+                        <p className='question-p' dangerouslySetInnerHTML={{ __html: this.state.questionsArray.message }} />
+                        <Divider />
+                    </div>
+                    :
                     <span>
                         <FroalaEditorComponent tag='textarea'
                             config={this.config}
@@ -136,19 +170,11 @@ class AskQuestionAnswer extends Component {
                             onModelChange={this.handleModelChange}>
                         </FroalaEditorComponent>
                         <Button size="medium"
-                            // style={{ }}
                             className={classes.askButton}
                             onClick={this.handleAddQuestion}>
                             Ask
-                        </Button>
+                    </Button>
                     </span>
-                    :
-                    <div className='question-div'>
-                        <Divider />
-                        <h4>Question Asked</h4>
-                        <p className='question-p' dangerouslySetInnerHTML={{ __html: this.state.questionsArray.message }} />
-                        <Divider />
-                    </div>
                 }
                 {!this.state.isQuestionAsked ?
                     null
@@ -156,7 +182,7 @@ class AskQuestionAnswer extends Component {
                     <div className='question-message-div'>
                         <img src={keep} className='profile-picture' />
                         <div>
-                            <p className='timeDate'>{this.state.userDetails.firstName} {this.state.userDetails.lastName}
+                            <p className='timeDate'>{this.state.questionsArray.firstName} {this.state.questionsArray.lastName}
                                 <span>&nbsp;&nbsp;&nbsp;{this.handleDateDisplay()}</span>
                             </p>
                             <p className='question-p' dangerouslySetInnerHTML={{ __html: this.state.questionsArray.message }} />
@@ -165,26 +191,36 @@ class AskQuestionAnswer extends Component {
                             <Tooltip title='Reply'>
                                 <IconButton className={classes.iconButton}><ReplyIcon /></IconButton>
                             </Tooltip>
-                            {this.state.questionsArray.like.length === 0 ?
-                                <Tooltip title='Like'>
-                                    <IconButton className={classes.iconButton}><Dislike /></IconButton>
-                                </Tooltip>
+                            {this.state.questionsArray.like.length !== 0 ?
+
+                                this.state.questionsArray.like.map((likeObj, index) => {
+                                    if (likeObj.userId === localStorage.getItem('userId') && likeObj.like === true) {
+                                        return (<Tooltip title='Dislike'>
+                                            <IconButton className={classes.iconButton} onClick={this.handleDislike}><Like /></IconButton>
+                                        </Tooltip>)
+                                    } else {
+                                        return (<Tooltip title='Like'>
+                                            <IconButton className={classes.iconButton} onClick={this.handleLike}><Dislike /></IconButton>
+                                        </Tooltip>)
+                                    }
+                                })
                                 :
-                                <Tooltip title='Dislike'>
-                                    <IconButton className={classes.iconButton}><Like /></IconButton>
+                                <Tooltip title='Like'>
+                                    <IconButton className={classes.iconButton} onClick={this.handleLike}><Dislike /></IconButton>
                                 </Tooltip>
                             }
+
                             <p className='like-p'>Like {this.state.likes}</p>
                             <span className='like-p'>
-                            <StarRatings
-                                rating={this.state.rating}
-                                starRatedColor='rgb(255, 211, 58)'
-                                starHoverColor='rgb(245, 224, 151)'
-                                changeRating={this.changeRating}
-                                numberOfStars={5}
-                                starDimension="20px"
-                                starSpacing="0px"
-                            />
+                                <StarRatings
+                                    rating={this.state.rate}
+                                    starRatedColor='rgb(255, 211, 58)'
+                                    starHoverColor='rgb(245, 224, 151)'
+                                    changeRating={this.changeRating}
+                                    numberOfStars={5}
+                                    starDimension="20px"
+                                    starSpacing="0px"
+                                />
                             </span>
                         </div>
                     </div>

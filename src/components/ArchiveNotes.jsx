@@ -71,12 +71,12 @@ class ArchiveNotes extends Component {
         const { classes } = this.props;
         
         let others = this.props.notes.filter(val => {
-            return val.isArchived === true;
+            return val.isArchived === true && val.isDeleted === false;
         });
 
         const notes = others.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} />
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
             )
         });
 

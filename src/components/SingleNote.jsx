@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar, Dialog } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar, Dialog, Divider } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import styled from "styled-components";
 
@@ -246,6 +246,10 @@ function SingleNote(props) {
         props.handleGet();
     }
 
+    const handleAskQuestion = () => {
+        props.props.history.push(`/dashboard/*/QuestionAnswer/${props.note.id}`)
+    }
+
     let CollaberatorAvatar = props.note.collaborators.map((userItem, index) => {
         let nameFirstLetter = userItem.firstName.charAt(0);
         return (
@@ -291,7 +295,7 @@ function SingleNote(props) {
                     onDelete={handleDelete(key)}
                     deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
                     style={{
-                        height: "20px", maxWidth: "100px",margin:'15px 0 0',
+                        height: "20px", maxWidth: "100px", margin: '15px 0 0',
                         backgroundColor: '#f4f4f4'
                     }}
                 />
@@ -301,7 +305,7 @@ function SingleNote(props) {
 
     return (
         <MuiThemeProvider theme={theme}>
-            {!values.isEdited ?
+
                 <Card id={props.reduxState.state.displayCardList} style={{ background: props.note.color }}>
                     <div className='create-note-card'>
                         <Typography
@@ -341,6 +345,7 @@ function SingleNote(props) {
                                     handleCollabrator={handleCollaberator}
                                     handleUpdateCollaborator={handleUpdateCollaborator}
                                     collberatorOnSave={collberatorOnSave}
+                                    collaborators = {props.note.collaborators}
                                 />
                             </Dialog>
 
@@ -371,8 +376,18 @@ function SingleNote(props) {
                             </Tooltip>
                         </div>
                     }
+                    {
+                        props.note.questionAndAnswerNotes.length > 0 ?
+                            <div onClick={handleAskQuestion}>
+                                <Divider />
+                                <h4 className='display-title'>Question Asked</h4>
+                                <div className='display-question-p' dangerouslySetInnerHTML={{ __html: props.note.questionAndAnswerNotes[0].message }}></div>
+                            </div>
+                            :
+                            null
+                    }
                 </Card>
-                :
+
                 <EditNote
                     handleEditClose={handleEditClose}
                     open={values.isEdited}
@@ -381,7 +396,7 @@ function SingleNote(props) {
                     handleSetArchive={handleSetArchive}
                     handleGet={collberatorOnSave}
                 />
-            }
+
 
             <ColorMenu
                 ref={colorMenuRef}
@@ -393,7 +408,7 @@ function SingleNote(props) {
                 updateLabel={'createdNote'}
                 note={props.note}
                 handleGet={props.handleGet}
-                props={props}            
+                props={props}
             />
         </MuiThemeProvider>
     )

@@ -1,4 +1,4 @@
-import React , { useEffect }from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,7 +24,7 @@ import Trash from '@material-ui/icons/DeleteOutlined'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import '../styles/drawer.scss';
 import { connect } from 'react-redux';
-import { setTransition, unsetTransition, getlabels} from '../actions';
+import { setTransition, unsetTransition, getlabels } from '../actions';
 
 const { forwardRef, useImperativeHandle } = React;
 const drawerWidth = 240;
@@ -50,29 +50,6 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth,
     borderRight: '0px'
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0
   }
 }));
 
@@ -94,36 +71,43 @@ const DrawerLeft = forwardRef((props, ref) => {
   }));
 
   const handleNotes = () => {
+    props.dispatch({ type: 'APPBAR_TITLE', appbarTitle: 'Fundoo' });
     history.push('/dashboard/*/notes')
   }
 
   const handleReminder = () => {
+    props.dispatch({ type: 'APPBAR_TITLE', appbarTitle: 'Reminder' });
     history.push('/dashboard/*/reminder');
   }
 
-  const handleLabels = (labelName) => { 
+  const handleLabels = (labelName) => {
+    props.dispatch({ type: 'APPBAR_TITLE', appbarTitle: labelName });
+
     props.props.handleLabelNotesLoad(labelName);
   }
 
   const handleEditLabel = () => {
-    props.dispatch({type:'EDIT_LABEL_OPEN', editLabelDialog:true})
+
+    props.dispatch({ type: 'EDIT_LABEL_OPEN', editLabelDialog: true })
   }
 
   const handleArchive = () => {
+    props.dispatch({ type: 'APPBAR_TITLE', appbarTitle: 'Archive' });
     history.push('/dashboard/*/archive');
   }
 
   const handleBin = () => {
+    props.dispatch({ type: 'APPBAR_TITLE', appbarTitle: 'Bin' });
     history.push('/dashboard/*/bin');
   }
 
   useEffect(() => {
-   props.dispatch(getlabels());
-  },[]);
+    props.dispatch(getlabels());
+  }, []);
 
   const labelsList = props.reduxState.state.labels.map((label, index) => {
     return (
-      <ListItem key={index} button id='drawer-item' onClick={()=>handleLabels(label.label)}>
+      <ListItem key={index} button id='drawer-item' onClick={() => handleLabels(label.label)}>
         <ListItemIcon><LabelIcon /></ListItemIcon>
         <ListItemText primary={label.label} />
       </ListItem>);

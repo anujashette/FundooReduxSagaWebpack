@@ -1,5 +1,5 @@
 @mixin transform($property) {
-//   word-break: break-all;
+  //   word-break: break-all;
   margin: 0px;
   padding: $property;
 }
@@ -12,8 +12,8 @@
 }
 
 @mixin smallTextSize() {
-    font-size: 0.7em;
-    margin: 0 10px;
+  font-size: 0.7em;
+  margin: 0 10px;
 }
 
 .question-answer-main {
@@ -28,7 +28,7 @@
 }
 
 .title-button-div > h4 {
-//   word-break: break-all;
+  //   word-break: break-all;
   margin: 5px 0px 0;
   font-family: sans-serif;
   font-size: 1.2em;
@@ -43,7 +43,7 @@
 }
 
 .question-div > h4 {
-//   word-break: break-all;
+  //   word-break: break-all;
   margin: 5px 0px;
   padding: 10px 10px 0 15px;
   font-family: sans-serif;
@@ -55,7 +55,7 @@
 }
 
 .timeDate {
-@include smallTextSize()
+  @include smallTextSize();
 }
 
 .profile-picture {
@@ -64,20 +64,28 @@
 }
 
 .like-p {
-    @include smallTextSize();
-    align-self: center;
+  @include smallTextSize();
+  align-self: center;
 }
 
-.question-icon-div{
-    margin: 20px 0 0; 
-    display: flex;
+.question-icon-div {
+  // margin: 20px 0 0;
+  display: flex;
 }
 
-// @media only screen and (max-width: 1084px) and (min-width: 1025px) {
-//     .like-p{
-//         margin: 0px;
-//     }
-// }
+// Display question on note
+
+.display-title{
+  @include transform(10px 10px 0);
+  font-weight: initial;
+    font-family: fantasy;
+    font-style: italic;
+}
+
+.display-question-p{
+  @include transform(0px 10px 10px 10px);
+  font-size: 0.9em;
+}
 
 @media only screen and (max-width: 1024px) and (min-width: 901px) {
   .question-answer-main {
@@ -86,40 +94,38 @@
   }
 }
 
-
 @media only screen and (max-width: 900px) and (min-width: 881px) {
-    .question-answer-main {
-      margin: 65px auto;
-      width: 80%;
-    }
+  .question-answer-main {
+    margin: 65px auto;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 880px) and (min-width: 601px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 80%;
   }
 
+  .question-icon-div {
+    // margin: 20px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 
-  @media only screen and (max-width: 880px) and (min-width: 601px) {
-    .question-answer-main {
-        margin: 65px auto;
-        width: 80%;
-      }
+@media only screen and (max-width: 600px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 100%;
+  }
 
-    .question-icon-div {
-         margin: 20px 0px 0px;
-         display: flex;
-         flex-wrap: wrap;
-         justify-content: center;
-     }
- }
-
- @media only screen and (max-width: 600px) {
-    .question-answer-main {
-        margin: 65px auto;
-        width: 100%;
-      }
-
-    .question-icon-div {
-         margin: 20px 0px 0px;
-         display: flex;
-         flex-wrap: wrap;
-         justify-content: center;
-         width: 295px;
-     }
- }
+  .question-icon-div {
+    // margin: 20px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 295px;
+  }
+}

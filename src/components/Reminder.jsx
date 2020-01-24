@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { connect } from 'react-redux';
 import { ClickAwayListener, Button } from '@material-ui/core';
 import '../styles/label.scss';
+import '../styles/displayNotes.scss';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -116,7 +117,7 @@ function Reminder(props) {
             {/* <ClickAwayListener onClickAway={() =>handleClick()}> */}
             <MuiThemeProvider theme={theme}>
                 {!picker ?
-                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition >
+                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{zIndex:' 1350'}}>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350} className={classes.paper}>
                                 <List component="nav" aria-label="secondary mailbox folders">

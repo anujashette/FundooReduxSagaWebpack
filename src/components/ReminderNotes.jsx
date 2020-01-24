@@ -72,7 +72,7 @@ class ReminderNotes extends Component {
         const { classes } = this.props;
         const notes = this.props.notes.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
             )
         });
 
