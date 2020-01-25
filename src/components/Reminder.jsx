@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
         width: '17px',
         display: 'flex',
         'justify-content': 'space-evenly',
-        padding: ' 0 10px 10px 10px',
         cursor: 'pointer'
     }
 }));
@@ -108,7 +107,7 @@ function Reminder(props) {
     };
 
     return (
-        <div>
+        <div style={{ padding:props.padding }}>
             <ReminderIcon className='icons-padding'
                 className={classes.svgIcon}
                 aria-describedby={id}
@@ -117,7 +116,7 @@ function Reminder(props) {
             {/* <ClickAwayListener onClickAway={() =>handleClick()}> */}
             <MuiThemeProvider theme={theme}>
                 {!picker ?
-                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{zIndex:' 1350'}}>
+                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{ zIndex: ' 1350' }}>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350} className={classes.paper}>
                                 <List component="nav" aria-label="secondary mailbox folders">
@@ -145,7 +144,7 @@ function Reminder(props) {
                         )}
                     </Popper>
                     :
-                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition>
+                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{ zIndex: '1300' }}>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350} className={classes.paper}>
                                 <List component="nav" aria-label="secondary mailbox folders">
@@ -186,7 +185,7 @@ function Reminder(props) {
                                         </Grid>
                                     </MuiPickersUtilsProvider>
                                     <div className="save-button">
-                                        <Button size="medium" style={{textTransform:'initial'}} onClick={handlePickerClick} id={id}>
+                                        <Button size="medium" style={{ textTransform: 'initial' }} onClick={handlePickerClick} id={id}>
                                             Save
                                     </Button>
                                     </div>

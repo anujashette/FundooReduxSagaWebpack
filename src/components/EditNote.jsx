@@ -70,7 +70,7 @@ const useStyles = makeStyles({
             width: '100%',
             maxWidth: 'unset'
         }
-    }
+    },
 });
 
 function EditNote(props) {
@@ -289,16 +289,16 @@ function EditNote(props) {
                         </div>
                         <div className='create-note-icon-div'>
                             <div className='create-icons-div'>
-                                <Reminder
+                                <Reminder padding='0px'
                                     handleSetReminder={handleSetReminder}
                                 />
-                                <PersonAdd className='icons-padding' onClick={handleCollaberator} />
-                                <Color className='icons-padding'
+                                <PersonAdd  onClick={handleCollaberator} />
+                                <Color 
                                     onClick={(event) => colorMenuRef.current.handleClick(event)}
                                 />
-                                <Image className='icons-padding' />
-                                <Archive className='icons-padding' onClick={handleArchive} />
-                                <More className='icons-padding'
+                                <Image  />
+                                <Archive  onClick={handleArchive} />
+                                <More 
                                     onClick={(event) => lebelMenuRef.current.handleOpenMenu(event)}
                                 />
                             </div>

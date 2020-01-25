@@ -335,7 +335,7 @@ function SingleNote(props) {
                     {!props.note.isDeleted ?
 
                         <div className='display-icons-div'>
-                            <Reminder
+                            <Reminder padding='0px 5px 0px 10px'
                                 handleSetReminder={handleSetReminder}
                             />
 

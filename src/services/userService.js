@@ -191,10 +191,10 @@ export function addQuestionAndAnswer(questionObj) {
     return create(questionAnswerParam);
 }
 
-export function updateLikeUnLike(likeUnlikeObj,parentId) {
+export function updateLikeUnLike(likeUnlikeObj,parentId,path) {
     token = localStorage.getItem('token');
     let questionAnswerParam = {
-        route:`/questionAndAnswerNotes/like/${parentId}?access_token=${token}`,
+        route:`/questionAndAnswerNotes/${path}/${parentId}?access_token=${token}`,
         jsonObject: likeUnlikeObj,
         headers: {}
     }
