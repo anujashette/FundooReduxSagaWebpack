@@ -55,24 +55,24 @@ class LabelNotes extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            labelName:this.props.match.params.labelname.slice(1)
+            labelName: this.props.match.params.labelname.slice(1)
         }
     }
 
-    componentDidMount() { 
+    componentDidMount() {
         this.handleGet();
     }
 
-    handleGet = () => {        
+    handleGet = () => {
         this.props.dispatch(requestGetLabelNotes(this.state.labelName));
         this.props.dispatch(getlabels());
     }
 
-    render() {        
+    render() {
         const { classes } = this.props;
         const notes = this.props.labelNotes.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
             )
         });
 

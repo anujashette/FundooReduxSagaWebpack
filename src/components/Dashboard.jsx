@@ -34,7 +34,7 @@ class Dashboard extends Component {
   }
 
   handleLabelNotesLoad = (labelName) => {
-    this.props.history.push(`label:${labelName}`);
+    this.props.history.push(`/dashboard/*/label:${labelName}`);
     this.handleLabelNotes(labelName);
   }
 
@@ -61,4 +61,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps)(Dashboard);

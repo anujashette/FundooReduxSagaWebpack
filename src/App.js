@@ -12,6 +12,7 @@ import BinNotes from './components/BinNotes.jsx';
 import LabelNotes from './components/LabelNotes.jsx';
 import EditLabel from './components/EditLabel.jsx';
 import SearchNotes from './components/SearchNotes.jsx';
+import AskQuestionAnswer from './components/AskQuestionAnswer.jsx';
 
 class App extends Component {
     render() {
@@ -29,6 +30,7 @@ class App extends Component {
                     <Route path="/dashboard/*/archive" component={ArchiveNotes} />
                     <Route path="/dashboard/*/bin" component={BinNotes} />
                     <Route path="/dashboard/*/search" component={SearchNotes} />
+                    <Route path="/dashboard/*/QuestionAnswer/:noteId" component={AskQuestionAnswer} />
                 </BrowserRouter>
             </div>
         )

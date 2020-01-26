@@ -46,10 +46,25 @@ module.exports = {
           },
         ],
       },
+
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        use: "url-loader?limit=10000&mimetype=application/font-woff"
+      }, {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        use: "url-loader?limit=10000&mimetype=application/font-woff"
+      }, {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        use: "url-loader?limit=10000&mimetype=application/octet-stream"
+      }, {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        use: "file-loader"
+      }
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx'],
+    modules: ['node_modules']
   },
   output: {
     path: path.join(__dirname + '/dist'),
@@ -76,3 +91,50 @@ module.exports = {
 //   filename: './index.html',
 //   favicon: "./dist/keep.png"
 // })
+
+
+
+
+
+
+// module.exports = {
+//   module: {
+//     rules: [
+//       {
+//         test: /\.jsx$/,
+//         use: {
+//           loader: 'babel-loader',
+//           options: {
+//             cacheDirectory: true,
+//             presets: ['react','es2015', 'stage-2']
+//           }
+//         }
+//       }, {
+//         test: /\.css$/,
+//         use: [
+//           'style-loader',
+//           'css-loader'
+//         ]
+//       },
+//       {
+//         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+//         use: "url-loader?limit=10000&mimetype=application/font-woff"
+//       }, {
+//         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+//         use: "url-loader?limit=10000&mimetype=application/font-woff"
+//       }, {
+//         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+//         use: "url-loader?limit=10000&mimetype=application/octet-stream"
+//       }, {
+//         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+//         use: "file-loader"
+//       }, {
+//         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+//         use: "url-loader?limit=10000&mimetype=image/svg+xml"
+//       }
+//     ]
+//   },
+//   resolve: {
+//     modules: ['node_modules']
+//   }
+// };

@@ -1,0 +1,126 @@
+.question-answer-main {
+  margin: 65px auto;
+  width: 70%;
+}
+
+.title-button-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 97%;
+  padding: 10px 10px 0 15px;
+}
+
+.title-button-div > h4 {
+  margin: 5px 0px 0;
+  font-family: sans-serif;
+  font-size: 1.2em;
+}
+
+.description-p {
+  margin: 0px;
+  padding: 10px 10px 10px 15px;
+}
+
+.question-p {
+  margin: 0px;
+  padding: 0 10px 0 18px;
+}
+
+.question-div > h4 {
+  margin: 5px 0px;
+  padding: 10px 10px 0 15px;
+  font-family: sans-serif;
+  font-size: 1.2em;
+}
+
+.question-message-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: "start";
+      -ms-flex-pack: "start";
+          justify-content: "start";
+  width: 97%;
+  padding: 10px 10px 0 15px;
+}
+
+.timeDate {
+  font-size: 0.7em;
+  margin: 0 10px;
+}
+
+.profile-picture {
+  width: auto;
+  height: 45px;
+}
+
+.like-p {
+  font-size: 0.7em;
+  margin: 0 10px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.question-icon-div {
+  margin: 20px 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 901px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 881px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 880px) and (min-width: 601px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 80%;
+  }
+  .question-icon-div {
+    margin: 20px 0px 0px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .question-answer-main {
+    margin: 65px auto;
+    width: 100%;
+  }
+  .question-icon-div {
+    margin: 20px 0px 0px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    width: 295px;
+  }
+}
+/*# sourceMappingURL=questionAnswer.css.map */

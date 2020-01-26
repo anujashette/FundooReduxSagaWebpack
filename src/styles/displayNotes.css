@@ -1,0 +1,281 @@
+.main-display {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.transition-main {
+  margin: 0 0 0 150px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+}
+
+.display-notes {
+  width: 52%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.pin-title {
+  font-size: 0.8em;
+  font-family: sans-serif;
+  font-weight: 100;
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
+  width: 51%;
+  margin: auto;
+  padding: 10px;
+}
+
+#display-card {
+  min-width: 230px;
+  max-width: 230px;
+  margin: 0 8px 16px 8px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.create-note-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display-icons-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 100%;
+}
+
+.icons-padding {
+  padding: 5px;
+  color: #656565;
+  cursor: pointer;
+}
+
+.pin-icon {
+  padding: 10px 5px 0px 0;
+}
+
+.display-bin-icons-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
+}
+
+.display-label-area {
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-width: 210px;
+}
+
+.edit-label-area {
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 94%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  min-width: 230px;
+}
+
+.display-notes-list {
+  width: 70%;
+  max-width: 620px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#display-card-list {
+  width: 100%;
+  margin: 0 8px 16px 8px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.pin-title-list {
+  width: 46.5%;
+  max-width: 600px;
+  font-size: 0.8em;
+  font-family: sans-serif;
+  font-weight: 100;
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
+  margin: auto;
+  padding: 10px;
+  min-width: 600px;
+}
+
+@media screen and (max-width: 1420px) and (min-width: 1024px) {
+  .display-notes {
+    width: 73%;
+    max-width: 740px;
+  }
+  .pin-title {
+    width: 70%;
+    max-width: 718px;
+  }
+}
+
+@media screen and (max-width: 1023px) and (min-width: 901px) {
+  .main-display {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .transition-main {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .display-notes {
+    width: 82%;
+    max-width: 738px;
+  }
+  .pin-title {
+    width: 79%;
+    max-width: 710px;
+  }
+  .pin-title-list {
+    width: 46.5%;
+    max-width: 600px;
+    min-width: 590px;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 600px) {
+  .main-display {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .transition-main {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .display-notes {
+    width: 82%;
+    max-width: 500px;
+  }
+  .pin-title {
+    width: 55%;
+    max-width: 472px;
+    min-width: 480px;
+  }
+  .display-notes-list {
+    width: 63%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    width: 86%;
+    max-width: 525px;
+  }
+  .pin-title-list {
+    width: 55%;
+    max-width: 500px;
+    min-width: 500px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-display {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  .transition-main {
+    -webkit-transition-duration: unset;
+            transition-duration: unset;
+    -webkit-transition-timing-function: unset;
+            transition-timing-function: unset;
+    margin: 0 0 0 0;
+  }
+  #display-card {
+    width: 95%;
+    max-width: unset;
+    margin: 0 8px 16px 8px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    min-width: unset;
+  }
+  .display-notes {
+    width: 100%;
+  }
+  .display-notes-list {
+    width: 100%;
+  }
+  .pin-title {
+    width: 100%;
+  }
+  .pin-title-list {
+    width: 96%;
+  }
+  .display-card {
+    width: 100px;
+    padding: 100px;
+  }
+}
+/*# sourceMappingURL=displayNotes.css.map */

@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { connect } from 'react-redux';
 import { ClickAwayListener, Button } from '@material-ui/core';
 import '../styles/label.scss';
+import '../styles/displayNotes.scss';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -47,7 +48,6 @@ const useStyles = makeStyles(theme => ({
         width: '17px',
         display: 'flex',
         'justify-content': 'space-evenly',
-        padding: ' 0 10px 10px 10px',
         cursor: 'pointer'
     }
 }));
@@ -91,6 +91,7 @@ function Reminder(props) {
         // nextWeek.setDate(nextWeek.getDate() + (1 + 7 - nextWeek.getDay()) % 7);
         nextWeek.setDate(nextWeek.getDate() + (7 - nextWeek.getDay()) % 7 + 1);
         nextWeek.setHours(20, 0, 0);
+        
         props.handleSetReminder(nextWeek.toISOString());
         handleClick(null);
     }
@@ -107,7 +108,7 @@ function Reminder(props) {
     };
 
     return (
-        <div>
+        <div style={{ padding:props.padding }}>
             <ReminderIcon className='icons-padding'
                 className={classes.svgIcon}
                 aria-describedby={id}
@@ -116,7 +117,7 @@ function Reminder(props) {
             {/* <ClickAwayListener onClickAway={() =>handleClick()}> */}
             <MuiThemeProvider theme={theme}>
                 {!picker ?
-                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition >
+                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{ zIndex: ' 1350' }}>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350} className={classes.paper}>
                                 <List component="nav" aria-label="secondary mailbox folders">
@@ -124,12 +125,12 @@ function Reminder(props) {
                                         <ListItemText primary="Today" />
                                         <span style={{ marginLeft: "7rem", fontSize: '0.8rem' }}>20:00</span>
                                     </ListItem>
-                                    <ListItem button>
-                                        <ListItemText primary="Tomorrow" onClick={handleTomorrow}></ListItemText>
+                                    <ListItem button onClick={handleTomorrow}>
+                                        <ListItemText primary="Tomorrow" ></ListItemText>
                                         <span style={{ marginLeft: "7rem", fontSize: '0.8rem' }}>08:00</span>
                                     </ListItem>
-                                    <ListItem button>
-                                        <ListItemText primary="Next week" onClick={handleNextWeek}></ListItemText>
+                                    <ListItem button onClick={handleNextWeek}>
+                                        <ListItemText primary="Next week" ></ListItemText>
                                         <span style={{ marginLeft: "7rem", fontSize: '0.8rem' }}>Mon,08:00</span>
                                     </ListItem>
                                     <ListItem button onClick={handlePickerClick} id={id}>
@@ -144,7 +145,7 @@ function Reminder(props) {
                         )}
                     </Popper>
                     :
-                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition>
+                    <Popper id={id} open={open} anchorEl={anchorEl} placement={'bottom-start'} transition style={{ zIndex: '1300' }}>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350} className={classes.paper}>
                                 <List component="nav" aria-label="secondary mailbox folders">
@@ -185,7 +186,7 @@ function Reminder(props) {
                                         </Grid>
                                     </MuiPickersUtilsProvider>
                                     <div className="save-button">
-                                        <Button size="medium" style={{textTransform:'initial'}} onClick={handlePickerClick} id={id}>
+                                        <Button size="medium" style={{ textTransform: 'initial' }} onClick={handlePickerClick} id={id}>
                                             Save
                                     </Button>
                                     </div>

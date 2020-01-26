@@ -35,11 +35,14 @@ function NewCheckList() {
     });
 
 
-    const handleChange = prop => event => {
-        setValues({ ...values, changeItem: event.target.value, isItemEnetered: true });
+    const handleChange = event => {
+        console.log(event.target.value);
+        
+        setValues({ ...values, listItem: event.target.value, isItemEnetered: true });
+        itemsArray.push(values.event.target.value);
+        setValues({ ...values, listItems:itemsArray, listItem:'' });
 
-        itemsArray.push(values.changeItem);
-        // console.log('array====>', itemsArray);
+        console.log('array====>', values);
     };
 
     const handleClose = () => {
@@ -54,12 +57,11 @@ function NewCheckList() {
         // console.log('array pushed====>', values.listItems);
     }
 
-
     return (
         <div className='check-list-div'>
             <MuiThemeProvider theme={theme}>
                 {values.isItemEnetered ?
-                    itemsArray.map((data, index) => {
+                    values.listItems.map((data, index) => {
                         <div>
                             <Checkbox className='add-icon'
                                 color='default' />
@@ -67,7 +69,7 @@ function NewCheckList() {
                                 // placeholder='List item'
                                 className='input-base-list'
                                 value={data}
-                                onChange={handleChange('changeItem')}
+                                onChange={handleChange}
                                 autoFocus={true}
                             ></InputBase>
                             <ClearOutlinedIcon className='add-icon' onClick={handleClose} />
@@ -82,7 +84,7 @@ function NewCheckList() {
                     placeholder='List item'
                     className='input-base-create'
                     value={values.listItem}
-                    onChange={handleChange('listItem')}
+                    onChange={handleChange}
                     onClick={handleClear}
                     autoFocus={true}
                 ></InputBase>

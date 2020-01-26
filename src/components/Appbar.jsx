@@ -218,8 +218,6 @@ function PrimarySearchAppBar(props) {
     };
 
     const handleRefresh = () => {
-        console.log('refresh');
-
         props.dispatch(getNotes());
         props.dispatch(getlabels());
         // if (!loading) {
@@ -252,11 +250,12 @@ function PrimarySearchAppBar(props) {
     // }
 
     const handleSearchNotes = () => {
-        props.props.history.push('search');
+        props.props.history.push('/dashboard/*/search');
     }
 
     const handleSearch = (event) =>{ 
         setSearchKeyword(event.target.value);
+        // props.dispatch({type:'APPBAR_TITLE', appbarTitle:event.target.value});
         props.dispatch({type:'SEARCH_KEYWORD', searchKeyword:event.target.value});
     }
 
@@ -276,7 +275,7 @@ function PrimarySearchAppBar(props) {
                 vertical: 'bottom',
                 horizontal: 'left',
             }}
-            style={{ top: '48px' }}
+            style={{ top: '48px', left:'-10px' }}
         >
             <div className='profile-div'>
                 <Badge
@@ -291,14 +290,14 @@ function PrimarySearchAppBar(props) {
                     >
                         {/* <input id='selector-file' accept="image/*" type="file" onChange={onSelectFile} style={{ display: 'none' }} />
                         <label htmlFor="selector-file">
-                            <Camera style={{ width: '0.7em' }} >
+                            <Camera style={{ width: '0.7em' }}>
                             </Camera>
                         </label> */}
                         <PictureCropper/>
                     </SmallAvatar>}
                 >
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
-                        <img src={localStorage.getItem('imageUrl')} alt='' />
+                        <img src={Keep} alt='' />
                     </Avatar>
                     
                 </Badge>
@@ -343,7 +342,7 @@ function PrimarySearchAppBar(props) {
                     style={{ padding: '8px' }}
                 >
                     <Avatar className={classes.avatar} style={{ background: '#5ccaca' }}>
-                        <img src={localStorage.getItem('imageUrl')} alt='keep icon' />
+                        <img src={Keep} alt='keep icon' />
                     </Avatar>
                 </IconButton>
                 <p>Profile</p>
@@ -367,7 +366,7 @@ function PrimarySearchAppBar(props) {
                         </IconButton>
                         <img src={Keep} alt='keep icon' />
                         <Typography className={classes.title} variant="h6">
-                            Fundoo
+                            {props.appbarTitle}
                         </Typography>
                         <div className={classes.search} >
                             <div className={classes.searchIcon}>
@@ -400,7 +399,7 @@ function PrimarySearchAppBar(props) {
                                 </IconButton>
                             }
                             <Avatar aria-describedby={menuId} onClick={handleProfileMenuOpen} style={{ background: '#5ccaca' }}>
-                                <img src={localStorage.getItem('imageUrl')} alt='' />
+                                <img src={Keep} alt='' />
                             </Avatar>
                         </div>
                         <div className={classes.sectionMobile}>

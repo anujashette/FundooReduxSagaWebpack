@@ -1,0 +1,270 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.card {
+  margin: auto;
+  width: 55%;
+  max-width: 700px;
+  padding: 25px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  height: 500px;
+  border: 0.5px solid #d6d6d6;
+  right: 0%;
+}
+
+.card-content {
+  width: 55%;
+}
+
+.fundoo-title {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 550;
+  font-family: sans-serif;
+  padding-top: 10px;
+}
+
+.f-color {
+  color: #3f76ff;
+}
+
+.u-color {
+  color: #ff1313;
+}
+
+.n-color {
+  color: #ffda0c;
+}
+
+.d-color {
+  color: #3f76ff;
+}
+
+.o-color {
+  color: #00a500;
+}
+
+.o1-color {
+  color: #ff1313;
+}
+
+.flname-style {
+  width: 180px;
+  height: 35px;
+}
+
+.first-last-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+}
+
+.username-style {
+  width: 370px;
+  height: 35px;
+}
+
+.password-style {
+  width: 160px;
+  height: 35px;
+}
+
+.password-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 93%;
+}
+
+.username-helper-text {
+  width: 75%;
+}
+
+.eye-icon {
+  padding: 20px 0px 0px 0px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.bl-title {
+  font-size: 23px;
+  margin: 20px 0 0px 0px;
+}
+
+.fundoo-subtitle {
+  font-size: 18px;
+  margin: 12px 0 10px 0px;
+}
+
+.action-button {
+  width: 55%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.content-img-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.google-img {
+  width: 33%;
+  padding: 15% 0px 0 25px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.img-text {
+  text-align: center;
+  margin: 5px 0px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 100;
+}
+
+@media screen and (max-width: 1260px) and (min-width: 901px) {
+  .card {
+    width: 77%;
+  }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 600px) {
+  .card {
+    margin: auto;
+    width: 67%;
+    max-width: 400px;
+    padding: 25px;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    bottom: 0%;
+    height: 500px;
+    border: 0.5px solid #d6d6d6;
+    right: 0%;
+  }
+  .card-content {
+    width: 100%;
+  }
+  .google-img {
+    display: none;
+  }
+  .action-button {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    /* margin: auto; */
+    width: 100%;
+    max-width: none;
+    padding: 5px 0px 0 20px;
+    position: fixed;
+    top: unset;
+    left: unset;
+    bottom: unset;
+    height: auto;
+    border: 0;
+    right: unset;
+  }
+  .card-content {
+    width: 100%;
+  }
+  .google-img {
+    display: none;
+  }
+  .fundoo-title {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 550;
+    font-family: sans-serif;
+    padding-top: 0px;
+  }
+  .fundoo-subtitle {
+    font-size: 20px;
+    margin: 12px 0 10px 0px;
+  }
+  .flname-style {
+    width: 90%;
+    height: 35px;
+  }
+  .first-last-div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column wrap;
+            flex-flow: column wrap;
+  }
+  .username-style {
+    width: 90%;
+    height: 35px;
+  }
+  .password-style {
+    width: 90%;
+    height: 35px;
+  }
+  .password-div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    width: 90%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column wrap;
+            flex-flow: column wrap;
+  }
+  .action-button {
+    width: 87%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .eye-icon {
+    padding: 40px 20px 0px 0px;
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+    position: absolute;
+  }
+  .username-helper-text {
+    width: 70%;
+  }
+}
+/*# sourceMappingURL=registerStyle.css.map */

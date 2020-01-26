@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React, { PureComponent, Component } from 'react';
 import ReactCrop from 'react-image-crop';
 import Camera from '@material-ui/icons/CameraAltOutlined';
+// import 'react-image-crop/dist/ReactCrop.css';
 
 import '../styles/cropper.scss';
 import { Dialog } from '@material-ui/core';

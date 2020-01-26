@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,OAAO,EAAE,MAAM;CAClB;;AAED,AAAA,SAAS,CAAA;EACL,OAAO,EAAE,UAAU;EACnB,MAAM,EAAE,UAAU;EAClB,KAAK,EAAE,OAAO;CACjB;;AAED,AAAA,kBAAkB,CAAC;EACf,WAAW,EAAE,GAAG;EAChB,SAAS,EAAE,IAAI;CAClB;;AAGD,AAAA,gBAAgB,CAAC;EACb,KAAK,EAAE,GAAG;EACV,OAAO,EAAE,eAAe;CACzB",
+    "sources": [
+        "newCheckList.scss"
+    ],
+    "names": [],
+    "file": "newCheckList.css"
+}

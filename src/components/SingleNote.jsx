@@ -2,7 +2,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar, Dialog } from '@material-ui/core';
+import { createMuiTheme, MuiThemeProvider, Typography, Tooltip, Avatar, Dialog, Divider } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import styled from "styled-components";
 
@@ -17,7 +17,7 @@ import Color from '@material-ui/icons/ColorLensOutlined';
 import More from '@material-ui/icons/MoreVertOutlined';
 import NewCheckList from './NewCheckList';
 import { connect } from 'react-redux';
-import { updateNoteItem, addLabelToNote, trashNote, deleteNote, deleteNoteForever } from '../services/userService';
+import { updateNoteItem, addLabelToNote, trashNote, deleteNote, deleteNoteForever, addCollaboratorToNote } from '../services/userService';
 import ColorMenu from './ColorMenu';
 import EditNote from './EditNote';
 import Label from './Label';
@@ -26,7 +26,7 @@ import WatchLaterOutlined from '@material-ui/icons/WatchLaterOutlined';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import Reminder from './Reminder';
-import Collabrator from './Collabrator';
+import Collaberator from './Collaberator';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
     },
     dialogCard: {
         maxWidth: '600px',
-        padding:'0px',
+        padding: '0px',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             maxWidth: 'unset'
@@ -85,7 +85,8 @@ function SingleNote(props) {
         isArchived: false,
         isEdited: false,
         noteId: props.note.id,
-        open: false
+        open: false,
+        collaboratedUser: []
     });
 
     const MyChip = props => (
@@ -213,6 +214,20 @@ function SingleNote(props) {
         updateItem(reminderObj, path);
     }
 
+    const handleUpdateCollaborator = (selectedUser) => {
+        console.log('in single-->', props.note);
+
+        addCollaboratorToNote(selectedUser, props.note.id)
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
+    }
+
     const updateItem = (dataObject, path) => {
         updateNoteItem(dataObject, path)
             .then((response) => {
@@ -223,16 +238,36 @@ function SingleNote(props) {
             })
     }
 
-    const handleCollabrator = () => {
-        console.log('collab');
-        
+    const handleCollaberator = () => {
         setValues({ ...values, open: !values.open });
     }
+
+    const collberatorOnSave = () => {
+        props.handleGet();
+    }
+
+    const handleAskQuestion = () => {
+        props.props.history.push(`/dashboard/*/QuestionAnswer/${props.note.id}`)
+    }
+
+    let CollaberatorAvatar = props.note.collaborators.map((userItem, index) => {
+        let nameFirstLetter = userItem.firstName.charAt(0);
+        return (
+            <Tooltip title={userItem.email} key={index}>
+                <Avatar style={{
+                    margin: '5px 2.5px 5px 2.5px',
+                    background: props.note.color,
+                    boxShadow: '0px 1px 2px 0px #000000',
+                    color: '#000000'
+                }}>{nameFirstLetter}</Avatar>
+            </Tooltip>
+        )
+    });
 
     var reminderChip = props.note.reminder.map((reminder, index) => {
         let date = JSON.stringify(reminder);
         let day = new Date(date).getDate();
-        let month = new Date(date).toLocaleString( 'default', { month: 'short' });
+        let month = new Date(date).toLocaleString('default', { month: 'short' });
         let hours = new Date(date).getHours();
         let minutes = new Date(date).getMinutes();
         minutes = minutes > 9 ? minutes : '0' + minutes;
@@ -243,15 +278,14 @@ function SingleNote(props) {
             style={{
                 backgroundColor: '#f4f4f4',
                 alignSelf: 'center',
-                height:'20px',
-                fontSize:'0.6rem',
-                textDecoration : new Date(date) < new Date() ? 'line-through' : 'none'
-            }} 
-            />)
+                height: '20px',
+                fontSize: '0.6rem',
+                textDecoration: new Date(date) < new Date() ? 'line-through' : 'none'
+            }}
+        />)
     });
 
     var label = props.note.noteLabels.map((key, index) => {
-        // console.log('label-', key);
 
         if (key !== null && !key.isDeleted) {
             return (
@@ -261,7 +295,7 @@ function SingleNote(props) {
                     onDelete={handleDelete(key)}
                     deleteIcon={<Cancel style={{ width: "18px", height: "18px" }} />}
                     style={{
-                        height: "20px", maxWidth: "100px",
+                        height: "20px", maxWidth: "100px", margin: '15px 0 0',
                         backgroundColor: '#f4f4f4'
                     }}
                 />
@@ -271,7 +305,7 @@ function SingleNote(props) {
 
     return (
         <MuiThemeProvider theme={theme}>
-            {!values.isEdited ?
+
                 <Card id={props.reduxState.state.displayCardList} style={{ background: props.note.color }}>
                     <div className='create-note-card'>
                         <Typography
@@ -293,29 +327,30 @@ function SingleNote(props) {
                             onClick={handleEditClose}
                         >{props.note.description}</Typography>
                     }
-                    <div style={{ padding: '10px' }}>
+                    <div className='display-label-area'>
                         {label}
-                    </div>
-                    <div style={{ padding: '10px' }}>
                         {reminderChip}
+                        {CollaberatorAvatar}
                     </div>
                     {!props.note.isDeleted ?
 
                         <div className='display-icons-div'>
-                            {/* <ReminderIcon className='icons-padding' className={classes.svgIcon} /> */}
-                            <Reminder
+                            <Reminder padding='0px 5px 0px 10px'
                                 handleSetReminder={handleSetReminder}
                             />
 
-                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollabrator} />
-                            <Dialog onClose={handleCollabrator} aria-labelledby="simple-dialog-title" open={values.open}>
-                                <p>anuja</p>
-                                {/* <Collabrator/> */}
+                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollaberator} />
+                            <Dialog onClose={handleCollaberator} aria-labelledby="simple-dialog-title" open={values.open}>
+                                <Collaberator
+                                    handleCollabrator={handleCollaberator}
+                                    handleUpdateCollaborator={handleUpdateCollaborator}
+                                    collberatorOnSave={collberatorOnSave}
+                                    collaborators = {props.note.collaborators}
+                                />
                             </Dialog>
-                            
+
                             <Color className='icons-padding' className={classes.svgIcon}
                                 onClick={changeNoteColor}
-                            // onMouseLeave={() => colorMenuRef.current.handleClose()}
                             />
                             <Image className='icons-padding' className={classes.svgIcon} />
                             {props.note.isArchived ?
@@ -341,17 +376,27 @@ function SingleNote(props) {
                             </Tooltip>
                         </div>
                     }
+                    {
+                        props.note.questionAndAnswerNotes.length > 0 ?
+                            <div onClick={handleAskQuestion}>
+                                <Divider />
+                                <h4 className='display-title'>Question Asked</h4>
+                                <div className='display-question-p' dangerouslySetInnerHTML={{ __html: props.note.questionAndAnswerNotes[0].message }}></div>
+                            </div>
+                            :
+                            null
+                    }
                 </Card>
-                :
+
                 <EditNote
                     handleEditClose={handleEditClose}
                     open={values.isEdited}
                     note={props.note}
                     addLabel={addLabel}
                     handleSetArchive={handleSetArchive}
-                    handleGet={props.handleGet}
+                    handleGet={collberatorOnSave}
                 />
-            }
+
 
             <ColorMenu
                 ref={colorMenuRef}
@@ -363,6 +408,7 @@ function SingleNote(props) {
                 updateLabel={'createdNote'}
                 note={props.note}
                 handleGet={props.handleGet}
+                props={props}
             />
         </MuiThemeProvider>
     )
