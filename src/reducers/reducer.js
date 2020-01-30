@@ -3,7 +3,7 @@ const initState = {
     'isChange': false,
     'loggedIn': false,
     appbarTitle: 'Fundoo',
-    currentColor: '',
+    currentColor: '#ffffff',
     users: [],
     notes: [],
     labels: [],
@@ -16,7 +16,8 @@ const initState = {
     editLabelDialog: false,
     listGridView: true,
     displayCardList: 'display-card',
-    searchedNotes: []
+    searchedNotes: [],
+    profilePicture: ''
 };
 
 const reducer = (state = initState, action) => {
@@ -29,6 +30,9 @@ const reducer = (state = initState, action) => {
             return { ...state, isChange: !state.loggedIn };
         case 'APPBAR_TITLE':
             return { ...state, appbarTitle: action.appbarTitle };
+        case 'SET_PROFILE':
+            localStorage.setItem('imageUrl', action.profilePicture)
+            return { ...state, profilePicture: action.profilePicture };
         case 'REQUESTED_GET_NOTES_SUCCEEDED':
             return { ...state, notes: action.notes };
         case 'REQUESTED_GET_LABELS_SUCCEEDED':

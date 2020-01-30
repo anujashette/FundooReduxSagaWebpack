@@ -147,7 +147,6 @@ export default function Register(props) {
     let validateUsername = validateEmail(values.email);
     let validatePasswordField = validatePassword(values.password);
     let validateConfirm = validatePassword(values.confirmPassword);
-    // console.log(validateFirstName, validateLastName, validateUsername, validatePasswordField, validateConfirm);
 
     setValues({
       ...values,
@@ -157,8 +156,6 @@ export default function Register(props) {
       isPassword: validatePasswordField,
       isConfirm: validateConfirm
     });
-
-    // console.log(validateFirstName, validateLastName, validateUsername, validatePasswordField, validateConfirm);
 
     if (!validateFirstName && !validateLastName && validateUsername && !validatePasswordField && !validateConfirm) {
       if (values.password.length > 7 && values.confirmPassword.length > 7) {

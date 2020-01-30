@@ -18,6 +18,22 @@ export function loginUser(userObj) {
     return create(userParam);
 }
 
+export function uploadProfile(imageObj) {
+
+    let token = localStorage.getItem('token')
+    let userParam = {
+        route: `/user/uploadProfileImage`,
+        jsonObject: imageObj,
+        headers: {
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                    'Authorization': token
+            }
+        }
+    }
+    return create(userParam);
+}
+
 export function forgotPassword(userObj) {
     let userParam = {
         route: '/user/reset',
@@ -41,7 +57,7 @@ export function requestCreateNote(noteObj) {
     let noteParam = {
         route: `/notes/addNotes?access_token=${token}`,
         jsonObject: noteObj,
-        headers:  { 'content-type': 'multipart/form-data' }
+        headers: { 'content-type': 'multipart/form-data' }
     }
     return create(noteParam);
 }
@@ -64,7 +80,7 @@ export function requestGetLabels() {
     return read(labelParam);
 }
 
-export function updateNoteItem(noteObj,path) {
+export function updateNoteItem(noteObj, path) {
     token = localStorage.getItem('token');
     let noteParam = {
         route: `/notes/${path}?access_token=${token}`,
@@ -107,17 +123,17 @@ export function createLabel(labelObj) {
     token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels?access_token=${token}`,
-        jsonObject:labelObj,
+        jsonObject: labelObj,
         headers: {}
     }
     return create(labelParam);
 }
 
-export function updateLabel(labelObj,labelId) {
+export function updateLabel(labelObj, labelId) {
     token = localStorage.getItem('token');
     let labelParam = {
         route: `/noteLabels/${labelId}/updateNoteLabel?access_token=${token}`,
-        jsonObject:labelObj,
+        jsonObject: labelObj,
         headers: {}
     }
     return create(labelParam);
@@ -133,7 +149,7 @@ export function deleteLabel(labelId) {
 }
 
 export function trashNote(noteObj) {
-    token = localStorage.getItem('token');    
+    token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/trashNotes?access_token=${token}`,
         jsonObject: noteObj,
@@ -152,7 +168,7 @@ export function deleteNoteForever(noteObj) {
     return create(labelParam);
 }
 
-export function searchUserList(searchObj)  {
+export function searchUserList(searchObj) {
     token = localStorage.getItem('token');
     let labelParam = {
         route: `/user/searchUserList?access_token=${token}`,
@@ -162,7 +178,7 @@ export function searchUserList(searchObj)  {
     return create(labelParam);
 }
 
-export function addCollaboratorToNote(userObj, noteId)  {
+export function addCollaboratorToNote(userObj, noteId) {
     token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/${noteId}/AddcollaboratorsNotes?access_token=${token}`,
@@ -172,7 +188,7 @@ export function addCollaboratorToNote(userObj, noteId)  {
     return create(labelParam);
 }
 
-export function getNoteDetails( noteId)  {
+export function getNoteDetails(noteId) {
     token = localStorage.getItem('token');
     let labelParam = {
         route: `/notes/getNotesDetail/${noteId}?access_token=${token}`,
@@ -184,19 +200,29 @@ export function getNoteDetails( noteId)  {
 export function addQuestionAndAnswer(questionObj) {
     token = localStorage.getItem('token');
     let questionAnswerParam = {
-        route:`/questionAndAnswerNotes/addQuestionAndAnswer?access_token=${token}`,
+        route: `/questionAndAnswerNotes/addQuestionAndAnswer?access_token=${token}`,
         jsonObject: questionObj,
         headers: {}
     }
     return create(questionAnswerParam);
 }
 
-export function updateLikeUnLike(likeUnlikeObj,parentId,path) {
+export function updateLikeReplyRate(likeUnlikeObj, parentId, path) {
     token = localStorage.getItem('token');
     let questionAnswerParam = {
-        route:`/questionAndAnswerNotes/${path}/${parentId}?access_token=${token}`,
+        route: `/questionAndAnswerNotes/${path}/${parentId}?access_token=${token}`,
         jsonObject: likeUnlikeObj,
         headers: {}
     }
     return create(questionAnswerParam);
 }
+
+// export function addReplyApi() {
+
+//     let replyParam = {
+//         route: `/questionAndAnswerNotes/${path}/${parentId}?access_token=${token}`,
+//         jsonObject: likeUnlikeObj,
+//         headers: {}
+//     }
+//     return create(replyParam);
+// }

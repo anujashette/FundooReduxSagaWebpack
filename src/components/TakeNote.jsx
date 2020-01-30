@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputBase, createMuiTheme, MuiThemeProvider, Button, Chip } from '@material-ui/core';
+import { InputBase, createMuiTheme, MuiThemeProvider, Button, Chip, Tooltip, Avatar } from '@material-ui/core';
 import '../styles/takeNote.scss';
 import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import List from '@material-ui/icons/List'
@@ -20,6 +20,7 @@ import Label from './Label';
 import Reminder from './Reminder';
 import styled from "styled-components";
 import WatchLaterOutlined from '@material-ui/icons/WatchLaterOutlined';
+import Collaberator from './Collaberator';
 const { useRef } = React;
 
 const theme = createMuiTheme({
@@ -57,16 +58,18 @@ const StyledChip = styled(Chip)`
   }
 `;
 
-
+let collaberatorTemporary = [];
 function TakeNote(props) {
     const [values, setValues] = useState({
+        isCollaberator: false,
         takeNote: true,
         isPin: false,
         isCheckList: false,
         title: '',
         description: '',
         isArchived: false,
-        reminder: ''
+        reminder: '',
+        collaberators:[]
     });
     const colorMenuRef = useRef();
     const lebelMenuRef = useRef();
@@ -113,48 +116,29 @@ function TakeNote(props) {
     }
 
     const getFormData = (noteObj) => {
-		const formData = [];
-		for (const property in noteObj) {
-			const encodedKey = encodeURIComponent(property);
-			const encodedValue = encodeURIComponent(noteObj[property]);
-			formData.push(encodedKey + "=" + encodedValue);
-		}
-		return formData.join("&");
-	}
+        const formData = [];
+        for (const property in noteObj) {
+            const encodedKey = encodeURIComponent(property);
+            const encodedValue = encodeURIComponent(noteObj[property]);
+            formData.push(encodedKey + "=" + encodedValue);
+        }
+        return formData.join("&");
+    }
 
     const setState = () => {
-        // labelID = JSON.stringify(labelID)
-        const formData = new FormData();
-        // formData.append('photos', this.state.imagePath);
-        // const config = {
-        //   headers: {
-        //     token: token,
-        //     'content-type': 'multipart/form-data'
-        //   }
-        // }
         let noteObj = {
             // file: '',
             title: values.title,
             description: values.description,
             labelIdList: JSON.stringify(labelID),
             // checklist: '',
-            reminder:values.reminder,
+            reminder: values.reminder,
             isPined: values.isPin,
             isArchived: values.isArchived,
             color: props.reduxState.state.currentColor,
-            // collaberators: ''
+            collaberators: JSON.stringify(values.collaberators)
         }
-        let convertObj = getFormData(noteObj)
-
-        // formData.append('title', values.title)
-        // formData.append('description', values.description)
-        // formData.append('labelIdList', [labelID])
-        // formData.append('isPined', values.isPin)
-        // formData.append('isArchived', values.isArchived)
-        // formData.append('color', props.reduxState.state.currentColor)
-        // formData.append('reminder', values.reminder)
-        //    let formData = jtoF(noteObj)
-
+        let convertObj = getFormData(noteObj);
         requestCreateNote(convertObj)
             .then((response) => {
                 clearState();
@@ -170,17 +154,30 @@ function TakeNote(props) {
     }
 
     const deleteReminder = () => {
-        setValues({ ...values, reminder: '' })
+        setValues({ ...values, reminder: '' });
     }
 
     const clearState = () => {
-        setValues({ ...values, takeNote: true, isCheckList: false, title: '', description: '', isArchived: false, isPin: false, reminder: '' });
+        setValues({ ...values, takeNote: true, isCheckList: false, title: '', description: '', isArchived: false, isPin: false, reminder: '', collaberators:[] });
         labelID = [];
-        props.dispatch(clearLabelCheck())
+        props.dispatch(clearLabelCheck());
     }
 
     const handleSetReminder = (dateAndTime) => {
         setValues({ ...values, reminder: dateAndTime });
+    }
+
+    const handleOpenCollaberator = () => {
+        setValues({...values, isCollaberator: !values.isCollaberator, collaberators:[]});
+    }
+
+    const collberatorOnSave = () => {
+        setValues({...values, isCollaberator: !values.isCollaberator});
+    }
+
+    const handleUpdateCollaborator = (selectedUser) => {
+        collaberatorTemporary.push(selectedUser);
+        setValues({...values, collaberators: collaberatorTemporary});
     }
 
     var label = props.reduxState.state.labels.map((key, index) => {
@@ -213,7 +210,7 @@ function TakeNote(props) {
         let hours = new Date(date).getHours();
         let minutes = new Date(date).getMinutes();
         minutes = minutes > 9 ? minutes : '0' + minutes;
-        if (values.reminder.length !== 0) {            
+        if (values.reminder.length !== 0) {
             return (<MyChip
                 label={`${day} ${month} ,  ${hours}:${minutes}`}
                 style={{
@@ -227,10 +224,25 @@ function TakeNote(props) {
         }
     }
 
+    let CollaberatorAvatar = values.collaberators.map((userItem, index) => {
+        let nameFirstLetter = userItem.firstName.charAt(0);
+        return (
+            <Tooltip title={userItem.email} key={index}>
+                <Avatar style={{
+                    margin: '5px 2.5px 5px 2.5px',
+                    background: props.reduxState.state.currentColor,
+                    boxShadow: '0px 1px 2px 0px #000000',
+                    color: '#000000'
+                }}>{nameFirstLetter}</Avatar>
+            </Tooltip>
+        )
+    });
+
+
     return (
         <MuiThemeProvider theme={theme}>
             {/* <ClickAwayListener onClickAway={createNoteClose}> */}
-            {values.takeNote ?
+            { values.takeNote ?
                 <div className={props.reduxState.state.transitionTakeNote} >
                     <InputBase
                         placeholder='Take a note...'
@@ -248,6 +260,8 @@ function TakeNote(props) {
                 </div>
                 :
                 <div className={props.reduxState.state.transitionCreateNote} style={{ background: props.reduxState.state.currentColor }}>
+                   { !values.isCollaberator ? 
+                   <div>
                     <div className='create-note-card'>
                         <InputBase
                             placeholder='Title'
@@ -256,12 +270,13 @@ function TakeNote(props) {
                             onChange={handleChange('title')}
                         ></InputBase>
 
-                        {values.isPin ?
+                        { values.isPin ?
                             <img src={Pin} className='pin-icon' onClick={handleSetPin} />
                             :
                             <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
                         }
                     </div>
+                    <div>
                     {values.isCheckList ?
                         <NewCheckList />
                         :
@@ -273,15 +288,17 @@ function TakeNote(props) {
                             autoFocus={true}
                         ></InputBase>
                     }
-                    <div style={{ padding: '10px' }}>
+                    </div>
+                    <div className='display-label-area'>
                         {label}
                         {setReminder()}
+                        {CollaberatorAvatar}
                     </div>
                     <div className='create-note-icon-div'>
                         <div className='create-icons-div'>
                             <Reminder padding='6px 5px 0px 10px'
                                 handleSetReminder={handleSetReminder} />
-                            <PersonAdd className='icons-padding' />
+                            <PersonAdd className='icons-padding' onClick={handleOpenCollaberator}/>    
                             <Color className='icons-padding'
                                 onClick={(event) => colorMenuRef.current.handleClick(event)}
                             // onMouseLeave={() => colorMenuRef.current.handleClose()}
@@ -294,11 +311,20 @@ function TakeNote(props) {
                         </div>
                         <Button style={{ backgroundColor: 'rgba(0, 0, 0, 0.0)', textTransform: 'initial' }} onClick={createNoteClose}>Close</Button>
                     </div>
+                    </div>
+                    :
+                    <Collaberator
+                    handleCollabrator={handleOpenCollaberator}
+                    handleUpdateCollaborator={handleUpdateCollaborator}
+                    collberatorOnSave={collberatorOnSave}
+                    collaborators = {values.collaberators}
+                   /> }
                 </div>
             }
             {/* </ClickAwayListener> */}
             <ColorMenu ref={colorMenuRef} handleSetColor={handleSetColor} />
             <Label ref={lebelMenuRef} />
+     
         </MuiThemeProvider>
     )
 }

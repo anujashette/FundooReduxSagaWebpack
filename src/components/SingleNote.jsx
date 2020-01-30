@@ -306,96 +306,96 @@ function SingleNote(props) {
     return (
         <MuiThemeProvider theme={theme}>
 
-                <Card id={props.reduxState.state.displayCardList} style={{ background: props.note.color }}>
-                    <div className='create-note-card'>
-                        <Typography
-                            className={classes.inputTitle}
-                            onClick={handleEditClose}
-                        >{props.note.title}</Typography>
+            <Card id={props.reduxState.state.displayCardList} style={{ background: props.note.color }}>
+                <div className='create-note-card'>
+                    <Typography
+                        className={classes.inputTitle}
+                        onClick={handleEditClose}
+                    >{props.note.title}</Typography>
 
-                        {props.note.isPined ?
-                            <img src={Pin} className='pin-icon' onClick={handleSetPin} />
+                    {props.note.isPined ?
+                        <img src={Pin} className='pin-icon' onClick={handleSetPin} />
+                        :
+                        <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
+                    }
+                </div>
+                {values.isCheckList ?
+                    <NewCheckList />
+                    :
+                    <Typography
+                        className={classes.inputTitle}
+                        onClick={handleEditClose}
+                    >{props.note.description}</Typography>
+                }
+                <div className='display-label-area'>
+                    {label}
+                    {reminderChip}
+                    {CollaberatorAvatar}
+                </div>
+                {!props.note.isDeleted ?
+
+                    <div className='display-icons-div'>
+                        <Reminder padding='0px 5px 0px 10px'
+                            handleSetReminder={handleSetReminder}
+                        />
+
+                        <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollaberator} />
+                        <Dialog onClose={handleCollaberator} aria-labelledby="simple-dialog-title" open={values.open}>
+                            <Collaberator
+                                handleCollabrator={handleCollaberator}
+                                handleUpdateCollaborator={handleUpdateCollaborator}
+                                collberatorOnSave={collberatorOnSave}
+                                collaborators={props.note.collaborators}
+                            />
+                        </Dialog>
+
+                        <Color className='icons-padding' className={classes.svgIcon}
+                            onClick={changeNoteColor}
+                        />
+                        <Image className='icons-padding' className={classes.svgIcon} />
+                        {props.note.isArchived ?
+                            <Tooltip title='Unarchive'>
+                                <Unarchive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
+                            </Tooltip>
                             :
-                            <img src={Unpin} className='pin-icon' onClick={handleSetPin} />
+                            <Tooltip title='Archive'>
+                                <Archive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
+                            </Tooltip>
                         }
+                        <More className='icons-padding' className={classes.svgIcon}
+                            onClick={(event) => labelMenuRef.current.handleOpenMenu(event)}
+                        />
                     </div>
-                    {values.isCheckList ?
-                        <NewCheckList />
-                        :
-                        <Typography
-                            className={classes.inputTitle}
-                            onClick={handleEditClose}
-                        >{props.note.description}</Typography>
-                    }
-                    <div className='display-label-area'>
-                        {label}
-                        {reminderChip}
-                        {CollaberatorAvatar}
+                    :
+                    <div className='display-bin-icons-div'>
+                        <Tooltip title='Delete forever'>
+                            <DeleteForeverIcon className='icons-padding' className={classes.svgIcon} onClick={handleDeleteForever} />
+                        </Tooltip>
+                        <Tooltip title='Restore'>
+                            <RestoreFromTrashIcon className='icons-padding' className={classes.svgIcon} onClick={handleRestore} />
+                        </Tooltip>
                     </div>
-                    {!props.note.isDeleted ?
-
-                        <div className='display-icons-div'>
-                            <Reminder padding='0px 5px 0px 10px'
-                                handleSetReminder={handleSetReminder}
-                            />
-
-                            <PersonAdd className='icons-padding' className={classes.svgIcon} onClick={handleCollaberator} />
-                            <Dialog onClose={handleCollaberator} aria-labelledby="simple-dialog-title" open={values.open}>
-                                <Collaberator
-                                    handleCollabrator={handleCollaberator}
-                                    handleUpdateCollaborator={handleUpdateCollaborator}
-                                    collberatorOnSave={collberatorOnSave}
-                                    collaborators = {props.note.collaborators}
-                                />
-                            </Dialog>
-
-                            <Color className='icons-padding' className={classes.svgIcon}
-                                onClick={changeNoteColor}
-                            />
-                            <Image className='icons-padding' className={classes.svgIcon} />
-                            {props.note.isArchived ?
-                                <Tooltip title='Unarchive'>
-                                    <Unarchive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
-                                </Tooltip>
-                                :
-                                <Tooltip title='Archive'>
-                                    <Archive className='icons-padding' className={classes.svgIcon} onClick={handleSetArchive} />
-                                </Tooltip>
-                            }
-                            <More className='icons-padding' className={classes.svgIcon}
-                                onClick={(event) => labelMenuRef.current.handleOpenMenu(event)}
-                            />
+                }
+                {
+                    props.note.questionAndAnswerNotes.length > 0 ?
+                        <div onClick={handleAskQuestion}>
+                            <Divider />
+                            <h4 className='display-title'>Question Asked</h4>
+                            <div className='display-question-p' dangerouslySetInnerHTML={{ __html: props.note.questionAndAnswerNotes[0].message }}></div>
                         </div>
                         :
-                        <div className='display-bin-icons-div'>
-                            <Tooltip title='Delete forever'>
-                                <DeleteForeverIcon className='icons-padding' className={classes.svgIcon} onClick={handleDeleteForever} />
-                            </Tooltip>
-                            <Tooltip title='Restore'>
-                                <RestoreFromTrashIcon className='icons-padding' className={classes.svgIcon} onClick={handleRestore} />
-                            </Tooltip>
-                        </div>
-                    }
-                    {
-                        props.note.questionAndAnswerNotes.length > 0 ?
-                            <div onClick={handleAskQuestion}>
-                                <Divider />
-                                <h4 className='display-title'>Question Asked</h4>
-                                <div className='display-question-p' dangerouslySetInnerHTML={{ __html: props.note.questionAndAnswerNotes[0].message }}></div>
-                            </div>
-                            :
-                            null
-                    }
-                </Card>
+                        null
+                }
+            </Card>
 
-                <EditNote
-                    handleEditClose={handleEditClose}
-                    open={values.isEdited}
-                    note={props.note}
-                    addLabel={addLabel}
-                    handleSetArchive={handleSetArchive}
-                    handleGet={collberatorOnSave}
-                />
+            <EditNote
+                handleEditClose={handleEditClose}
+                open={values.isEdited}
+                note={props.note}
+                addLabel={addLabel}
+                handleSetArchive={handleSetArchive}
+                handleGet={collberatorOnSave}
+            />
 
 
             <ColorMenu

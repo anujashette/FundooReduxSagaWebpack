@@ -26,6 +26,7 @@ import DrawerLeft from './DrawerLeft';
 import { connect } from 'react-redux';
 import PictureCropper from './PictureCropper.jsx';
 import { changeView, getNotes, getlabels } from '../actions';
+import { uploadProfile } from '../services/userService';
 
 const { useRef } = React;
 const theme = createMuiTheme({
@@ -161,7 +162,7 @@ function PrimarySearchAppBar(props) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [cameraColor, setCameraColor] = React.useState('#8e8e8e');
     const [searchKeyword, setSearchKeyword] = React.useState('');
-    const [srcState, setSrcState] = React.useState(null);
+    const [ image, setImage ] = React.useState();
     // let searchKeyword = '';
 
     // const [loading, setLoading] = React.useState(false);
@@ -235,28 +236,35 @@ function PrimarySearchAppBar(props) {
         setCameraColor('rgb(86, 151, 255)');
     }
 
-    // const onSelectFile = (e) => {
-    //     setCameraColor('#8e8e8e');
-    //         if (e.target.files && e.target.files.length > 0) {
-    //             const reader = new FileReader();
-    //             reader.addEventListener('load', () =>
-    //                 setSrcState(reader.result)
-    //             );
-    //             reader.readAsDataURL(e.target.files[0]);
-    //             console.log(srcState);
-                
-    //             props.handleImageCrop(srcState);
-    //         }
-    // }
-
     const handleSearchNotes = () => {
         props.props.history.push('/dashboard/*/search');
     }
 
-    const handleSearch = (event) =>{ 
+    const handleSearch = (event) => {
         setSearchKeyword(event.target.value);
-        // props.dispatch({type:'APPBAR_TITLE', appbarTitle:event.target.value});
-        props.dispatch({type:'SEARCH_KEYWORD', searchKeyword:event.target.value});
+        props.dispatch({ type: 'SEARCH_KEYWORD', searchKeyword: event.target.value });
+    }
+
+
+    const handleSetProfile = (croppedImageUrl) => {
+        setImage(croppedImageUrl)
+        console.log('path app', croppedImageUrl);
+        localStorage.setItem('imageUrl',croppedImageUrl)
+        const imageObj = new FormData();
+        imageObj.append('file', croppedImageUrl);
+ 
+
+        uploadProfile(imageObj)
+        .then((response)=>{
+            console.log('response pic---', response);
+            
+            // localStorage.setItem('imageUrl')
+        })
+        .catch((error)=>{
+            console.log('error pic---', error);
+        });
+        
+        // props.dispatch({type:'SET_PROFILE', profilePicture: croppedImageUrl});
     }
 
     const menuId = open ? 'primary-search-account-menu' : undefined;
@@ -275,7 +283,7 @@ function PrimarySearchAppBar(props) {
                 vertical: 'bottom',
                 horizontal: 'left',
             }}
-            style={{ top: '48px', left:'-10px' }}
+            style={{ top: '48px', left: '-10px' }}
         >
             <div className='profile-div'>
                 <Badge
@@ -286,20 +294,16 @@ function PrimarySearchAppBar(props) {
                     }}
                     badgeContent={<SmallAvatar
                         style={{ background: '#ffffff', color: cameraColor, boxShadow: '0px 1px 5px 0px #d8d8d8' }}
-                        onClick={handleUploadImage}
+                        onClick={ handleUploadImage }
                     >
-                        {/* <input id='selector-file' accept="image/*" type="file" onChange={onSelectFile} style={{ display: 'none' }} />
-                        <label htmlFor="selector-file">
-                            <Camera style={{ width: '0.7em' }}>
-                            </Camera>
-                        </label> */}
-                        <PictureCropper/>
-                    </SmallAvatar>}
+
+                        <PictureCropper handleSetProfile={handleSetProfile} />
+                    </SmallAvatar> }
                 >
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
-                        <img src={Keep} alt='' />
+                        <img src={localStorage.getItem('imageUrl') || image} alt='' />
                     </Avatar>
-                    
+
                 </Badge>
                 <Typography className={classes.name} >{localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</Typography>
                 <Typography className={classes.email}>{localStorage.getItem('email')}</Typography>

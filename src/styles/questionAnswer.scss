@@ -1,7 +1,9 @@
-@mixin transform($property) {
+@mixin transform($property, $font, $color) {
   //   word-break: break-all;
   margin: 0px;
+  font-size: $font;
   padding: $property;
+  color: $color;
 }
 
 @mixin title($property) {
@@ -11,9 +13,9 @@
   padding: 10px 10px 0 15px;
 }
 
-@mixin smallTextSize() {
+@mixin smallTextSize($margin) {
   font-size: 0.7em;
-  margin: 0 10px;
+  margin: $margin;
 }
 
 .question-answer-main {
@@ -36,11 +38,15 @@
 }
 
 .description-p {
-  @include transform(10px 10px 10px 15px);
+  @include transform(10px 10px 10px 15px, 1em, #000000);
 }
 
 .question-p {
-  @include transform(0 10px 0 18px);
+  @include transform(0 10px 0 18px, 1.5em, #0c539a);
+}
+
+.answer-p {
+  @include transform(0 10px 0 18px, 1em, #000000);
 }
 
 .question-div > h4 {
@@ -52,11 +58,17 @@
 }
 
 .question-message-div {
-  @include title("start");
+  @include title(start);
+}
+
+.question-message-div > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .timeDate {
-  @include smallTextSize();
+  @include smallTextSize(0 0 0 10px);
 }
 
 .profile-picture {
@@ -65,7 +77,7 @@
 }
 
 .like-p {
-  @include smallTextSize();
+  @include smallTextSize(0 0 0 10px);
   align-self: center;
 }
 
@@ -74,59 +86,135 @@
   display: flex;
 }
 
+.list-div {
+  display: flex;
+  width: 100%;
+}
+
 // Display question on note
-
-.display-title{
-  @include transform(10px 10px 0);
+.display-title {
+  @include transform(10px 10px 0, 1em, #000000);
   font-weight: initial;
-    font-family: fantasy;
-    font-style: italic;
+  font-family: fantasy;
+  font-style: italic;
 }
 
-.display-question-p{
-  @include transform(0px 10px 10px 10px);
-  font-size: 0.9em;
+.display-question-p {
+  @include transform(0px 10px 10px 10px, 0.9em, #000000);
 }
 
+//Answer scss
+.answer-message-div {
+  @include title(start);
+}
+
+.rate-p {
+  @include smallTextSize(0 10px 0 10px);
+  align-self: center;
+  width: 75px;
+}
+
+.answer-like-p {
+  @include smallTextSize(0 0 0 10px);
+  width: 77px;
+  min-width: 40px;
+  max-width: 30px;
+  align-self: center;
+}
+
+.third-answer-layer {
+  display: flex;
+  flex-direction: column;
+}
+
+// Media query
 @media only screen and (max-width: 1024px) and (min-width: 901px) {
   .question-answer-main {
-    margin: 65px auto;
+    // margin: 65px auto;
     width: 80%;
   }
 }
 
 @media only screen and (max-width: 900px) and (min-width: 881px) {
   .question-answer-main {
-    margin: 65px auto;
+    // margin: 65px auto;
     width: 80%;
+  }
+
+  .question-p {
+    font-size: 1em;
+  }
+
+  .answer-p {
+    font-size: 0.8em;
   }
 }
 
 @media only screen and (max-width: 880px) and (min-width: 601px) {
   .question-answer-main {
-    margin: 65px auto;
-    width: 80%;
-  }
-
-  .question-icon-div {
-    // margin: 20px 0px 0px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .question-answer-main {
-    margin: 65px auto;
+    // margin: 65px auto;
     width: 100%;
   }
 
   .question-icon-div {
     // margin: 20px 0px 0px;
-    display: flex;
+    // display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .question-answer-main {
+    // margin: 65px auto;
+    width: 100%;
+  }
+
+  .question-icon-div {
+    // margin: 20px 0px 0px;
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: center;
     width: 295px;
+    padding: 0 10px 0 15px;
+    height: 20px;
+  }
+
+  .title-button-div > h4 {
+    font-size: 1em;
+  }
+
+  .description-p {
+    padding: 0px 10px 10px 15px;
+  }
+
+  .question-div > h4 {
+    font-size: 1em;
+  }
+
+  .question-p {
+    font-size: 1em;
+  }
+
+  .profile-picture {
+    height: 30px;
+  }
+  .list-div {
+    display: "flex";
+    width: 95%;
+    flex-direction: column;
+  }
+  .answer-message-div {
+    padding: 0px 0px 0 0px;
+  }
+  .answer-p {
+    font-size: 0.8em;
+  }
+  .answer-like-p {
+    margin: 0px;
+  }
+  .rate-p {
+    margin: 0;
   }
 }

@@ -8,7 +8,8 @@ import Done from '@material-ui/icons/Done';
 import '../styles/collaberator.scss';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select"; import { searchUserList } from '../services/userService';
+import Select from "@material-ui/core/Select"; 
+import { searchUserList } from '../services/userService';
 import { IconButton } from '@material-ui/core';
 
 const styles = theme => {
@@ -35,7 +36,6 @@ const styles = theme => {
             cursor: 'pointer'
         },
         iconButton: {
-            // marginLeft: '255px',
             padding: '5px 10px',
             [theme.breakpoints.up('sm')]: {
                 marginLeft: '0px',
@@ -77,7 +77,7 @@ class Collaberator extends Component {
                 let sortedList = response.data.data.details.filter((user) => {
                     return localStorage.getItem('email') !== user.email
                 });
-                this.setState({ userList: sortedList, open: true });
+                this.setState({...this.state, userList: sortedList, open: true });
             })
             .catch((error) => {
             })
@@ -89,7 +89,7 @@ class Collaberator extends Component {
 
     handleSelect = userItem => {
         selectedItem.push(userItem);
-        this.setState({ selectedUsers: selectedItem });
+        this.setState({...this.state, selectedUsers: selectedItem });
         this.props.handleUpdateCollaborator(userItem);
         this.handleClose();
     };
@@ -116,7 +116,7 @@ class Collaberator extends Component {
 
         const CollaboratorAvatar = this.state.selectedUsers.map((userItem, index) => {
             let nameFirstLetter = userItem.firstName.charAt(0);
-            return (<div className='owner-div'>
+            return (<div key={index} className='owner-div'>
                 <Avatar style={{ margin: '5px 15px 0 5px' }}>{nameFirstLetter}</Avatar>
                 <div className='owner-name-div'>
                     <h5 className='owner-name'>{userItem.firstName + ' ' + userItem.lastName}
@@ -160,7 +160,7 @@ class Collaberator extends Component {
                                 id="demo-controlled-open-select"
                                 open={this.state.open}
                                 onClose={this.handleClose}
-                                value={this.state.selectedUser}
+                                value={this.state.selectedUser  || '' }
                                 onChange={this.handleChange}
                                 style={{ display: "none" }}>
                                 <MenuItem value="">

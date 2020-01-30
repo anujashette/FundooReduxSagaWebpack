@@ -5,7 +5,17 @@ import Camera from '@material-ui/icons/CameraAltOutlined';
 // import 'react-image-crop/dist/ReactCrop.css';
 
 import '../styles/cropper.scss';
-import { Dialog } from '@material-ui/core';
+import { Dialog, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
+
+const styles = theme => {
+    return ({
+        closeButton: {
+            textTransform: 'initial',
+            background: '#2a5c8e'
+        }
+    })
+}
 
 class PictureCropper extends Component {
     state = {
@@ -13,20 +23,20 @@ class PictureCropper extends Component {
         crop: {
             unit: '%',
             width: 30,
-            aspect: 16 / 9,
+            aspect: 5 / 5,
         },
-        open:false
+        open: false,
+        imageUrl:''
     };
 
     onSelectFile = e => {
         if (e.target.files && e.target.files.length > 0) {
             const reader = new FileReader();
             reader.addEventListener('load', () =>
-                this.setState({ src: reader.result, open:true})
+                this.setState({ src: reader.result, open: true })
             );
             reader.readAsDataURL(e.target.files[0]);
         }
-        
     };
 
     // If you setState the crop in here you should return false.
@@ -75,6 +85,9 @@ class PictureCropper extends Component {
             crop.height
         );
 
+        // console.log('canvas--',canvas.toDataURL('image/png'));
+        
+        this.setState({imageUrl: canvas.toDataURL('image/png') })
         return new Promise((resolve, reject) => {
             canvas.toBlob(blob => {
                 if (!blob) {
@@ -85,16 +98,18 @@ class PictureCropper extends Component {
                 blob.name = fileName;
                 window.URL.revokeObjectURL(this.fileUrl);
                 this.fileUrl = window.URL.createObjectURL(blob);
+                
                 resolve(this.fileUrl);
             }, 'image/jpeg');
         });
     }
 
     handleClose = () => {
-        this.setState({open:false})
+        this.setState({ open: false })
     }
 
     render() {
+        const { classes } = this.props;
         const { crop, croppedImageUrl, src } = this.state;
 
         return (
@@ -102,30 +117,34 @@ class PictureCropper extends Component {
                 <div>
                     {/* <input type="file" accept="image/*" onChange={this.onSelectFile} /> */}
                     <input id='selector-file' accept="image/*" type="file" onChange={this.onSelectFile} style={{ display: 'none' }} />
-                        <label htmlFor="selector-file">
-                            <Camera style={{ width: '0.7em' }} >
-                            </Camera>
-                        </label>
+                    <label htmlFor="selector-file">
+                        <Camera style={{ width: '0.7em' }} >
+                        </Camera>
+                    </label>
                 </div>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                {src && (
-                    <ReactCrop
-                        src={src}
-                        crop={crop}
-                        ruleOfThirds
-                        onImageLoaded={this.onImageLoaded}
-                        onComplete={this.onCropComplete}
-                        onChange={this.onCropChange}
-                        style={{width:'70%', height:'400px'}}
-                    />
-                )}
-                {croppedImageUrl && (
-                    <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
-                )}
+                    {src && (
+                        <ReactCrop
+                            src={src}
+                            crop={crop}
+                            ruleOfThirds
+                            onImageLoaded={this.onImageLoaded}
+                            onComplete={this.onCropComplete}
+                            onChange={this.onCropChange}
+                            style={{ maxWidth: '70%', minWidth: 'auto', height: '500px' }}
+                        />
+                    )}
+
+                    <Button size="medium"
+                        className={classes.closeButton}
+                        onClick={()=>this.props.handleSetProfile(this.state.imageUrl)}
+                    >
+                        Set as profile picture
+                    </Button>
                 </Dialog>
             </div>
         );
     }
 }
 
-export default PictureCropper;
+export default withStyles(styles)(PictureCropper);

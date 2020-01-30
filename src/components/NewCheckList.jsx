@@ -39,8 +39,7 @@ function NewCheckList() {
         console.log(event.target.value);
         
         setValues({ ...values, listItem: event.target.value, isItemEnetered: true });
-        itemsArray.push(values.event.target.value);
-        setValues({ ...values, listItems:itemsArray, listItem:'' });
+        setValues({ ...values, changeItem: event.target.value, isItemEnetered: true });
 
         console.log('array====>', values);
     };
@@ -49,10 +48,14 @@ function NewCheckList() {
         setValues({ ...values, changeItem: '', isItemEnetered: false });
     }
 
+    const handleChangeInput = (event) =>{
+        setValues({ ...values, changeItem: event.target.value, listItem:'' });
+
+    }
+
     const handleClear = () => {
         itemsArray.push(values.changeItem);
         // console.log('array====>', itemsArray);
-
         setValues({ ...values, changeItem: '', isItemEnetered: false, listItems: itemsArray });
         // console.log('array pushed====>', values.listItems);
     }
@@ -61,20 +64,21 @@ function NewCheckList() {
         <div className='check-list-div'>
             <MuiThemeProvider theme={theme}>
                 {values.isItemEnetered ?
-                    values.listItems.map((data, index) => {
+                    // values.listItems.map((data, index) => {
+                        
                         <div>
                             <Checkbox className='add-icon'
                                 color='default' />
                             <InputBase
                                 // placeholder='List item'
                                 className='input-base-list'
-                                value={data}
-                                onChange={handleChange}
+                                value={values.changeItem}
+                                onChange={handleChangeInput}
                                 autoFocus={true}
                             ></InputBase>
                             <ClearOutlinedIcon className='add-icon' onClick={handleClose} />
                         </div>
-                    })
+                    // })
                     :
                     null
                 }
@@ -85,7 +89,7 @@ function NewCheckList() {
                     className='input-base-create'
                     value={values.listItem}
                     onChange={handleChange}
-                    onClick={handleClear}
+                    // onClick={handleClear}
                     autoFocus={true}
                 ></InputBase>
                 <Divider />
