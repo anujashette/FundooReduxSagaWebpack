@@ -1,14 +1,14 @@
 import React, { useState, Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, Divider, Avatar, InputBase, Button, List, ListItem, ListItemText, Popover } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core';
 import Keep from '../Assets/keep.png';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Done from '@material-ui/icons/Done';
 import '../styles/collaberator.scss';
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select"; 
+import Select from "@material-ui/core/Select";
 import { searchUserList } from '../services/userService';
 import { IconButton } from '@material-ui/core';
 
@@ -23,7 +23,7 @@ const styles = theme => {
             color: '#8a8a8a'
         },
         inputBaseStyle: {
-            width: '200px',
+            width: '215px',
             fontSize: '0.9rem',
             [theme.breakpoints.down('xs')]: {
                 width: '140px',
@@ -43,6 +43,14 @@ const styles = theme => {
         },
         divider: {
             margin: '0 15px'
+        },
+        buttonStyle: {
+            textTransform: 'initial',
+            background: ' transparent',
+            [theme.breakpoints.down('sm')]: {
+                padding: '3px 8px',
+                fontSize: '0.8em'
+            }
         }
     })
 };
@@ -77,7 +85,7 @@ class Collaberator extends Component {
                 let sortedList = response.data.data.details.filter((user) => {
                     return localStorage.getItem('email') !== user.email
                 });
-                this.setState({...this.state, userList: sortedList, open: true });
+                this.setState({ ...this.state, userList: sortedList, open: true });
             })
             .catch((error) => {
             })
@@ -89,7 +97,7 @@ class Collaberator extends Component {
 
     handleSelect = userItem => {
         selectedItem.push(userItem);
-        this.setState({...this.state, selectedUsers: selectedItem });
+        this.setState({ ...this.state, selectedUsers: selectedItem });
         this.props.handleUpdateCollaborator(userItem);
         this.handleClose();
     };
@@ -131,55 +139,57 @@ class Collaberator extends Component {
                 <div className='collabrator-card'>
                     <p className='collab-title'>collaborators</p>
                     <Divider style={{ margin: '0 15px' }} />
-                    <div className='owner-div'>
-                        <Avatar style={{ margin: '5px 15px 0 5px' }}><img src={Keep}></img></Avatar>
-                        <div className='owner-name-div'>
-                            <h5 className='owner-name'>{localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName')}
-                                <span> (Owner)</span></h5>
-                            <p className='owner-email'>{localStorage.getItem('email')}</p>
+                    <div className='name-list'>
+                        <div className='owner-div'>
+                            <Avatar style={{ margin: '5px 15px 0 5px' }}><img src={Keep}></img></Avatar>
+                            <div className='owner-name-div'>
+                                <h5 className='owner-name'>{localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName')}
+                                    <span> (Owner)</span></h5>
+                                <p className='owner-email'>{localStorage.getItem('email')}</p>
+                            </div>
                         </div>
-                    </div>
-                    {CollaboratorAvatar}
-                    <div className='search-div'>
-                        <Avatar className={classes.avatarStyle}><PersonAddIcon className={classes.iconstyle} /></Avatar>
-                        <div className='input-base'>
-                            <InputBase
-                                placeholder='Person or email to share with'
-                                value={this.state.username}
-                                onChange={this.handleChange}
-                                className={classes.inputBaseStyle}
-                                htmlFor="demo-controlled-open-select-label"
-                            />
-                            <IconButton className={classes.iconButton} onClick={this.handleSearch}  >
-                                <Done className={classes.doneIcon} />
-                            </IconButton>
+                        {CollaboratorAvatar}
+                        <div className='search-div'>
+                            <Avatar className={classes.avatarStyle}><PersonAddIcon className={classes.iconstyle} /></Avatar>
+                            <div className='input-base'>
+                                <InputBase
+                                    placeholder='Person or email to share with'
+                                    value={this.state.username}
+                                    onChange={this.handleChange}
+                                    className={classes.inputBaseStyle}
+                                    htmlFor="demo-controlled-open-select-label"
+                                />
+                                <IconButton className={classes.iconButton} onClick={this.handleSearch}  >
+                                    <Done className={classes.doneIcon} />
+                                </IconButton>
+                            </div>
+                            <FormControl className={classes.formControl}>
+                                <Select
+                                    labelId="demo-controlled-open-select-label"
+                                    id="demo-controlled-open-select"
+                                    open={this.state.open}
+                                    onClose={this.handleClose}
+                                    value={this.state.selectedUser || ''}
+                                    onChange={this.handleChange}
+                                    style={{ display: "none" }}>
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <List component="nav" aria-label="secondary mailbox folders">
+                                        {DropDownList}
+                                    </List>
+                                </Select>
+                            </FormControl>
                         </div>
-                        <FormControl className={classes.formControl}>
-                            <Select
-                                labelId="demo-controlled-open-select-label"
-                                id="demo-controlled-open-select"
-                                open={this.state.open}
-                                onClose={this.handleClose}
-                                value={this.state.selectedUser  || '' }
-                                onChange={this.handleChange}
-                                style={{ display: "none" }}>
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <List component="nav" aria-label="secondary mailbox folders">
-                                    {DropDownList}
-                                </List>
-                            </Select>
-                        </FormControl>
                     </div>
                     <div className='bottom-div'>
                         <Button size="medium"
-                            style={{ textTransform: 'initial', background: ' transparent' }}
+                            className={classes.buttonStyle}
                             onClick={this.handleOnCancel}>
                             Cancel
                         </Button>
                         <Button size="medium"
-                            style={{ textTransform: 'initial', background: ' transparent' }}
+                            className={classes.buttonStyle}
                             onClick={this.handleOnSave}>
                             Save
                         </Button>

@@ -22,12 +22,11 @@ export function uploadProfile(imageObj) {
 
     let token = localStorage.getItem('token')
     let userParam = {
-        route: `/user/uploadProfileImage`,
+        route: `/user/uploadProfileImage?access_token=${token}`,
         jsonObject: imageObj,
         headers: {
                 headers: {
-                    'Content-type': 'multipart/form-data',
-                    'Authorization': token
+                    'Content-type': 'multipart/form-data'
             }
         }
     }

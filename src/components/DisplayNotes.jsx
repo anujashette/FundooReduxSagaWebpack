@@ -70,7 +70,7 @@ class DisplayNotes extends Component {
     }
 
     render() {
-        
+
         const { classes } = this.props;
 
         var pin = this.props.notes.filter(val => {
@@ -83,13 +83,13 @@ class DisplayNotes extends Component {
 
         const pinNotes = pin.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props} />
             )
         });
 
         const notes = others.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props} />
             )
         });
 
@@ -152,6 +152,6 @@ class DisplayNotes extends Component {
 
 const mapStateToMap = (reduxState) => {
     return reduxState;
-}
+};
 
 export default connect(mapStateToMap)(withStyles(styles)(DisplayNotes));

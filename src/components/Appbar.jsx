@@ -247,6 +247,8 @@ function PrimarySearchAppBar(props) {
 
 
     const handleSetProfile = (croppedImageUrl) => {
+        console.log(croppedImageUrl);
+
         setImage(croppedImageUrl)
         console.log('path app', croppedImageUrl);
         localStorage.setItem('imageUrl',croppedImageUrl)
@@ -263,7 +265,6 @@ function PrimarySearchAppBar(props) {
         .catch((error)=>{
             console.log('error pic---', error);
         });
-        
         // props.dispatch({type:'SET_PROFILE', profilePicture: croppedImageUrl});
     }
 
@@ -301,7 +302,7 @@ function PrimarySearchAppBar(props) {
                     </SmallAvatar> }
                 >
                     <Avatar className={classes.profileAvatar} style={{ background: '#5ccaca' }} >
-                        <img src={localStorage.getItem('imageUrl') || image} alt='' />
+                        <img src={localStorage.getItem('imageUrl') || image} alt='' style={{width:'100px'}}/>
                     </Avatar>
 
                 </Badge>

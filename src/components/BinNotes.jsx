@@ -76,7 +76,7 @@ class BinNotes extends Component {
 
         const notes = others.map((note, index) => {
             return (
-                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props}/>
+                <SingleNote key={index} note={note} handleGet={this.handleGet} props={this.props} />
             )
         });
 
